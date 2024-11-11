@@ -278,6 +278,100 @@ form.sign-in-form {
 .container.sign-up-mode .right-panel {
   pointer-events: all;
 }
+/* Estilo base para .content-2 */
+.content-2 {
+  position: absolute;
+  top: 10%; /* Ajusta según sea necesario */
+  right: 10%; /* Alineado a la derecha */
+  color: #fff;
+  text-align: right; /* Alinea el texto a la derecha */
+  z-index: 2;
+  width: 30%; /* Ajusta el ancho según necesites */
+  opacity: 0; /* Oculto por defecto */
+  pointer-events: none;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px; /* Espacio entre elementos */
+}
+
+/* Estilo base para .content-2 */
+.content-2 {
+  position: absolute;
+  top: 10%; /* Ajusta según sea necesario */
+  right: 10%; /* Alineado a la derecha */
+  color: #fff;
+  text-align: center; /* Centra el texto */
+  z-index: 2;
+  width: 30%; /* Ajusta el ancho según necesites */
+  opacity: 0; /* Oculto por defecto */
+  pointer-events: none;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Alinea los elementos de manera central */
+  justify-content: center; /* Centra los elementos verticalmente */
+  gap: 10px; /* Espacio entre elementos */
+}
+
+/* Mostrar .content-2 solo en modo sign-up */
+.container.sign-up-mode .right-panel .content-2 {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(0);
+}
+
+/* Estilos para el título, párrafo, botón e imagen */
+.content-2 h3 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 10px;
+  text-align: center; /* Centra el texto del h3 */
+}
+
+.content-2 p {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #fff;
+  text-align: center; /* Centra el texto del párrafo */
+}
+
+.content-2 .btn.transparent {
+  margin: 0;
+  background: none;
+  border: 2px solid #fff;
+  width: 130px;
+  height: 41px;
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Estilo para la imagen */
+.content-2 .image-2 {
+  width: 40vw; /* Cambié 100% a 100vw para permitir que ocupe toda la pantalla */
+  height: auto; /* Mantiene la proporción de la imagen */
+  margin-top: 20vh;
+  position: absolute; /* Permite que la imagen se desborde fuera de su contenedor */
+  top: 0; /* Ajusta el posicionamiento de la imagen */
+  right: 0; /* Alineada a la derecha */
+}
+
+/* Esconde la imagen por defecto en modo normal y muestra en modo sign-up */
+.right-panel .image-2 {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.container.sign-up-mode .right-panel .image-2 {
+  opacity: 1;
+}
+
+
+
 
 @media (max-width: 870px) {
   .container {
@@ -400,6 +494,12 @@ form.sign-in-form {
   .container:before {
     bottom: 72%;
     left: 50%;
+  }
+  .image2{
+    position: relative;
+    display: block; /* Asegúrate de que sea un bloque para que esté en una nueva línea */
+    margin: 0 auto 20px; /* Centra la imagen y agrega un margen abajo */
+    width: 20%; 
   }
 
   .container.sign-up-mode:before {

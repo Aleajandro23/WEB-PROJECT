@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
   <title>Sign in & Sign up Form</title>
 </head>
@@ -28,14 +28,14 @@
           <input type="submit" value="Acceder" class="btn solid" />
           <p class="social-text">O inicia sesión con plataformas sociales</p>
           <div class="social-media">
+            <a href="#" class="social-icon" id="google-signin-btn">
+              <i class="fab fa-google"></i>
+            </a>
             <a href="#" class="social-icon">
               <i class="fab fa-facebook-f"></i>
             </a>
             <a href="#" class="social-icon">
               <i class="fab fa-twitter"></i>
-            </a>
-            <a href="#" class="social-icon">
-              <i class="fab fa-google"></i>
             </a>
             <a href="#" class="social-icon">
               <i class="fab fa-linkedin-in"></i>
@@ -102,6 +102,42 @@
       </div>
     </div>
   </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAMyXHT4FgRCm3oLGuMdzeUGcX5m16rq4A",
+      authDomain: "nftlatinoxyz-1531b.firebaseapp.com",
+      projectId: "nftlatinoxyz-1531b",
+      storageBucket: "nftlatinoxyz-1531b.firebasestorage.app",
+      messagingSenderId: "498175021440",
+      appId: "1:498175021440:web:dd23d59d1b6e2228c63165",
+      measurementId: "G-Y2RKNNEM80"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+
+    // Event listener for Google sign-in button
+    document.getElementById("google-signin-btn").addEventListener("click", (e) => {
+      e.preventDefault(); // Prevent default link behavior
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          const user = result.user;
+          console.log("User signed in: ", user);
+          alert(`Welcome ${user.displayName}`);
+        })
+        .catch((error) => {
+          console.error("Error signing in with Google: ", error);
+          alert("Failed to sign in. Please try again.");
+        });
+    });
+  </script>
 
   <script src="app.js"></script>
 </body>

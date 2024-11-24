@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arte Latino</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAMyXHT4FgRCm3oLGuMdzeUGcX5m16rq4A",
+      authDomain: "nftlatinoxyz-1531b.firebaseapp.com",
+      projectId: "nftlatinoxyz-1531b",
+      storageBucket: "nftlatinoxyz-1531b.firebasestorage.app",
+      messagingSenderId: "498175021440",
+      appId: "1:498175021440:web:dd23d59d1b6e2228c63165",
+      measurementId: "G-Y2RKNNEM80"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+  <style>
+    .bg-gradient {
+      background: linear-gradient(to bottom, #6ABBE7, #FFFFFF);
+    }
+    .carousel-container {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+    }
+    #carousel {
+      display: flex;
+      transition: transform 0.3s ease-out;
+      will-change: transform;
+    }
+    #carousel > div {
+      min-width: 100%;
+      flex-shrink: 0;
+    }
+    .arrow-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      z-index: 10;
+    }
+    .arrow-left {
+      left: 10px;
+    }
+    .arrow-right {
+      right: 10px;
+    }
+    .dots-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .dot {
+      width: 12px;
+      height: 12px;
+      background-color: gray;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .dot.active {
+      background-color: blue;
+    }
+  </style>
+</head>
+<body class="bg-[#F5F5F5]">
+  <!-- Encabezado -->
+  <header class="flex items-center justify-between p-4 bg-white shadow-sm relative rounded-lg">
+    <div class="flex items-center space-x-2">
+      <img src="Assets/Recurso1.png" alt="Logo Arte Latino" class="h-8">
+    </div>  
+    <div class="flex-1 mx-4">
+      <input type="text" placeholder="Buscar" class="w-full px-4 py-2 border rounded-full outline-none focus:ring-2 focus:ring-gray-300">
+    </div>
+    <div class="flex space-x-2">
+      <button class="px-4 py-2 text-gray-800 border rounded-full hover:bg-gray-100">Login In</button>
+      <button class="px-4 py-2 text-white rounded-full" style="background-color: #1B3046;">Sign Up</button>
+    </div>
+    <div class="absolute bottom-0 left-0 w-full" style="height: 3px; background-color: #D6A060;"></div>
+  </header>
+
+  <!-- Contenido Principal -->
+  <div class="flex mt-4" style="min-height: calc(100vh - 4rem);">
+    <!-- Sección Izquierda -->
+    <aside class="w-1/5 p-4 flex-shrink-0 border-r border-gray-300 bg-[#F5F5F5] rounded-lg">
+      <div class="bg-white rounded-lg shadow-md p-3 mb-4">
+        <h2 class="text-gray-600 font-semibold mb-3 text-sm">Sección</h2>
+        <div class="space-y-2">
+          <button class="flex items-center w-full px-3 py-2 bg-yellow-400 text-white rounded-lg text-sm">
+            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M5 4h14v2H5zM5 11h14v2H5zM5 18h14v2H5z"/></svg>
+            Para Ti
+          </button>
+          <button class="flex items-center w-full px-3 py-2 text-gray-800 rounded-lg hover:bg-gray-100 text-sm">
+            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M19 21V5H5v16l7-3 7 3z"/></svg>
+            Guardados
+          </button>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-md p-4">
+        <h2 class="text-gray-600 font-semibold mb-3 text-sm flex items-center">
+          Artistas
+          <svg class="w-4 h-4 ml-2" fill="currentColor" viewBox="0 0 20 20"><path d="M5.23 7.21a.75.75 0 011.06 0L10 10.94l3.71-3.73a.75.75 0 011.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.23 8.27a.75.75 0 010-1.06z"/></svg>
+        </h2>
+        <div id="artist-list" class="space-y-3"></div>
+      </div>
+    </aside>
+
+    <!-- Contenido Derecho -->
+    <main class="w-4/5 p-4 bg-[#F5F5F5]">
+      <h2 class="text-lg font-semibold mb-4"># Tags Populares</h2>
+      <div class="flex flex-wrap space-x-2 mb-8">
+        <span class="px-3 py-1 bg-yellow-400 text-white rounded-full text-sm">Para Ti</span>
+        <span class="px-3 py-1 bg-red-400 text-white rounded-full text-sm">graphicdesign</span>
+        <span class="px-3 py-1 bg-purple-400 text-white rounded-full text-sm">interaction</span>
+        <span class="px-3 py-1 bg-green-400 text-white rounded-full text-sm">motion</span>
+        <span class="px-3 py-1 bg-blue-400 text-white rounded-full text-sm">photography</span>
+      </div>
+
+      <!-- Sección "Lo más Visto" -->
+      <div class="bg-gradient py-10 px-4 rounded-lg">
+        <div class="text-center mb-6">
+          <h2 class="text-4xl font-bold text-gray-900">
+            Lo más <span class="text-blue-500">Visto</span>
+          </h2>
+        </div>
+
+        <div class="carousel-container">
+          <div class="arrow-button arrow-left" id="prev-slide">&#8249;</div>
+          <div class="arrow-button arrow-right" id="next-slide">&#8250;</div>
+          <div id="carousel" class="flex"></div>
+          <div class="dots-container" id="dots"></div>
+        </div>
+
+        <div class="flex justify-center mt-6">
+          <button class="px-6 py-3 bg-blue-500 text-white rounded-full text-lg font-semibold hover:bg-blue-600">
+            View collection <span aria-hidden="true">→</span>
+          </button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Script -->
+  <script>
+    const artists = [
+      { name: "Streer_", image: "Imagenes/artist1.png", title: "3 Obras de Arte Guardadas" },
+      { name: "Lara", image: "Imagenes/artist2.png", title: "Nueva Obra de Arte Guardada" },
+      { name: "Vedic", image: "Imagenes/artist3.png", title: "2 Obras de Arte Guardadas" },
+      { name: "Narie", image: "Imagenes/artist4.png", title: "5 Imágenes Guardadas" }
+    ];
+
+    const artistList = document.getElementById("artist-list");
+
+    artists.forEach(artist => {
+      const card = document.createElement("div");
+      card.classList.add("flex", "items-center", "space-x-3");
+
+      const avatar = document.createElement("img");
+      avatar.src = artist.image;
+      avatar.alt = artist.name;
+      avatar.classList.add("w-8", "h-8", "rounded-full");
+
+      const details = document.createElement("div");
+
+      const nameContainer = document.createElement("div");
+      nameContainer.classList.add("flex", "items-center", "space-x-1");
+
+      const name = document.createElement("p");
+      name.textContent = artist.name;
+      name.classList.add("font-medium");
+
+      const verifiedLogo = document.createElement("img");
+      verifiedLogo.src = "Assets/verificado.png";
+      verifiedLogo.alt = "Verificado";
+      verifiedLogo.classList.add("w-4", "h-4");
+
+      nameContainer.appendChild(name);
+      nameContainer.appendChild(verifiedLogo);
+
+      const title = document.createElement("p");
+      title.textContent = artist.title;
+      title.classList.add("text-gray-500", "text-sm");
+
+      details.appendChild(nameContainer);
+      details.appendChild(title);
+
+      card.appendChild(avatar);
+      card.appendChild(details);
+
+      artistList.appendChild(card);
+    });
+
+    const artworks = [
+      { title: "#Metaverse", author: "By TheSalvare", image: "Imagenes/metaverse.jpg" },
+      { title: "#Polly Doll", author: "By TheNative", image: "Imagenes/pollydoll.jpg" },
+      { title: "#Alec Art", author: "By GeorgZvic", image: "Imagenes/alecart.jpg" },
+      { title: "#Toxic Poeth", author: "By YazxiLup", image: "Imagenes/toxicpoeth.jpg" }
+    ];
+
+    const carousel = document.getElementById("carousel");
+    const dotsContainer = document.getElementById("dots");
+    const prevSlide = document.getElementById("prev-slide");
+    const nextSlide = document.getElementById("next-slide");
+    let currentSlide = 0;
+
+    artworks.forEach((artwork, index) => {
+      const card = document.createElement("div");
+      card.classList.add("flex", "flex-col", "items-center", "w-full", "p-4", "flex-shrink-0");
+
+      const img = document.createElement("img");
+      img.src = artwork.image;
+      img.alt = artwork.title;
+      img.classList.add("w-full", "h-80", "rounded-lg", "object-cover");
+
+      const title = document.createElement("h3");
+      title.textContent = artwork.title;
+      title.classList.add("font-bold", "text-lg", "mt-2");
+
+      const author = document.createElement("p");
+      author.textContent = artwork.author;
+      author.classList.add("text-gray-600", "text-sm");
+
+      card.appendChild(img);
+      card.appendChild(title);
+      card.appendChild(author);
+
+      carousel.appendChild(card);
+
+      const dot = document.createElement("div");
+      dot.classList.add("dot");
+      if (index === 0) dot.classList.add("active");
+      dot.dataset.index = index;
+      dot.addEventListener("click", () => goToSlide(index));
+      dotsContainer.appendChild(dot);
+    });
+
+    const updateDots = () => {
+      document.querySelectorAll(".dot").forEach((dot, index) => {
+        dot.classList.toggle("active", index === currentSlide);
+      });
+    };
+
+    const goToSlide = (index) => {
+      currentSlide = index;
+      const offset = -currentSlide * carousel.clientWidth;
+      carousel.style.transform = `translateX(${offset}px)`;
+      updateDots();
+    };
+
+    const next = () => currentSlide < artworks.length - 1 ? goToSlide(currentSlide + 1) : goToSlide(0);
+    const prev = () => currentSlide > 0 ? goToSlide(currentSlide - 1) : goToSlide(artworks.length - 1);
+
+    nextSlide.addEventListener("click", next);
+    prevSlide.addEventListener("click", prev);
+
+    window.addEventListener("resize", () => goToSlide(currentSlide));
+  </script>
+</body>
+</html>

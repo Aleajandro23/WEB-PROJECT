@@ -162,3 +162,23 @@
       border-radius: 0.5rem;
     }
     
+    .most-viewed-bg {
+      background-image: url('Assets/Fondo-cuadros.jpg');
+      background-size: cover;
+      background-position: center;
+      border-radius: 0.5rem; /* Mantener los bordes redondeados */
+    }
+  
+    @media (max-width: 768px) {
+      #carousel > div {
+        flex: 1 0 50%; /* 2 elementos por pantalla en pantallas pequeñas */
+      }
+    }
+    
+    @media (max-width: 480px) {
+      #carousel > div {
+        flex: 1 0 100%; /* 1 elemento por pantalla en pantallas muy pequeñas */
+      }
+    }
+    
+    

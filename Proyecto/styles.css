@@ -16,6 +16,10 @@
       min-width: 100%;
       flex-shrink: 0;
     }
+    .hidden {
+      display: none;
+    }
+    
     .arrow-button {
       position: absolute;
       top: 50%;

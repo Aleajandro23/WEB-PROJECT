@@ -50,7 +50,7 @@ body {
 }
 
 .logo img {
-  width: 10vw; /* Ajusta el tamaño de la imagen dentro del logo */
+  width: 5vw; /* Ajusta el tamaño de la imagen dentro del logo */
   height: auto; /* Mantiene la proporción de la imagen */
 }
 
@@ -74,34 +74,47 @@ body {
 }
 
 .nav-right {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
 }
 
 .search-bar {
   padding: 5px;
-  border: 1px solid #ddd;
+  font-size: 14px;
+  border: 1px solid #ccc;
   border-radius: 5px;
-  outline: none;
 }
 
-.login-btn, .signup-btn {
-  padding: 8px 15px;
+.login-btn {
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
 
-.login-btn {
-  background-color: #333;
-  color: #fff;
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.hidden {
+  display: none;
+}
+.user-photo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
-.signup-btn {
-  background-color: #1e90ff;
-  color: #fff;
+.menu-icon {
+  font-size: 20px;
+  cursor: pointer;
 }
+
 
 .container, .profile-section {
   margin-top: 70px; /* Espacio suficiente para la barra de navegación fija */
@@ -114,20 +127,132 @@ body {
 }
 
 .profile-card {
-  width: 300px;
+  width: 350px;
+  margin: auto;
   background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
   padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-left: 20px;
+}
+.header {
   text-align: center;
+  margin-bottom: 20px;
+}
+h2 {
+  font-size: 1.5em;
+  margin: 8px 0;
+}
+.availability {
+  font-size: 0.9em;
+  color: green;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.avatar {
-  width: 80px;
-  height: 80px;
-  background-color: #ddd;
+.status-dot {
+  width: 10px;
+  height: 10px;
+  background-color: green;
   border-radius: 50%;
+  margin-right: 8px;
+}
+
+.role, .location {
+  color: #666;
+  margin: 4px 0;
+}
+
+.cta {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.brief-btn {
+  padding: 10px 20px;
+  font-size: 1em;
+  border-radius: 4px;
+  border: 1px solid #007BFF;
+  background-color: #007BFF;
+  color: #fff;
+  cursor: pointer;
+}
+
+.brief-btn:hover {
+  background-color: #0056b3;
+}
+
+.services, .social-links, .experience, .about {
+  margin: 20px 0;
+}
+
+.services h3, .social-links h3, .experience h3, .about h3 {
+  font-size: 1.1em;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.services a, .experience a {
+  color: #007BFF;
+  text-decoration: none;
+}
+
+.social-links {
+  font-family: Arial, sans-serif;
+}
+
+.social-links h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.social-links ul {
+  list-style: none;
+  padding: 0;
+}
+
+.social-links li {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.social-links a {
+  text-decoration: none;
+  color: #333;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.social-links i {
+  font-size: 24px;
+  transition: color 0.3s ease;
+}
+
+.social-links a:hover i {
+  color: #0073b1; /* Cambia esto dependiendo de la red social */
+}
+
+
+.member-since {
+  font-size: 0.8em;
+  color: #999;
+  text-align: center;
+  margin-top: 20px;
+}
+.avatar {
+  width: 100px;
+  height: 100px;
   margin: 0 auto;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  border: 3px solid #ddd;
 }
 
 .location {
@@ -209,13 +334,13 @@ body {
 
 .projects {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 10px;
 }
 
 .project-box {
   width: 100%;
-  height: 150px;
+  height: 300px;
   background-color: #ddd;
   border-radius: 10px;
   transition: transform 0.3s;

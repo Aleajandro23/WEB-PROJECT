@@ -5,8 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Arte Latino</title>
   <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="styles.css">
   <script type="module">
+  
     // Import the functions you need from the SDKs you need
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-analytics.js";
@@ -29,27 +31,35 @@
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
   </script>
+  <script src="auth.js" type="module"></script>
+
 
 </head>
 <body class="bg-[#F5F5F5]">
   <!-- Encabezado -->
   <header class="flex items-center justify-between p-4 bg-white shadow-sm relative rounded-lg">
     <div class="flex items-center space-x-2">
-      <img src="Assets/Recurso1.png" alt="Logo Arte Latino" class="h-8">
-    </div>  
-    <div class="flex-1 mx-4">
-      <input type="text" placeholder="Buscar" class="w-full px-4 py-2 border rounded-full outline-none focus:ring-2 focus:ring-gray-300">
-    </div>
-    <div class="flex space-x-2">
-      <button class="px-4 py-2 text-gray-800 border rounded-full hover:bg-gray-100" 
-              onclick="window.location.href='Secciones/Auth/auth.html'">Login In</button>
-      <button class="px-4 py-2 text-white rounded-full" style="background-color: #1B3046;" 
-              onclick="window.location.href='Secciones/Auth/auth.html'">Sign Up</button>
-    </div>
-    
-    
-    
-    <div class="absolute bottom-0 left-0 w-full" style="height: 3px; background-color: #D6A060;"></div>
+        <img src="Assets/Recurso1.png" alt="Logo Arte Latino" class="h-8">
+      </div>  
+      <div class="flex-1 mx-4">
+        <input type="text" placeholder="Buscar" class="w-full px-4 py-2 border rounded-full outline-none focus:ring-2 focus:ring-gray-300">
+      </div>
+      <div class="flex space-x-2 items-center">
+        <!-- Botones de Login y Sign Up -->
+        <button id="login-btn" class="px-4 py-2 text-gray-800 border rounded-full hover:bg-gray-100" 
+                onclick="window.location.href='Secciones/Auth/auth.html'">Login</button>
+        <button id="signup-btn" class="px-4 py-2 text-white rounded-full" style="background-color: #1B3046;" 
+                onclick="window.location.href='Secciones/Auth/auth.html'">Sign Up</button>
+      
+        <!-- Foto de perfil (oculta por defecto) -->
+        <a href="/Proyecto/Secciones/profile/profile.html">
+            <img id="user-photo" class="hidden w-10 h-10 rounded-full" src="" alt="Foto de perfil">
+          </a>
+          
+          
+
+      </div>
+      
   </header>
 
   <!-- Contenido Principal -->
@@ -506,5 +516,8 @@
     </main>
   </div>
   <script src="script.js"></script>
+  <script src="auth.js"></script>
+  
+  
 </body>
 </html>

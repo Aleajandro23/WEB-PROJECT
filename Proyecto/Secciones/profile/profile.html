@@ -1,65 +1,123 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Perfil</title>
   <link rel="stylesheet" href="styles-profile.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <script src="auth.js" type="module"></script>
+
 </head>
+
 <body>
 
   <div class="container">
     <!-- Barra de navegación -->
     <nav class="navbar">
       <div class="logo">
-        <img src="Assets/Recurso1 copy.png" alt="">
+        <a href="/Proyecto/index.html">
+          <img src="Assets/Recurso1 copy.png" alt="">
+        </a>
       </div>
-      <ul class="nav-links">
-        <li><a href="#">Home</a></li>
-        <li><a href="#">In Circle</a></li>
-        <li><a href="#">Guardados</a></li>
-        <li><a href="#">Servicios</a></li>
-        <li><a href="#">Soporte</a></li>
-      </ul>
-      <div class="nav-right">
-        <input type="text" placeholder="Buscar" class="search-bar">
-        <button class="login-btn">Login In</button>
-        <button class="signup-btn">Sign Up</button>
-        <div class="user-icon">USUARIO</div>
+
+      <div class="flex space-x-2 items-center">
+        <div id="user-info" class="user-info">
+          <!-- Foto de usuario con borde redondeado -->
+          <img id="user-photo" class="user-photo w-10 h-10 rounded-full" alt="Foto de usuario" src=""
+            onclick="redirectToProfile()">
+
+          <!-- Ícono de menú de opciones (3 barras) -->
+          <div class="menu-icon">
+            <i class="fa-solid fa-bars"></i>
+          </div>
+        </div>
       </div>
+
     </nav>
 
     <!-- Contenido del perfil -->
     <div class="slide-pro"></div>
     <div class="profile-section">
       <div class="profile-card">
-        <div class="avatar"></div>
-        <h2>Beryl Design</h2>
-        <p>Collaborer et S'informer sur le Design UX/UI</p>
-        <a href="https://beryldesign.fr">beryldesign.fr</a>
-        <p class="location">📍 Lille, France</p>
+        <!-- Cabecera del perfil -->
+        <div class="header">
+          <div class="avatar" id="user-photo"></div> <!-- Foto de perfil -->
+          <h2 id="user-name">Usuario</h2> <!-- Nombre del usuario -->
+          <p class="availability"><span class="status-dot"></span> Disponible ahora</p>
+          <p class="role">Graphic / Brand Designer</p>
+          <p class="location">📍 OH, USA</p>
+        </div>
         
-        <button class="follow-btn">Seguir</button>
-        <button class="service-btn">Solicitar Servicio</button>
-        <button class="message-btn">Mensaje</button>
 
-        <div class="stats">
-          <p>Project Views <span>50 000</span></p>
-          <p>Appreciations <span>1200</span></p>
-          <p>Followers <span>5000</span></p>
-          <p>Following <span>80</span></p>
+        <!-- Botón principal -->
+        <div class="cta">
+          <button class="brief-btn">Trabajemos Juntos! (Brief)</button>
         </div>
 
-        <p class="member-since">MEMBER SINCE: DECEMBER 3, 2018</p>
-        <a href="#" class="report-link">Report</a>
+        <!-- Información de servicios -->
+        <div class="services">
+          <h3>Contratar a Ruben</h3>
+          <p>Trabajo por cuenta propia o proyecto</p>
+          <p class="availability-now">Disponibilidad: Ahora</p>
+          <a href="#">6 proyectos pagados realizados</a>
+        </div>
+
+        <!-- Redes sociales -->
+        <div class="social-links">
+          <h3>Redes Sociales</h3>
+          <ul>
+            <li>
+              <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-linkedin"></i>
+                Linkedin
+              </a>
+            </li>
+            <li>
+              <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-instagram"></i>
+                Instagram
+              </a>
+            </li>
+            <li>
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-twitter"></i>
+                Twitter
+              </a>
+            </li>
+          </ul>
+        </div>
+
+
+
+        <!-- Experiencia -->
+        <div class="experience">
+          <h3>Experiencia de Trabajo</h3>
+          <p><strong>Graphic Designer</strong> <br> Unilever</p>
+          <p><strong>Graphic Designer</strong> <br> Focus Services - El Salvador</p>
+          <a href="#">Ver curriculum vitae completo</a>
+        </div>
+
+        <!-- Sección de presentación -->
+        <div class="about">
+          <h3>¡Conóceme!</h3>
+          <p>Hi there, this is Ruben! 🌟 I am a passionate graphic and brand designer. I specialize in creating colorful
+            and bold brands that truly stand out. From vibrant logos to eye-catching advertisements, I love to play with
+            colors and push the boundaries of traditional design. ✨ Let's work together! 🌟</p>
+        </div>
+
+        <!-- Información adicional -->
+        <p class="member-since">Miembro desde: 12 de noviembre de 2017</p>
       </div>
+
 
       <!-- Galería de proyectos -->
       <div class="project-gallery">
         <div class="tab">
           <button class="tab-button active">Obras</button>
-          <button class="tab-button">Moodboards</button>
-          <button class="tab-button">Apreciaciones</button>
+          <button class="tab-button">Servicios</button>
+          <button class="tab-button">Me Encanta</button>
         </div>
         <div class="projects">
           <div class="project-box"></div>
@@ -74,4 +132,5 @@
   </div>
 
 </body>
+
 </html>

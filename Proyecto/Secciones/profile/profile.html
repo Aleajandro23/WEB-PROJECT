@@ -41,76 +41,73 @@
     <div class="slide-pro"></div>
     <div class="profile-section">
       <div class="profile-card">
-        <!-- Cabecera del perfil -->
-        <div class="header">
-          <div class="avatar" id="user-photo"></div> <!-- Foto de perfil -->
-          <h2 id="user-name">Usuario</h2> <!-- Nombre del usuario -->
-          <p class="availability"><span class="status-dot"></span> Disponible ahora</p>
-          <p class="role">Graphic / Brand Designer</p>
-          <p class="location">📍 OH, USA</p>
-        </div>
-        
+        <div class="profile-header">
+          <div class="avatar-container">
+            <input type="file" id="profile-photo" accept="image/*" class="file-input">
+            <label for="profile-photo" class="avatar-label">
+              <div id="profile-avatar" class="avatar"></div>
+              <div class="avatar-overlay">
+                <i class="fas fa-camera"></i>
+              </div>
+            </label>
+          </div>
 
-        <!-- Botón principal -->
-        <div class="cta">
-          <button class="brief-btn">Trabajemos Juntos! (Brief)</button>
-        </div>
-
-        <!-- Información de servicios -->
-        <div class="services">
-          <h3>Contratar a Ruben</h3>
-          <p>Trabajo por cuenta propia o proyecto</p>
-          <p class="availability-now">Disponibilidad: Ahora</p>
-          <a href="#">6 proyectos pagados realizados</a>
+          <div class="profile-info">
+            <input type="text" id="full-name" placeholder="Nombre Completo" class="profile-input">
+            <input type="text" id="experience-area" placeholder="Área de Experiencia" class="profile-input">
+          </div>
         </div>
 
-        <!-- Redes sociales -->
+        <div class="location-section">
+          <div class="location-input">
+            <i class="fas fa-map-marker-alt"></i>
+            <input type="text" id="location" placeholder="Seleccionar Ubicación" readonly>
+            <button id="select-location" class="location-btn">
+              <i class="fas fa-map"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="hire-section">
+          <button id="hire-button" class="hire-btn">
+            Contrata a <span id="hire-name"></span>
+          </button>
+        </div>
+
         <div class="social-links">
-          <h3>Redes Sociales</h3>
-          <ul>
-            <li>
-              <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
-                <i class="fa-brands fa-linkedin"></i>
-                Linkedin
-              </a>
-            </li>
-            <li>
-              <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
-                <i class="fa-brands fa-instagram"></i>
-                Instagram
-              </a>
-            </li>
-            <li>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
-                <i class="fa-brands fa-twitter"></i>
-                Twitter
-              </a>
-            </li>
-          </ul>
+          <input type="url" id="instagram" placeholder="URL Instagram" class="social-input">
+          <input type="url" id="linkedin" placeholder="URL LinkedIn" class="social-input">
+          <input type="url" id="facebook" placeholder="URL Facebook" class="social-input">
         </div>
 
-
-
-        <!-- Experiencia -->
-        <div class="experience">
-          <h3>Experiencia de Trabajo</h3>
-          <p><strong>Graphic Designer</strong> <br> Unilever</p>
-          <p><strong>Graphic Designer</strong> <br> Focus Services - El Salvador</p>
-          <a href="#">Ver curriculum vitae completo</a>
+        <div class="work-experience">
+          <h3>Experiencia Laboral</h3>
+          <div id="experience-container">
+            <div class="experience-item">
+              <input type="text" class="experience-input" placeholder="Ejemplo: Diseñador Gráfico - 2 años en MediaLab">
+            </div>
+            <button id="add-experience" class="add-btn">
+              <i class="fas fa-plus"></i> Añadir Experiencia
+            </button>
+          </div>
         </div>
 
-        <!-- Sección de presentación -->
-        <div class="about">
-          <h3>¡Conóceme!</h3>
-          <p>Hi there, this is Ruben! 🌟 I am a passionate graphic and brand designer. I specialize in creating colorful
-            and bold brands that truly stand out. From vibrant logos to eye-catching advertisements, I love to play with
-            colors and push the boundaries of traditional design. ✨ Let's work together! 🌟</p>
+        <div class="curriculum-section">
+          <label for="curriculum-upload" class="curriculum-label">
+            <i class="fas fa-file-pdf"></i> Subir Curriculum (PDF)
+            <input type="file" id="curriculum-upload" accept=".pdf" class="file-input">
+          </label>
         </div>
 
-        <!-- Información adicional -->
-        <p class="member-since">Miembro desde: 12 de noviembre de 2017</p>
+        <div class="description-section">
+          <textarea id="artist-description" placeholder="Descripción del artista" class="description-input"></textarea>
+        </div>
+
+        <div class="action-buttons">
+          <button id="save-profile" class="save-btn">Guardar Perfil</button>
+          <button id="cancel-edit" class="cancel-btn">Cancelar</button>
+        </div>
       </div>
-
 
       <!-- Galería de proyectos -->
       <div class="project-gallery">

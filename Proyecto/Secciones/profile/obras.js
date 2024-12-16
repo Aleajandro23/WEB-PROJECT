@@ -6,21 +6,38 @@ const projectsContainer = document.getElementById("projects-container");
 const createPortfolioDiv = document.getElementById("create-portfolio");
 const addArtworkDiv = document.getElementById("add-artwork");
 const tabButtons = document.querySelectorAll(".tab-button");
-const contO = document.querySelector(".cont-o");
 
-// Cambiar la pestaña activa
-const toggleActiveTab = (button) => 
-    tabButtons.forEach(btn => btn.classList.toggle('active', btn === button));
+// Toggle tab visibility and content
+const toggleTab = (activeTab) => {
+    // Hide all tab contents
+    projectsContainer.innerHTML = '';
+    createPortfolioDiv.style.display = 'none';
+    addArtworkDiv.style.display = 'none';
 
-tabButtons.forEach(button => 
-    button.addEventListener('click', () => toggleActiveTab(button)));
+    // Remove active class from all buttons
+    tabButtons.forEach(btn => btn.classList.remove('active'));
+    
+    // Add active class to clicked button
+    activeTab.classList.add('active');
 
-// Mostrar u ocultar secciones
-const toggleVisibility = (showProjects, showCreate, showAdd) => {
-    projectsContainer.style.display = showProjects ? "grid" : "none";
-    createPortfolioDiv.style.display = showCreate ? "block" : "none";
-    addArtworkDiv.style.display = showAdd ? "block" : "none";
+    // Handle different tabs
+    switch(activeTab.dataset.tab) {
+        case 'obras':
+            loadPortfolio();
+            break;
+        case 'servicios':
+            projectsContainer.innerHTML = '<p>Servicios content coming soon...</p>';
+            break;
+        case 'me-encanta':
+            projectsContainer.innerHTML = '<p>Me Encanta content coming soon...</p>';
+            break;
+    }
 };
+
+// Add event listeners to tab buttons
+tabButtons.forEach(button => 
+    button.addEventListener('click', () => toggleTab(button))
+);
 
 // Cargar portafolio del usuario
 const loadPortfolio = async () => {
@@ -33,49 +50,72 @@ const loadPortfolio = async () => {
 
         // Limpiar contenedores
         projectsContainer.innerHTML = '';
-        contO.innerHTML = '';
 
-        // Mostrar nombre del último portafolio
-        portfolios.length > 0 
-            ? contO.appendChild(
-                Object.assign(document.createElement('div'), {
-                    className: 'portfolio-name',
-                    textContent: portfolios.at(-1).name
-                })
-            )
-            : null;
+        // Renderizar cada portafolio como un grid separado
+        portfolios.forEach((portfolio, portfolioIndex) => {
+            // Crear contenedor para cada portafolio
+            const portfolioContainer = document.createElement('div');
+            portfolioContainer.classList.add('portfolio-container');
+            
+            // Nombre del portafolio
+            const portfolioName = document.createElement('h2');
+            portfolioName.classList.add('portfolio-name');
+            portfolioName.textContent = portfolio.name;
+            portfolioContainer.appendChild(portfolioName);
 
-        // Renderizar proyectos dinámicamente
-        portfolios.forEach(portfolio => 
-            (portfolio.artworks || []).forEach(({ name, photo }) => 
-                projectsContainer.appendChild(
-                    Object.assign(document.createElement('div'), {
-                        className: 'project-box',
-                        innerHTML: `
-                            <h4 class="artwork-title">${name}</h4>
-                            <div class="artwork-image-container">
-                                <img src="${photo}" alt="${name}" class="artwork-image">
-                            </div>`
-                    })
-                )
-            )
-        );
+            // Grid de obras para este portafolio
+            const portfolioGrid = document.createElement('div');
+            portfolioGrid.classList.add('projects');
 
-        // Botón para añadir obra
-        projectsContainer.appendChild(
-            Object.assign(document.createElement('div'), {
-                className: 'project-box add-project-box',
-                innerHTML: '<i class="fas fa-plus"></i>',
-                onclick: () => toggleVisibility(false, false, true)
-            })
-        );
+            // Renderizar obras del portafolio
+            (portfolio.artworks || []).forEach(({ name, photo }) => {
+                const projectBox = document.createElement('div');
+                projectBox.classList.add('project-box');
+                projectBox.innerHTML = `
+                    <h4 class="artwork-title">${name}</h4>
+                    <div class="artwork-image-container">
+                        <img src="${photo}" alt="${name}" class="artwork-image">
+                    </div>
+                `;
+                portfolioGrid.appendChild(projectBox);
+            });
+
+            // Botón para añadir obra a este portafolio específico
+            const addArtworkBox = document.createElement('div');
+            addArtworkBox.classList.add('project-box', 'add-project-box');
+            addArtworkBox.innerHTML = '<i class="fas fa-plus"></i>';
+            addArtworkBox.onclick = () => {
+                // Establecer el índice del portafolio actual para la próxima obra
+                window.currentPortfolioIndex = portfolioIndex;
+                toggleVisibility(false, false, true);
+            };
+            portfolioGrid.appendChild(addArtworkBox);
+
+            portfolioContainer.appendChild(portfolioGrid);
+            projectsContainer.appendChild(portfolioContainer);
+        });
+
+        // Botón para crear nuevo portafolio
+        const addPortfolioBox = document.createElement('div');
+        addPortfolioBox.classList.add('project-box', 'add-project-box');
+        addPortfolioBox.innerHTML = '<i class="fas fa-plus"></i>';
+        addPortfolioBox.onclick = () => toggleVisibility(false, true, false);
+        projectsContainer.appendChild(addPortfolioBox);
 
         // Mostrar/ocultar secciones
-        toggleVisibility(portfolios.length > 0, portfolios.length === 0, false);
+        projectsContainer.style.display = portfolios.length > 0 ? "grid" : "none";
+        createPortfolioDiv.style.display = portfolios.length === 0 ? "block" : "none";
     } catch (error) {
         console.error("Error al cargar el portafolio: ", error);
         toggleVisibility(false, true, false);
     }
+};
+
+// Mostrar u ocultar secciones
+const toggleVisibility = (showProjects, showCreate, showAdd) => {
+    projectsContainer.style.display = showProjects ? "grid" : "none";
+    createPortfolioDiv.style.display = showCreate ? "block" : "none";
+    addArtworkDiv.style.display = showAdd ? "block" : "none";
 };
 
 // Crear un nuevo portafolio
@@ -91,13 +131,19 @@ const createPortfolio = async () => {
         const portfolios = userDoc.exists() ? userDoc.data().portfolios || [] : [];
 
         // Verificar duplicados
-        portfolios.some(p => p.name.toLowerCase() === portfolioName.toLowerCase())
-            ? alert("Ya existe un portafolio con este nombre.")
-            : (await setDoc(userDocRef, {
-                portfolios: [...portfolios, { name: portfolioName, artworks: [] }]
-            }, { merge: true }),
-            alert("Portafolio creado con éxito."),
-            loadPortfolio());
+        if (portfolios.some(p => p.name.toLowerCase() === portfolioName.toLowerCase())) {
+            alert("Ya existe un portafolio con este nombre.");
+            return;
+        }
+
+        // Agregar nuevo portafolio
+        portfolios.push({ name: portfolioName, artworks: [] });
+        
+        await setDoc(userDocRef, { portfolios }, { merge: true });
+        alert("Portafolio creado con éxito.");
+        
+        // Recargar portafolio y cambiar a la pestaña de Obras
+        document.querySelector('.tab-button[data-tab="obras"]').click();
     } catch (error) {
         console.error("Error al crear el portafolio:", error);
         alert("Hubo un error al crear el portafolio. Por favor, intente nuevamente.");
@@ -126,17 +172,22 @@ const addArtwork = async () => {
         const userDoc = await getDoc(userDocRef);
         const portfolios = userDoc.data().portfolios || [];
 
-        // Agregar obra al último portafolio
-        const lastPortfolio = portfolios.at(-1);
-        if (!lastPortfolio) return alert("Primero debe crear un portafolio.");
+        // Obtener el portafolio actual (usando el índice guardado globalmente)
+        const currentPortfolioIndex = window.currentPortfolioIndex ?? (portfolios.length - 1);
+        const currentPortfolio = portfolios[currentPortfolioIndex];
 
-        lastPortfolio.artworks = [...(lastPortfolio.artworks || []), {
+        if (!currentPortfolio) return alert("Primero debe crear un portafolio.");
+
+        // Agregar obra al portafolio actual
+        currentPortfolio.artworks = [...(currentPortfolio.artworks || []), {
             name: artworkName, photo: photoUrl, place: artworkPlace, creationDate: artworkDate
         }];
 
         await setDoc(userDocRef, { portfolios }, { merge: true });
         alert("Obra añadida exitosamente.");
-        loadPortfolio();
+        
+        // Recargar portafolio y cambiar a la pestaña de Obras
+        document.querySelector('.tab-button[data-tab="obras"]').click();
     } catch (error) {
         console.error("Error al añadir la obra:", error);
         alert("Hubo un error al añadir la obra.");
@@ -146,4 +197,13 @@ const addArtwork = async () => {
 // Eventos
 document.getElementById("create-portfolio-btn").addEventListener("click", createPortfolio);
 document.getElementById("add-artwork-btn").addEventListener("click", addArtwork);
-auth.onAuthStateChanged(user => user ? loadPortfolio() : toggleVisibility(false, true, false));
+
+// Inicializar vista al cargar
+auth.onAuthStateChanged(user => {
+    if (user) {
+        // Seleccionar pestaña de Obras por defecto
+        document.querySelector('.tab-button[data-tab="obras"]').click();
+    } else {
+        toggleVisibility(false, true, false);
+    }
+});

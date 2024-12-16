@@ -7,7 +7,8 @@
   <title>Perfil</title>
   <link rel="stylesheet" href="styles-profile.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-  <script src="auth.js" type="module"></script>
+  <script src="profile-info.js" type="module"></script>
+  <script src="obras.js" type="module"></script>
 
 </head>
 
@@ -112,17 +113,37 @@
       <!-- Galería de proyectos -->
       <div class="project-gallery">
         <div class="tab">
-          <button class="tab-button active">Obras</button>
-          <button class="tab-button">Servicios</button>
-          <button class="tab-button">Me Encanta</button>
+          <button class="tab-button active" data-tab="obras">Obras</button>
+          <button class="tab-button" data-tab="servicios">Servicios</button>
+          <button class="tab-button" data-tab="me-encanta">Me Encanta</button>
         </div>
-        <div class="projects">
-          <div class="project-box"></div>
-          <div class="project-box"></div>
-          <div class="project-box"></div>
-          <div class="project-box"></div>
-          <div class="project-box"></div>
-          <div class="project-box"></div>
+        <div class="projects" id="projects-container">
+          <div class="cont-o"></div>
+        </div>
+        <div class="create-portfolio" id="create-portfolio" style="display: none;">
+          <h3>Crear un nuevo portafolio</h3>
+          <label for="portfolio-name">Nombre del portafolio:</label>
+          <input type="text" id="portfolio-name" placeholder="Ingrese el nombre del portafolio" />
+          <button id="create-portfolio-btn">Crear Portafolio</button>
+        </div>
+        <div class="add-artwork" id="add-artwork" style="display: none;">
+          <h3>Añadir Obra</h3>
+          <label for="artwork-name">Nombre:</label>
+          <input type="text" id="artwork-name" placeholder="Nombre de la obra" />
+      
+          <label for="artwork-photo">Foto:</label>
+          <input type="file" id="artwork-photo" />
+      
+          <label for="artwork-place">Lugar:</label>
+          <input type="text" id="artwork-place" placeholder="Lugar de creación" />
+      
+          <label for="artwork-year">Año:</label>
+          <input type="number" id="artwork-year" placeholder="Año de creación" />
+      
+          <label for="artwork-date">Fecha de creación:</label>
+          <input type="date" id="artwork-date" />
+      
+          <button id="add-artwork-btn">Añadir Obra</button>
         </div>
       </div>
     </div>

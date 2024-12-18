@@ -113,9 +113,12 @@
       GoogleAuthProvider,
       signInWithPopup,
       signInWithEmailAndPassword,
-      createUserWithEmailAndPassword
+      createUserWithEmailAndPassword,
+      setPersistence,
+      browserLocalPersistence,
+      onAuthStateChanged,
     } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
-
+  
     // Configuración de Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyAMyXHT4FgRCm3oLGuMdzeUGcX5m16rq4A",
@@ -126,166 +129,126 @@
       appId: "1:498175021440:web:dd23d59d1b6e2228c63165",
       measurementId: "G-Y2RKNNEM80"
     };
-
+  
     // Inicialización de Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
-
+  
+    // Configuración de persistencia
+    setPersistence(auth, browserLocalPersistence)
+      .then(() => {
+        console.log("Persistencia configurada correctamente.");
+      })
+      .catch((error) => {
+        console.error("Error configurando la persistencia:", error.message);
+      });
+  
     // Proveedor de Google
     const googleProvider = new GoogleAuthProvider();
-
+  
     // **Inicio de sesión con Google**
     document.getElementById("google-signin-btn").addEventListener("click", (e) => {
-      e.preventDefault(); // Evita la acción por defecto del enlace
+      e.preventDefault();
       signInWithPopup(auth, googleProvider)
         .then((result) => {
           const user = result.user;
           console.log("Usuario autenticado con Google: ", user);
-
-          // Mensaje de bienvenida
-
-
-          // Redirige a la página principal
           window.location.href = "/Proyecto/index.html";
         })
         .catch((error) => {
           console.error("Error al iniciar sesión con Google: ", error.code, error.message);
-          alert("Hubo un error al iniciar sesión con Google. Inténtalo de nuevo.");
+          alert("Error al iniciar sesión con Google.");
         });
     });
-
+  
     // **Registro con Google**
     document.getElementById("google-signup-btn").addEventListener("click", (e) => {
-      e.preventDefault(); // Evita la acción por defecto del enlace
+      e.preventDefault();
       signInWithPopup(auth, googleProvider)
         .then((result) => {
           const user = result.user;
           console.log("Usuario registrado con Google: ", user);
-
-          // Mensaje de bienvenida
           alert(`¡Cuenta creada exitosamente para: ${user.displayName || "Usuario"}!`);
-
-          // Redirige a la página principal
           window.location.href = "/Proyecto/index.html";
         })
         .catch((error) => {
-          console.error("Error al registrar con Google: ", error.code, error.message);
-          alert("Hubo un error al registrarse con Google. Inténtalo de nuevo.");
+          console.error("Error al registrar con Google: ", error.message);
+          alert("Error al registrarse con Google.");
         });
     });
-
+  
     // **Inicio de sesión con correo y contraseña**
     document.getElementById("login-btn").addEventListener("click", () => {
       const email = document.getElementById("login-email").value;
       const password = document.getElementById("login-password").value;
-
+  
       if (!email || !password) {
         alert("Por favor, completa todos los campos.");
         return;
       }
-
+  
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           const user = userCredential.user;
           console.log("Usuario autenticado con correo/contraseña: ", user);
-          // Redirige a la página principal
           window.location.href = "/Proyecto/index.html";
         })
         .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-
-          console.error("Error al iniciar sesión con correo: ", errorCode, errorMessage);
-
-          // Manejo de errores comunes
-          switch (errorCode) {
+          console.error("Error al iniciar sesión: ", error.code, error.message);
+          switch (error.code) {
             case "auth/wrong-password":
-              alert("Contraseña incorrecta. Por favor, intenta nuevamente.");
+              alert("Contraseña incorrecta.");
               break;
             case "auth/user-not-found":
-              alert("Usuario no encontrado. Verifica el correo ingresado.");
-              break;
-            case "auth/invalid-email":
-              alert("Correo inválido. Por favor, ingresa un correo válido.");
+              alert("Usuario no encontrado.");
               break;
             default:
-              alert("Error al iniciar sesión: " + errorMessage);
+              alert("Error al iniciar sesión.");
           }
         });
     });
-
+  
     // **Registro con correo y contraseña**
     document.getElementById("signup-btn").addEventListener("click", () => {
       const email = document.getElementById("signup-email").value;
       const password = document.getElementById("signup-password").value;
-
+  
       if (!email || !password) {
         alert("Por favor, completa todos los campos.");
         return;
       }
-
+  
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           const user = userCredential.user;
           console.log("Usuario registrado exitosamente: ", user);
-
-          // Mensaje de bienvenida
-
-
-          // Redirige a la página principal
           window.location.href = "/Proyecto/index.html";
         })
         .catch((error) => {
-          const errorCode = error.code;
-
-          console.error("Error al registrar: ", errorCode, error.message);
-
-          // Manejo de errores comunes
-          switch (errorCode) {
+          console.error("Error al registrarse: ", error.message);
+          switch (error.code) {
             case "auth/email-already-in-use":
-              alert("El correo ya está registrado. Por favor, utiliza otro.");
-              break;
-            case "auth/invalid-email":
-              alert("Correo inválido. Por favor, verifica el formato.");
+              alert("El correo ya está registrado.");
               break;
             case "auth/weak-password":
-              alert("La contraseña debe tener al menos 6 caracteres.");
+              alert("La contraseña es muy débil.");
               break;
             default:
-              alert("Error al registrarse: " + error.message);
+              alert("Error al registrarse.");
           }
         });
     });
-
-    function manageAuthUIVisibility() {
-      const auth = getAuth();
-
-      onAuthStateChanged(auth, (user) => {
-        const loginBtn = document.querySelector('.login-btn');
-        const signupBtn = document.querySelector('.signup-btn');
-        const userIcon = document.querySelector('.user-icon');
-
-        if (user) {
-          // User is signed in
-          if (loginBtn) loginBtn.style.display = 'none';
-          if (signupBtn) signupBtn.style.display = 'none';
-          if (userIcon) {
-            userIcon.style.display = 'block';
-            // Optionally, set the user's display name or email
-            userIcon.textContent = user.displayName || user.email || 'USUARIO';
-          }
-        } else {
-          // No user is signed in
-          if (loginBtn) loginBtn.style.display = 'block';
-          if (signupBtn) signupBtn.style.display = 'block';
-          if (userIcon) userIcon.style.display = 'none';
-        }
-      });
-    }
-
-    // Call the function when the page loads
-    document.addEventListener('DOMContentLoaded', manageAuthUIVisibility);
+  
+    // Manejo de UI según estado de autenticación
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log("Usuario autenticado:", user.email);
+      } else {
+        console.log("No hay usuario autenticado.");
+      }
+    });
   </script>
+  
 
 
   <script src="app.js"></script>

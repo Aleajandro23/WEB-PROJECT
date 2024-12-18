@@ -15,7 +15,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+
 const db = getFirestore(app);
 const storage = getStorage(app);
 export { auth, db, storage };
@@ -39,14 +39,22 @@ const domElements = {
 let currentUser = null;
 let currentProfilePhotoUrl = null;
 
-// Authentication State Listener
-const handleAuthStateChanged = async (user) => {
-  user 
-    ? ((currentUser = user), await loadUserProfile(user.uid))
-    : (window.location.href = 'login.html');
-};
+const auth = getAuth();
 
-onAuthStateChanged(auth, handleAuthStateChanged);
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    console.log("Usuario autenticado:", user.email);
+    currentUser = user; // Asigna el usuario actual
+    await loadUserProfile(user.uid); // Carga el perfil del usuario
+  } else {
+    console.log("No hay usuario autenticado. Redirigiendo al login...");
+    window.location.href = "/Proyecto/login.html"; // Redirige al login
+  }
+});
+
+
+
+
 
 // Load User Profile
 const loadUserProfile = async (userId) => {
@@ -54,56 +62,53 @@ const loadUserProfile = async (userId) => {
     const userDocRef = doc(db, 'users', userId);
     const userDoc = await getDoc(userDocRef);
 
-    const userData = userDoc.exists() ? userDoc.data() : {};
+    if (!userDoc.exists()) {
+      console.log('No se encontró el perfil del usuario');
+      return;
+    }
 
-    // Update Avatar
-    const avatarUrl = userData.avatar || currentUser.photoURL || 'default-avatar.png';
-    domElements.profileAvatar.style.backgroundImage = `url(${avatarUrl})`;
-    currentProfilePhotoUrl = avatarUrl;
+    const userData = userDoc.data();
 
-    // Populate Form Fields
-    const mapInputValue = (input, value) => input.value = value || '';
-    const populateFields = [
-      [domElements.fullNameInput, userData.name],
-      [domElements.experienceAreaInput, userData.profession],
-      [domElements.instagramInput, userData.socialLinks?.instagram],
-      [domElements.linkedinInput, userData.socialLinks?.linkedin],
-      [domElements.facebookInput, userData.socialLinks?.facebook],
-      [domElements.artistDescriptionInput, userData.description]
-    ];
+    // Actualizar Avatar
+    if (userData.avatar) {
+      domElements.profileAvatar.style.backgroundImage = `url(${userData.avatar})`;
+    }
 
-    populateFields.forEach(([input, value]) => mapInputValue(input, value));
+    // Mostrar información en los campos
+    domElements.fullNameInput.value = userData.name || '';
+    domElements.experienceAreaInput.value = userData.profession || '';
+    domElements.instagramInput.value = userData.socialLinks?.instagram || '';
+    domElements.linkedinInput.value = userData.socialLinks?.linkedin || '';
+    domElements.facebookInput.value = userData.socialLinks?.facebook || '';
+    domElements.artistDescriptionInput.value = userData.description || '';
     domElements.hireName.textContent = userData.name || '';
 
-    // Load Work Experience
-    const addExperienceButton = domElements.addExperienceButton;
+    // Mostrar experiencia
     domElements.experienceContainer.innerHTML = '';
-    domElements.experienceContainer.appendChild(addExperienceButton);
+    if (userData.experience && userData.experience.length > 0) {
+      userData.experience.forEach(exp => {
+        const experienceItem = document.createElement('div');
+        experienceItem.classList.add('experience-item');
+        experienceItem.innerHTML = `
+          <p class="experience-text">${exp}</p>
+        `;
+        domElements.experienceContainer.appendChild(experienceItem);
+      });
+    } else {
+      domElements.experienceContainer.innerHTML = '<p>No hay experiencia registrada</p>';
+    }
 
-    // Populate experience inputs
-    (userData.experience || []).forEach(exp => {
-      const experienceItem = document.createElement('div');
-      experienceItem.classList.add('experience-item');
-      experienceItem.innerHTML = `
-        <input type="text" class="experience-input" value="${exp}" placeholder="Ejemplo: Diseñador Gráfico - 2 años en MediaLab">
-      `;
-      domElements.experienceContainer.insertBefore(experienceItem, addExperienceButton);
+    // Deshabilitar todos los campos de entrada
+    Object.values(domElements).forEach(element => {
+      if (element && element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+        element.disabled = true;
+      }
     });
 
-    // If no experience, add a default empty input
-    if (!userData.experience || userData.experience.length === 0) {
-      const defaultExperienceItem = document.createElement('div');
-      defaultExperienceItem.classList.add('experience-item');
-      defaultExperienceItem.innerHTML = `
-        <input type="text" class="experience-input" placeholder="Ejemplo: Diseñador Gráfico - 2 años en MediaLab">
-      `;
-      domElements.experienceContainer.insertBefore(defaultExperienceItem, addExperienceButton);
-    }
   } catch (error) {
-    console.error("Profile loading error:", error);
+    console.error("Error al cargar el perfil:", error);
   }
 };
-
 // Upload Avatar to Storage
 const uploadAvatarFile = async (file) => {
   if (!currentUser) return null;

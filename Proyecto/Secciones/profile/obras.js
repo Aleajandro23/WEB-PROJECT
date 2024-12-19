@@ -1,6 +1,6 @@
-import { auth, db, storage } from './profile-info.js';
-import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
-import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-storage.js";
+import { auth, db, storage } from '/Proyecto/Secciones/Auth/persistencia.js';
+import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-storage.js";
 
 const projectsContainer = document.getElementById("projects-container");
 const createPortfolioDiv = document.getElementById("create-portfolio");
@@ -123,12 +123,24 @@ const createPortfolio = async () => {
     const portfolioName = document.getElementById("portfolio-name").value.trim();
     const user = auth.currentUser;
 
-    if (!portfolioName || !user) return alert("Por favor, ingrese el nombre del portafolio y asegúrese de estar autenticado.");
+    if (!portfolioName || !user) {
+        console.error("No se proporcionó nombre del portafolio o usuario no autenticado.");
+        return alert("Por favor, ingrese el nombre del portafolio y asegúrese de estar autenticado.");
+    }
 
     try {
-        const userDocRef = doc(db, "users", user.uid);
+        console.log("Intentando crear portafolio...");
+        
+        // Referencia al documento del usuario en Firestore
+        const userDocRef = doc(db, "users", user.uid);  
+        console.log("Referencia al documento del usuario:", userDocRef);
+
         const userDoc = await getDoc(userDocRef);
+        console.log("Documento del usuario:", userDoc);
+
+        // Si el documento no existe, crearlo con una estructura básica
         const portfolios = userDoc.exists() ? userDoc.data().portfolios || [] : [];
+        console.log("Portafolios existentes:", portfolios);
 
         // Verificar duplicados
         if (portfolios.some(p => p.name.toLowerCase() === portfolioName.toLowerCase())) {
@@ -138,8 +150,12 @@ const createPortfolio = async () => {
 
         // Agregar nuevo portafolio
         portfolios.push({ name: portfolioName, artworks: [] });
-        
+        console.log("Portafolios actualizados:", portfolios);
+
+        // Guardar los cambios en Firestore
         await setDoc(userDocRef, { portfolios }, { merge: true });
+        console.log("Portafolio guardado con éxito.");
+
         alert("Portafolio creado con éxito.");
         
         // Recargar portafolio y cambiar a la pestaña de Obras
@@ -149,6 +165,7 @@ const createPortfolio = async () => {
         alert("Hubo un error al crear el portafolio. Por favor, intente nuevamente.");
     }
 };
+
 
 // Añadir una obra al portafolio
 const addArtwork = async () => {
@@ -165,9 +182,10 @@ const addArtwork = async () => {
 
     try {
         const photoUrl = await uploadBytes(
-            ref(storage, `portfolios/${user.uid}/${artworkPhoto.name}`), artworkPhoto
+            ref(storage, `portfolios/${user.uid}/${artworkPhoto.name}`), 
+            artworkPhoto
         ).then(snapshot => getDownloadURL(snapshot.ref));
-
+        
         const userDocRef = doc(db, "users", user.uid);
         const userDoc = await getDoc(userDocRef);
         const portfolios = userDoc.data().portfolios || [];

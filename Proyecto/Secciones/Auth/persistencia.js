@@ -113,7 +113,7 @@ const checkAuthState = () =>
     );
 
 // Redirigir si no hay sesión activa
-const requireAuth = async (loginPath = "/Proyecto/Secciones/Auth/login.html") => {
+const requireAuth = async (loginPath = "/Proyecto/index.html") => {
     try {
         return await checkAuthState();
     } catch {
@@ -137,18 +137,39 @@ const setupEventListeners = () => {
         registerWithGoogle();
     });
 
-    document.getElementById("login-btn")?.addEventListener("click", () => {
-        const email = document.getElementById("login-email")?.value;
-        const password = document.getElementById("login-password")?.value;
+    document.getElementById("login-btn")?.addEventListener("click", (e) => {
+        e.preventDefault(); // Evitar recargar la página
+        const email = document.getElementById("login-email")?.value?.trim();
+        const password = document.getElementById("login-password")?.value?.trim();
+
+        if (!email || !password) {
+            
+            return;
+        }
+
         loginWithEmail(email, password);
     });
 
-    document.getElementById("signup-btn")?.addEventListener("click", () => {
-        const email = document.getElementById("signup-email")?.value;
-        const password = document.getElementById("signup-password")?.value;
+    document.getElementById("signup-btn")?.addEventListener("click", (e) => {
+        e.preventDefault(); // Evitar recargar la página
+        const email = document.getElementById("signup-email")?.value?.trim();
+        const password = document.getElementById("signup-password")?.value?.trim();
+
+        if (!email || !password) {
+            alert("Por favor, completa todos los campos de registro.");
+            return;
+        }
+
         registerWithEmail(email, password);
     });
 };
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("DOM completamente cargado y parseado.");
+    console.log("Login email:", document.getElementById("login-email"));
+    console.log("Login password:", document.getElementById("login-password"));
+    console.log("Signup email:", document.getElementById("signup-email"));
+    console.log("Signup password:", document.getElementById("signup-password"));
+});
 
 // Configurar persistencia y eventos al cargar el archivo
 configurePersistence();

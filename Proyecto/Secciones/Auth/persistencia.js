@@ -163,13 +163,7 @@ const setupEventListeners = () => {
         registerWithEmail(email, password);
     });
 };
-document.addEventListener("DOMContentLoaded", () => {
-    console.log("DOM completamente cargado y parseado.");
-    console.log("Login email:", document.getElementById("login-email"));
-    console.log("Login password:", document.getElementById("login-password"));
-    console.log("Signup email:", document.getElementById("signup-email"));
-    console.log("Signup password:", document.getElementById("signup-password"));
-});
+
 
 // Configurar persistencia y eventos al cargar el archivo
 configurePersistence();

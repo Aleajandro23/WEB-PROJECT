@@ -178,3 +178,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initializePage();
   setupEventListeners();
 });
+
+function handleClick() {
+  window.open('https://www.linkedin.com', '_blank');  }

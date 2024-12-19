@@ -9,6 +9,8 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <script src="profile-info.js" type="module"></script>
   <script src="obras.js" type="module"></script>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css'>
+
 
 </head>
 
@@ -42,71 +44,78 @@
     <div class="slide-pro"></div>
     <div class="profile-section">
       <div class="profile-card">
+        <div class="edit-button">
+          <button>Editar</button>
+        </div>
+
         <div class="profile-header">
-          <div class="avatar-container">
-            <input type="file" id="profile-photo" accept="image/*" class="file-input">
-            <label for="profile-photo" class="avatar-label">
-              <div id="profile-avatar" class="avatar"></div>
-              <div class="avatar-overlay">
-                <i class="fas fa-camera"></i>
-              </div>
-            </label>
+          <div class="avatar">
+            <img src="Assets/land.jpg" alt="Profile Photo">
           </div>
-
-          <div class="profile-info">
-            <input type="text" id="full-name" placeholder="Nombre Completo" class="profile-input">
-            <input type="text" id="experience-area" placeholder="Área de Experiencia" class="profile-input">
+          <div class="profile-name">Ruben Cabrera</div>
+          <div class="profile-title">
+            Graphic / Brand Designer<br>
+            @thisisbyalex
+          </div>
+          <div class="profile-location">
+            OH, USA
           </div>
         </div>
-
-        <div class="location-section">
-          <div class="location-input">
-            <i class="fas fa-map-marker-alt"></i>
-            <input type="text" id="location" placeholder="Seleccionar Ubicación" readonly>
-            <button id="select-location" class="location-btn">
-              <i class="fas fa-map"></i>
-            </button>
-          </div>
-        </div>
-
-        <div class="hire-section">
-          <button id="hire-button" class="hire-btn">
-            Contrata a <span id="hire-name"></span>
-          </button>
-        </div>
-
-        <div class="social-links">
-          <input type="url" id="instagram" placeholder="URL Instagram" class="social-input">
-          <input type="url" id="linkedin" placeholder="URL LinkedIn" class="social-input">
-          <input type="url" id="facebook" placeholder="URL Facebook" class="social-input">
-        </div>
-
-        <div class="work-experience">
-          <h3>Experiencia Laboral</h3>
-          <div id="experience-container">
-            <div class="experience-item">
-              <input type="text" class="experience-input" placeholder="Ejemplo: Diseñador Gráfico - 2 años en MediaLab">
+        <div class="project-card" onclick="handleClick()">
+          <div class="project-info">
+            <div class="project-icon">
+              <i class="fab fa-linkedin"></i>
             </div>
-            <button id="add-experience" class="add-btn">
-              <i class="fas fa-plus"></i> Añadir Experiencia
-            </button>
+            <div class="project-text">
+              Trabajo por cuenta propia o proyecto
+              <div class="project-availability">Disponibilidad: Ahora</div>
+            </div>
+          </div>
+          <div class="project-arrow">›</div>
+        </div>
+
+        <script>
+          function handleClick() {
+              window.open('https://www.linkedin.com', '_blank'); // Abre el enlace en una nueva pestaña
+          }
+        </script>
+        <div class="social-links">
+          <h3 class="section-title">Redes Sociales</h3>
+          <a href="https://www.linkedin.com" class="social-link">
+            <i class="fab fa-linkedin"></i> Linkedin
+          </a>
+          <a href="https://www.instagram.com" class="social-link">
+            <i class="fab fa-instagram"></i> Instagram
+          </a>
+          <a href="https://twitter.com" class="social-link">
+            <i class="fab fa-twitter"></i> Twitter
+          </a>
+        </div>
+        <div class="work-experience">
+          <h3 class="section-title">Experiencia de Trabajo</h3>
+          <div class="experience-item">
+            <div class="job-title">Graphic Designer</div>
+            <div class="company-name">Unilever</div>
+          </div>
+          <div class="experience-item">
+            <div class="job-title">Graphic Designer</div>
+            <div class="company-name">Focus Services - El Salvador</div>
           </div>
         </div>
 
-        <div class="curriculum-section">
-          <label for="curriculum-upload" class="curriculum-label">
-            <i class="fas fa-file-pdf"></i> Subir Curriculum (PDF)
-            <input type="file" id="curriculum-upload" accept=".pdf" class="file-input">
-          </label>
+        <a href="#" class="cv-link">Ver currículum vitae completo</a>
+
+        <div class="bio">
+          <h3 class="section-title">Conoceme!</h3>
+          <p class="bio-text">
+            Hi there, this is Ruben!👋 I am a passionate graphic and brand designer. I specialize in creating colorful
+            and bold brands that truly stand out. From vibrant logos to eye-catching advertisements, I love to play with
+            colors and push the boundaries of traditional design. Let's work together!🚀
+          </p>
         </div>
 
-        <div class="description-section">
-          <textarea id="artist-description" placeholder="Descripción del artista" class="description-input"></textarea>
-        </div>
-
-        <div class="action-buttons">
-          <button id="save-profile" class="save-btn">Guardar Perfil</button>
-          <button id="cancel-edit" class="cancel-btn">Cancelar</button>
+        <div class="member-since">
+          Miembro desde 12 de noviembre de 2017
         </div>
       </div>
 
@@ -130,16 +139,16 @@
           <h3>Añadir Obra</h3>
           <label for="artwork-name">Nombre:</label>
           <input type="text" id="artwork-name" placeholder="Nombre de la obra" />
-      
+
           <label for="artwork-photo">Foto:</label>
           <input type="file" id="artwork-photo" />
-      
+
           <label for="artwork-place">Lugar:</label>
           <input type="text" id="artwork-place" placeholder="Lugar de creación" />
-    
+
           <label for="artwork-date">Fecha de creación:</label>
           <input type="date" id="artwork-date" />
-      
+
           <button id="add-artwork-btn">Añadir Obra</button>
         </div>
       </div>

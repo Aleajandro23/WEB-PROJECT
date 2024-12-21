@@ -51,20 +51,28 @@ const loadArtworks = async () => {
 
         // Grid de obras
         const artworksGrid = document.createElement('div');
+        artworksGrid.setAttribute('id', 'artworks-grid');
         artworksGrid.classList.add('projects');
 
         // Renderizar obras
-        artworks.forEach(({ name, photo, place, creationDate }) => {
+        artworks.forEach((artwork, index) => {
             const projectBox = document.createElement('div');
+            projectBox.setAttribute('id', `artwork-box-${index}`);
             projectBox.classList.add('project-box');
             projectBox.innerHTML = `
-                <h4 class="artwork-title">${name}</h4>
-                <div class="artwork-image-container">
-                    <img src="${photo}" alt="${name}" class="artwork-image">
+                <h4 id="artwork-title-${index}" class="artwork-title">${artwork.name}</h4>
+                <div id="artwork-image-container-${index}" class="artwork-image-container">
+                    <img src="${artwork.photo}" alt="${artwork.name}" class="artwork-image">
                 </div>
-                <div class="artwork-details">
-                    <p>Lugar: ${place}</p>
-                    <p>Fecha: ${creationDate}</p>
+                <div id="artwork-details-${index}" class="artwork-details">
+                    <p id="artwork-category-display-${index}">Categoría: ${artwork.category}</p>
+                    <p id="artwork-place-display-${index}">Lugar: ${artwork.place}</p>
+                    <p id="artwork-date-display-${index}">Fecha: ${artwork.creationDate}</p>
+                    <p id="artwork-dimensions-display-${index}">Dimensiones: ${artwork.dimensions || 'No especificado'}</p>
+                    <p id="artwork-material-display-${index}">Materiales: ${artwork.material || 'No especificado'}</p>
+                    <div id="artwork-description-display-${index}" class="artwork-description">
+                        ${artwork.description || 'Sin descripción'}
+                    </div>
                 </div>
             `;
             artworksGrid.appendChild(projectBox);
@@ -72,6 +80,7 @@ const loadArtworks = async () => {
 
         // Botón para añadir obra
         const addArtworkBox = document.createElement('div');
+        addArtworkBox.setAttribute('id', 'add-artwork-box');
         addArtworkBox.classList.add('project-box', 'add-project-box');
         addArtworkBox.innerHTML = '<i class="fas fa-plus"></i>';
         addArtworkBox.onclick = () => toggleVisibility(false, true);
@@ -94,36 +103,59 @@ const toggleVisibility = (showProjects, showAdd) => {
 
 // Añadir una obra
 const addArtwork = async () => {
-    const [artworkName, artworkPhoto, artworkPlace, artworkDate] = [
-        document.getElementById("artwork-name").value.trim(),
-        document.getElementById("artwork-photo").files[0],
-        document.getElementById("artwork-place").value.trim(),
-        document.getElementById("artwork-date").value
-    ];
     const user = auth.currentUser;
+    if (!user) return alert("Usuario no autenticado.");
 
-    if (![artworkName, artworkPhoto, artworkPlace, artworkDate, user].every(Boolean))
-        return alert("Por favor, complete todos los campos de la obra.");
+    const formFields = {
+        name: document.getElementById("artwork-name").value.trim(),
+        photo: document.getElementById("artwork-photo").files[0],
+        place: document.getElementById("artwork-place").value.trim(),
+        creationDate: document.getElementById("artwork-date").value,
+        category: document.getElementById("artwork-category").value,
+        description: document.getElementById("artwork-description").value.trim(),
+        dimensions: document.getElementById("artwork-dimensions").value.trim(),
+        material: document.getElementById("artwork-material").value.trim()
+    };
+
+    // Validar campos requeridos
+    if (!formFields.name || !formFields.photo || !formFields.place || !formFields.creationDate || !formFields.category) {
+        return alert("Por favor, complete todos los campos obligatorios.");
+    }
 
     try {
         const photoUrl = await uploadBytes(
-            ref(storage, `artworks/${user.uid}/${artworkPhoto.name}`), artworkPhoto
+            ref(storage, `artworks/${user.uid}/${formFields.photo.name}`), 
+            formFields.photo
         ).then(snapshot => getDownloadURL(snapshot.ref));
 
         const userDocRef = doc(db, "users", user.uid);
         const userDoc = await getDoc(userDocRef);
         const artworks = userDoc.exists() ? userDoc.data().artworks || [] : [];
 
-        // Agregar nueva obra
+        // Agregar nueva obra con todos los campos
         artworks.push({
-            name: artworkName,
+            name: formFields.name,
             photo: photoUrl,
-            place: artworkPlace,
-            creationDate: artworkDate
+            place: formFields.place,
+            creationDate: formFields.creationDate,
+            category: formFields.category,
+            description: formFields.description,
+            dimensions: formFields.dimensions,
+            material: formFields.material
         });
 
         await setDoc(userDocRef, { artworks }, { merge: true });
         alert("Obra añadida exitosamente.");
+        
+        // Limpiar formulario
+        document.getElementById("artwork-name").value = "";
+        document.getElementById("artwork-photo").value = "";
+        document.getElementById("artwork-place").value = "";
+        document.getElementById("artwork-date").value = "";
+        document.getElementById("artwork-category").selectedIndex = 0;
+        document.getElementById("artwork-description").value = "";
+        document.getElementById("artwork-dimensions").value = "";
+        document.getElementById("artwork-material").value = "";
         
         // Recargar obras y cambiar a la pestaña de Obras
         document.querySelector('.tab-button[data-tab="obras"]').click();

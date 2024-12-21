@@ -3,7 +3,6 @@ import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.17.2/f
 import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-storage.js";
 
 const projectsContainer = document.getElementById("projects-container");
-const createPortfolioDiv = document.getElementById("create-portfolio");
 const addArtworkDiv = document.getElementById("add-artwork");
 const tabButtons = document.querySelectorAll(".tab-button");
 
@@ -11,7 +10,6 @@ const tabButtons = document.querySelectorAll(".tab-button");
 const toggleTab = (activeTab) => {
     // Hide all tab contents
     projectsContainer.innerHTML = '';
-    createPortfolioDiv.style.display = 'none';
     addArtworkDiv.style.display = 'none';
 
     // Remove active class from all buttons
@@ -23,7 +21,7 @@ const toggleTab = (activeTab) => {
     // Handle different tabs
     switch(activeTab.dataset.tab) {
         case 'obras':
-            loadPortfolio();
+            loadArtworks();
             break;
         case 'servicios':
             projectsContainer.innerHTML = '<p>Servicios content coming soon...</p>';
@@ -39,118 +37,62 @@ tabButtons.forEach(button =>
     button.addEventListener('click', () => toggleTab(button))
 );
 
-// Cargar portafolio del usuario
-const loadPortfolio = async () => {
+// Cargar obras del usuario
+const loadArtworks = async () => {
     const user = auth.currentUser;
     if (!user) return console.error("Usuario no autenticado.");
 
     try {
         const userDoc = await getDoc(doc(db, "users", user.uid));
-        const portfolios = userDoc.exists() ? userDoc.data().portfolios || [] : [];
+        const artworks = userDoc.exists() ? userDoc.data().artworks || [] : [];
 
-        // Limpiar contenedores
+        // Limpiar contenedor
         projectsContainer.innerHTML = '';
 
-        // Renderizar cada portafolio como un grid separado
-        portfolios.forEach((portfolio, portfolioIndex) => {
-            // Crear contenedor para cada portafolio
-            const portfolioContainer = document.createElement('div');
-            portfolioContainer.classList.add('portfolio-container');
-            
-            // Nombre del portafolio
-            const portfolioName = document.createElement('h2');
-            portfolioName.classList.add('portfolio-name');
-            portfolioName.textContent = portfolio.name;
-            portfolioContainer.appendChild(portfolioName);
+        // Grid de obras
+        const artworksGrid = document.createElement('div');
+        artworksGrid.classList.add('projects');
 
-            // Grid de obras para este portafolio
-            const portfolioGrid = document.createElement('div');
-            portfolioGrid.classList.add('projects');
-
-            // Renderizar obras del portafolio
-            (portfolio.artworks || []).forEach(({ name, photo }) => {
-                const projectBox = document.createElement('div');
-                projectBox.classList.add('project-box');
-                projectBox.innerHTML = `
-                    <h4 class="artwork-title">${name}</h4>
-                    <div class="artwork-image-container">
-                        <img src="${photo}" alt="${name}" class="artwork-image">
-                    </div>
-                `;
-                portfolioGrid.appendChild(projectBox);
-            });
-
-            // Botón para añadir obra a este portafolio específico
-            const addArtworkBox = document.createElement('div');
-            addArtworkBox.classList.add('project-box', 'add-project-box');
-            addArtworkBox.innerHTML = '<i class="fas fa-plus"></i>';
-            addArtworkBox.onclick = () => {
-                // Establecer el índice del portafolio actual para la próxima obra
-                window.currentPortfolioIndex = portfolioIndex;
-                toggleVisibility(false, false, true);
-            };
-            portfolioGrid.appendChild(addArtworkBox);
-
-            portfolioContainer.appendChild(portfolioGrid);
-            projectsContainer.appendChild(portfolioContainer);
+        // Renderizar obras
+        artworks.forEach(({ name, photo, place, creationDate }) => {
+            const projectBox = document.createElement('div');
+            projectBox.classList.add('project-box');
+            projectBox.innerHTML = `
+                <h4 class="artwork-title">${name}</h4>
+                <div class="artwork-image-container">
+                    <img src="${photo}" alt="${name}" class="artwork-image">
+                </div>
+                <div class="artwork-details">
+                    <p>Lugar: ${place}</p>
+                    <p>Fecha: ${creationDate}</p>
+                </div>
+            `;
+            artworksGrid.appendChild(projectBox);
         });
 
-        // Botón para crear nuevo portafolio
-        const addPortfolioBox = document.createElement('div');
-        addPortfolioBox.classList.add('project-box', 'add-project-box');
-        addPortfolioBox.innerHTML = '<i class="fas fa-plus"></i>';
-        addPortfolioBox.onclick = () => toggleVisibility(false, true, false);
-        projectsContainer.appendChild(addPortfolioBox);
+        // Botón para añadir obra
+        const addArtworkBox = document.createElement('div');
+        addArtworkBox.classList.add('project-box', 'add-project-box');
+        addArtworkBox.innerHTML = '<i class="fas fa-plus"></i>';
+        addArtworkBox.onclick = () => toggleVisibility(false, true);
+        artworksGrid.appendChild(addArtworkBox);
 
-        // Mostrar/ocultar secciones
-        projectsContainer.style.display = portfolios.length > 0 ? "grid" : "none";
-        createPortfolioDiv.style.display = portfolios.length === 0 ? "block" : "none";
+        projectsContainer.appendChild(artworksGrid);
+        projectsContainer.style.display = "block";
+
     } catch (error) {
-        console.error("Error al cargar el portafolio: ", error);
-        toggleVisibility(false, true, false);
+        console.error("Error al cargar las obras: ", error);
+        toggleVisibility(false, true);
     }
 };
 
 // Mostrar u ocultar secciones
-const toggleVisibility = (showProjects, showCreate, showAdd) => {
-    projectsContainer.style.display = showProjects ? "grid" : "none";
-    createPortfolioDiv.style.display = showCreate ? "block" : "none";
+const toggleVisibility = (showProjects, showAdd) => {
+    projectsContainer.style.display = showProjects ? "block" : "none";
     addArtworkDiv.style.display = showAdd ? "block" : "none";
 };
 
-// Crear un nuevo portafolio
-const createPortfolio = async () => {
-    const portfolioName = document.getElementById("portfolio-name").value.trim();
-    const user = auth.currentUser;
-
-    if (!portfolioName || !user) return alert("Por favor, ingrese el nombre del portafolio y asegúrese de estar autenticado.");
-
-    try {
-        const userDocRef = doc(db, "users", user.uid);
-        const userDoc = await getDoc(userDocRef);
-        const portfolios = userDoc.exists() ? userDoc.data().portfolios || [] : [];
-
-        // Verificar duplicados
-        if (portfolios.some(p => p.name.toLowerCase() === portfolioName.toLowerCase())) {
-            alert("Ya existe un portafolio con este nombre.");
-            return;
-        }
-
-        // Agregar nuevo portafolio
-        portfolios.push({ name: portfolioName, artworks: [] });
-        
-        await setDoc(userDocRef, { portfolios }, { merge: true });
-        alert("Portafolio creado con éxito.");
-        
-        // Recargar portafolio y cambiar a la pestaña de Obras
-        document.querySelector('.tab-button[data-tab="obras"]').click();
-    } catch (error) {
-        console.error("Error al crear el portafolio:", error);
-        alert("Hubo un error al crear el portafolio. Por favor, intente nuevamente.");
-    }
-};
-
-// Añadir una obra al portafolio
+// Añadir una obra
 const addArtwork = async () => {
     const [artworkName, artworkPhoto, artworkPlace, artworkDate] = [
         document.getElementById("artwork-name").value.trim(),
@@ -165,28 +107,25 @@ const addArtwork = async () => {
 
     try {
         const photoUrl = await uploadBytes(
-            ref(storage, `portfolios/${user.uid}/${artworkPhoto.name}`), artworkPhoto
+            ref(storage, `artworks/${user.uid}/${artworkPhoto.name}`), artworkPhoto
         ).then(snapshot => getDownloadURL(snapshot.ref));
 
         const userDocRef = doc(db, "users", user.uid);
         const userDoc = await getDoc(userDocRef);
-        const portfolios = userDoc.data().portfolios || [];
+        const artworks = userDoc.exists() ? userDoc.data().artworks || [] : [];
 
-        // Obtener el portafolio actual (usando el índice guardado globalmente)
-        const currentPortfolioIndex = window.currentPortfolioIndex ?? (portfolios.length - 1);
-        const currentPortfolio = portfolios[currentPortfolioIndex];
+        // Agregar nueva obra
+        artworks.push({
+            name: artworkName,
+            photo: photoUrl,
+            place: artworkPlace,
+            creationDate: artworkDate
+        });
 
-        if (!currentPortfolio) return alert("Primero debe crear un portafolio.");
-
-        // Agregar obra al portafolio actual
-        currentPortfolio.artworks = [...(currentPortfolio.artworks || []), {
-            name: artworkName, photo: photoUrl, place: artworkPlace, creationDate: artworkDate
-        }];
-
-        await setDoc(userDocRef, { portfolios }, { merge: true });
+        await setDoc(userDocRef, { artworks }, { merge: true });
         alert("Obra añadida exitosamente.");
         
-        // Recargar portafolio y cambiar a la pestaña de Obras
+        // Recargar obras y cambiar a la pestaña de Obras
         document.querySelector('.tab-button[data-tab="obras"]').click();
     } catch (error) {
         console.error("Error al añadir la obra:", error);
@@ -195,17 +134,13 @@ const addArtwork = async () => {
 };
 
 // Eventos
-document.getElementById("create-portfolio-btn").addEventListener("click", createPortfolio);
 document.getElementById("add-artwork-btn").addEventListener("click", addArtwork);
 
-// Suponiendo que tienes el método getCurrentUserId que devuelve el ID del usuario actual
+// Inicialización
 auth.onAuthStateChanged(user => {
     if (user) {
-        const userId = getCurrentUserId(); // Obtiene el ID del usuario actual
-        load(userId); // Llama a la función load pasando el ID del usuario
-        createPortfolio(userId); // Llama a la función createPortfolio pasando el ID del usuario
-        document.querySelector('.tab-button[data-tab="obras"]').click(); // Hace clic en la pestaña de obras
+        document.querySelector('.tab-button[data-tab="obras"]').click();
     } else {
-        toggleVisibility(false, true, false); // Si no hay usuario autenticado, oculta elementos
+        toggleVisibility(false, true);
     }
 });

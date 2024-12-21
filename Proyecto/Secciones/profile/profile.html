@@ -9,6 +9,7 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <script src="profile-info.js" type="module"></script>
   <script src="obras.js" type="module"></script>
+  <script src="ubicacion.js" type="module"></script>
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css'>
 
 
@@ -76,7 +77,7 @@
 
         <script>
           function handleClick() {
-              window.open('https://www.linkedin.com', '_blank'); // Abre el enlace en una nueva pestaña
+            window.open('https://www.linkedin.com', '_blank'); // Abre el enlace en una nueva pestaña
           }
         </script>
         <div class="social-links">
@@ -129,30 +130,52 @@
         <div class="projects" id="projects-container">
           <div class="cont-o"></div>
         </div>
-        <div class="create-portfolio" id="create-portfolio" style="display: none;">
-          <h3>Crear un nuevo portafolio</h3>
-          <label for="portfolio-name">Nombre del portafolio:</label>
-          <input type="text" id="portfolio-name" placeholder="Ingrese el nombre del portafolio" />
-          <button id="create-portfolio-btn">Crear Portafolio</button>
-        </div>
         <div class="add-artwork" id="add-artwork" style="display: none;">
-          <h3>Añadir Obra</h3>
-          <label for="artwork-name">Nombre:</label>
-          <input type="text" id="artwork-name" placeholder="Nombre de la obra" />
-
-          <label for="artwork-photo">Foto:</label>
-          <input type="file" id="artwork-photo" />
-
-          <label for="artwork-place">Lugar:</label>
-          <input type="text" id="artwork-place" placeholder="Lugar de creación" />
-
-          <label for="artwork-date">Fecha de creación:</label>
-          <input type="date" id="artwork-date" />
-
-          <button id="add-artwork-btn">Añadir Obra</button>
+          <div class="form-container">
+            <h3>Añadir Obra</h3>
+        
+            <label for="artwork-name">Nombre:</label>
+            <input type="text" id="artwork-name" placeholder="Nombre de la obra" required />
+        
+            <label for="artwork-photo">Foto:</label>
+            <input type="file" id="artwork-photo" accept="image/*" required />
+        
+            <label for="artwork-place">Lugar:</label>
+            <input type="text" id="artwork-place" placeholder="Seleccionar lugar en el mapa" required />
+            <div id="map" style="height: 200px; margin-top: 10px; border: 1px solid #ccc; border-radius: 8px;"></div>
+        
+            <label for="artwork-date">Fecha de creación:</label>
+            <input type="date" id="artwork-date" required />
+        
+            <label for="artwork-category">Etiqueta:</label>
+            <select id="artwork-category">
+              <option value="Pintura">Pintura</option>
+              <option value="Dibujo">Dibujo</option>
+              <option value="Escultura">Escultura</option>
+              <option value="Fotografía">Fotografía</option>
+              <option value="Grabado">Grabado</option>
+              <option value="Diseño Gráfico">Diseño Gráfico</option>
+              <option value="Arte Urbano">Arte Urbano</option>
+              <option value="Cerámica">Cerámica</option>
+              <option value="Cine">Cine</option>
+            </select>
+        
+            <label for="artwork-description">Descripción:</label>
+            <textarea id="artwork-description" placeholder="Detalles generales sobre la obra" rows="4"></textarea>
+        
+            <label for="artwork-dimensions">Dimensiones:</label>
+            <input type="text" id="artwork-dimensions" placeholder="Ejemplo: 50x70 cm" />
+        
+            <label for="artwork-material">Materiales:</label>
+            <input type="text" id="artwork-material" placeholder="Materiales utilizados" />
+        
+            <button id="add-artwork-btn">Añadir Obra</button>
+          </div>
         </div>
       </div>
     </div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRreK2FH3XT0zmKPlTtxdvCafBvqF4JpA&callback=initMap" async defer></script>
+  </div>
   </div>
 
 </body>

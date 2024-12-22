@@ -1,183 +1,214 @@
-import { 
-  db, 
-  storage, 
-  requireAuth 
-} from '/Proyecto/Secciones/Auth/persistencia.js';
-import { 
-  doc, 
-  getDoc, 
-  setDoc 
-} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
-import { 
-  ref, 
-  uploadBytes, 
-  getDownloadURL 
-} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-storage.js";
+import { auth, db, storage } from '/Proyecto/Secciones/Auth/persistencia.js';
+import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
+import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-storage.js";
 
-// DOM Elements
-const domElements = {
-  profilePhotoInput: document.getElementById('profile-photo'),
-  profileAvatar: document.getElementById('profile-avatar'),
-  fullNameInput: document.getElementById('full-name'),
-  experienceAreaInput: document.getElementById('experience-area'),
-  instagramInput: document.getElementById('instagram'),
-  linkedinInput: document.getElementById('linkedin'),
-  facebookInput: document.getElementById('facebook'),
-  experienceContainer: document.getElementById('experience-container'),
-  addExperienceButton: document.getElementById('add-experience'),
-  artistDescriptionInput: document.getElementById('artist-description'),
-  saveProfileButton: document.getElementById('save-profile'),
-  cancelEditButton: document.getElementById('cancel-edit'),
-  hireName: document.getElementById('hire-name')
-};
+class ProfileManager {
+  constructor() {
+    this.modal = document.getElementById('profile-form-modal');
+    this.form = document.getElementById('profile-form');
+    this.currentUser = null;
+    this.init();
+  }
 
-let currentUser = null;
-let currentProfilePhotoUrl = null;
-
-// Cargar el perfil del usuario
-const loadUserProfile = async (userId) => {
-  try {
-      const userDocRef = doc(db, 'users', userId);
-      const userDoc = await getDoc(userDocRef);
-
-      if (userDoc.exists()) {
-          const userData = userDoc.data();
-
-          // Actualiza los campos del perfil con los datos del usuario
-          domElements.fullNameInput.value = userData.name || '';
-          domElements.experienceAreaInput.value = userData.profession || '';
-          domElements.artistDescriptionInput.value = userData.description || '';
-          domElements.instagramInput.value = userData.socialLinks?.instagram || '';
-          domElements.linkedinInput.value = userData.socialLinks?.linkedin || '';
-          domElements.facebookInput.value = userData.socialLinks?.facebook || '';
-          domElements.profileAvatar.style.backgroundImage = userData.avatar
-              ? `url(${userData.avatar})`
-              : 'url(/default-avatar.png)';
-
-          // Cargar experiencia previa
-          domElements.experienceContainer.innerHTML = ''; // Limpia las experiencias previas
-          userData.experience?.forEach((experience) => {
-              const experienceItem = document.createElement('div');
-              experienceItem.classList.add('experience-item');
-              experienceItem.innerHTML = `
-                  <input type="text" class="experience-input" value="${experience}" placeholder="Ejemplo: Diseñador Gráfico - 2 años en MediaLab">
-              `;
-              domElements.experienceContainer.appendChild(experienceItem);
-          });
+  init() {
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        this.currentUser = user;
+        this.loadProfile();
       } else {
-          console.warn("No se encontró el perfil del usuario.");
+        window.location.href = '/login.html';
       }
-  } catch (error) {
-      console.error("Error al cargar el perfil:", error);
+    });
+
+    this.setupEventListeners();
   }
-};
 
-// Subir avatar al almacenamiento
-const uploadAvatarFile = async (file) => {
-  if (!currentUser) return null;
-
-  try {
-      const filename = `${currentUser.uid}_${Date.now()}_${file.name}`;
-      const storageRef = ref(storage, `avatars/${filename}`);
-      const snapshot = await uploadBytes(storageRef, file);
-      return await getDownloadURL(snapshot.ref);
-  } catch (error) {
-      console.error("Error al subir la foto de perfil:", error);
-      alert("Error al subir la foto de perfil.");
-      return null;
-  }
-};
-
-// Guardar perfil
-const saveProfile = async () => {
-  if (!currentUser) return;
-
-  try {
-      const userDocRef = doc(db, 'users', currentUser.uid);
-
-      let avatarUrl = currentProfilePhotoUrl;
-      if (domElements.profilePhotoInput.files.length > 0) {
-          const uploadedAvatarUrl = await uploadAvatarFile(domElements.profilePhotoInput.files[0]);
-          avatarUrl = uploadedAvatarUrl || avatarUrl;
+  async loadProfile() {
+    try {
+      const userDoc = await getDoc(doc(db, 'users', this.currentUser.uid));
+      if (userDoc.exists()) {
+        this.displayUserData(userDoc.data());
+      } else {
+        this.showProfileForm();
       }
+    } catch (error) {
+      console.error('Error al cargar el perfil:', error);
+      alert('Error al cargar el perfil');
+    }
+  }
 
-      const experienceInputs = Array.from(
-          document.querySelectorAll('.experience-input')
-      ).map(input => input.value.trim()).filter(Boolean);
+  displayUserData({ profileImage, name, title, location, projectType, availability, socialLinks, experience, bio, memberSince }) {
+    // Actualizar los elementos existentes
+    document.getElementById('profile-image').src = profileImage || this.currentUser.photoURL || '';
+    document.getElementById('profile-name').textContent = name || this.currentUser.displayName || '';
+    document.getElementById('profile-title').textContent = title || '';
+    document.getElementById('profile-location').textContent = location || '';
+    document.getElementById('project-type').textContent = projectType || '';
+    document.getElementById('project-availability').textContent = `Disponibilidad: ${availability || ''}`;
+    document.getElementById('bio-text').textContent = bio || '';
 
-      const profileData = {
-          name: domElements.fullNameInput.value.trim(),
-          profession: domElements.experienceAreaInput.value.trim(),
-          description: domElements.artistDescriptionInput.value.trim(),
-          location: [0, 0],
-          socialLinks: {
-              facebook: domElements.facebookInput.value.trim() || "https://www.facebook.com/",
-              instagram: domElements.instagramInput.value.trim() || "https://www.instagram.com/",
-              linkedin: domElements.linkedinInput.value.trim() || "https://linkedin.com/"
-          },
-          experience: experienceInputs,
-          avatar: avatarUrl
+    // Actualizar redes sociales
+    const socialLinksContainer = document.getElementById('social-links');
+    socialLinksContainer.innerHTML = '<h3 class="section-title">Redes Sociales</h3>';
+    socialLinks && Object.entries(socialLinks).forEach(([network, url]) => {
+      if (url) {
+        socialLinksContainer.insertAdjacentHTML(
+          'beforeend',
+          `<a href="${url}" class="social-link">
+            <i class="fab fa-${network}"></i> ${network.charAt(0).toUpperCase() + network.slice(1)}
+          </a>`
+        );
+      }
+    });
+
+    // Actualizar experiencia laboral
+    const workExperienceContainer = document.getElementById('work-experience');
+    workExperienceContainer.innerHTML = '<h3 class="section-title">Experiencia de Trabajo</h3>';
+    experience?.forEach(({ jobTitle, companyName }) => {
+      workExperienceContainer.insertAdjacentHTML(
+        'beforeend',
+        `<div class="experience-item">
+          <div class="job-title">${jobTitle}</div>
+          <div class="company-name">${companyName}</div>
+        </div>`
+      );
+    });
+
+    // Actualizar fecha de membresía
+    const memberDate = new Date(memberSince || Date.now());
+    document.getElementById('member-since').textContent = `Miembro desde ${memberDate.toLocaleDateString('es-ES', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    })}`;
+  }
+
+  showProfileForm() {
+    // Pre-llenar el formulario si hay datos existentes
+    if (this.currentUser) {
+      getDoc(doc(db, 'users', this.currentUser.uid)).then(userDoc => {
+        if (userDoc.exists()) {
+          const data = userDoc.data();
+          document.getElementById('form-name').value = data.name || this.currentUser.displayName || '';
+          document.getElementById('form-title').value = data.title || '';
+          document.getElementById('form-location').value = data.location || '';
+          document.getElementById('form-project-type').value = data.projectType || '';
+          document.getElementById('form-availability').value = data.availability || '';
+          document.getElementById('form-bio').value = data.bio || '';
+          
+          // Pre-llenar redes sociales
+          Object.entries(data.socialLinks || {}).forEach(([network, url]) => {
+            document.getElementById(`form-${network}`).value = url;
+          });
+
+          // Pre-llenar experiencia
+          const container = document.getElementById('form-experience-container');
+          container.innerHTML = '';
+          data.experience?.forEach(({ jobTitle, companyName }) => {
+            container.insertAdjacentHTML(
+              'beforeend',
+              `<div class="experience-item">
+                <input type="text" class="job-title-input" value="${jobTitle}" placeholder="Título del puesto">
+                <input type="text" class="company-name-input" value="${companyName}" placeholder="Nombre de la empresa">
+                <button type="button" class="remove-experience">×</button>
+              </div>`
+            );
+          });
+          
+          // Configurar eventos para los botones de eliminar experiencia
+          container.querySelectorAll('.remove-experience').forEach(button => {
+            button.onclick = () => button.closest('.experience-item').remove();
+          });
+        }
+      });
+    }
+
+    this.modal.style.display = 'block';
+  }
+
+  async handleFormSubmit(event) {
+    event.preventDefault();
+
+    try {
+      const formData = { 
+        ...this.getFormData(), 
+        memberSince: this.currentUser?.memberSince || new Date().toISOString() 
       };
 
-      await setDoc(userDocRef, profileData, { merge: true });
-      currentProfilePhotoUrl = avatarUrl;
-      domElements.profileAvatar.style.backgroundImage = `url(${avatarUrl})`;
-
-      alert("Perfil guardado exitosamente.");
-  } catch (error) {
-      console.error("Error al guardar el perfil:", error);
-      alert("Error al guardar el perfil.");
-  }
-};
-
-// Configurar listeners de eventos
-const setupEventListeners = () => {
-  domElements.saveProfileButton.addEventListener('click', saveProfile);
-
-  domElements.cancelEditButton.addEventListener('click', () => {
-      currentUser && loadUserProfile(currentUser.uid);
-  });
-
-  domElements.profilePhotoInput.addEventListener('change', (event) => {
-      const file = event.target.files[0];
-      if (file) {
-          const reader = new FileReader();
-          reader.onload = (e) => {
-              domElements.profileAvatar.style.backgroundImage = `url(${e.target.result})`;
-          };
-          reader.readAsDataURL(file);
+      const imageFile = document.getElementById('form-profile-image').files[0];
+      if (imageFile) {
+        formData.profileImage = await this.uploadProfileImage(imageFile);
       }
-  });
 
-  domElements.addExperienceButton.addEventListener('click', () => {
-      const experienceItem = document.createElement('div');
-      experienceItem.classList.add('experience-item');
-      experienceItem.innerHTML = `
-          <input type="text" class="experience-input" placeholder="Ejemplo: Diseñador Gráfico - 2 años en MediaLab">
-      `;
-      domElements.experienceContainer.insertBefore(experienceItem, domElements.addExperienceButton);
-  });
-};
-
-// Inicializar la página con autenticación
-const initializePage = async () => {
-  try {
-      const user = await requireAuth();
-      if (user) {
-          currentUser = user;
-          await loadUserProfile(user.uid);
-      }
-  } catch (error) {
-      console.error("Error de autenticación:", error);
-      window.location.href = '/Proyecto/Secciones/Auth/login.html';
+      await setDoc(doc(db, 'users', this.currentUser.uid), formData);
+      this.modal.style.display = 'none';
+      this.loadProfile();
+    } catch (error) {
+      console.error('Error al guardar el perfil:', error);
+      alert('Error al guardar los datos');
+    }
   }
-};
 
-// Inicializar la página al cargar el DOM
-document.addEventListener('DOMContentLoaded', () => {
-  initializePage();
-  setupEventListeners();
-});
+  getFormData() {
+    const experience = Array.from(document.querySelectorAll('.experience-item'))
+      .map(item => ({
+        jobTitle: item.querySelector('.job-title-input').value,
+        companyName: item.querySelector('.company-name-input').value
+      }))
+      .filter(({ jobTitle, companyName }) => jobTitle && companyName);
 
-function handleClick() {
-  window.open('https://www.linkedin.com', '_blank');  }
+    return {
+      name: document.getElementById('form-name').value,
+      title: document.getElementById('form-title').value,
+      location: document.getElementById('form-location').value,
+      projectType: document.getElementById('form-project-type').value,
+      availability: document.getElementById('form-availability').value,
+      socialLinks: ['linkedin', 'instagram', 'twitter'].reduce((links, network) => {
+        const url = document.getElementById(`form-${network}`).value;
+        return url ? { ...links, [network]: url } : links;
+      }, {}),
+      experience,
+      bio: document.getElementById('form-bio').value
+    };
+  }
+
+  async uploadProfileImage(file) {
+    const storageRef = ref(storage, `profiles/profile_${this.currentUser.uid}_${Date.now()}_${file.name}`);
+    const snapshot = await uploadBytes(storageRef, file);
+    return await getDownloadURL(snapshot.ref);
+  }
+
+  setupEventListeners() {
+    // Botón de editar perfil
+    document.getElementById('edit-profile-btn')?.addEventListener('click', () => this.showProfileForm());
+    
+    // Botones del modal
+    document.querySelector('.close')?.addEventListener('click', () => this.modal.style.display = 'none');
+    window.addEventListener('click', ({ target }) => {
+      if (target === this.modal) {
+        this.modal.style.display = 'none';
+      }
+    });
+
+    // Botón de agregar experiencia
+    document.getElementById('add-experience-btn')?.addEventListener('click', () => {
+      const container = document.getElementById('form-experience-container');
+      container.insertAdjacentHTML(
+        'beforeend',
+        `<div class="experience-item">
+          <input type="text" class="job-title-input" placeholder="Título del puesto">
+          <input type="text" class="company-name-input" placeholder="Nombre de la empresa">
+          <button type="button" class="remove-experience">×</button>
+        </div>`
+      );
+      container.lastElementChild.querySelector('.remove-experience')
+        .addEventListener('click', () => container.lastElementChild.remove());
+    });
+
+    // Submit del formulario
+    this.form?.addEventListener('submit', e => this.handleFormSubmit(e));
+  }
+}
+
+// Inicializar cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', () => new ProfileManager());

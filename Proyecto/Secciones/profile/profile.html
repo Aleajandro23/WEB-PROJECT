@@ -5,118 +5,175 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Perfil</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Red+Rose:wght@331&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles-profile.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <script src="profile-info.js" type="module"></script>
   <script src="obras.js" type="module"></script>
   <script src="ubicacion.js" type="module"></script>
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css'>
+  <script src="https://cdn.tailwindcss.com"></script>
 
 
 </head>
 
 <body>
 
-  <div class="container">
+  <div class="containerr">
     <!-- Barra de navegación -->
-    <nav class="navbar">
-      <div class="logo">
-        <a href="/Proyecto/index.html">
-          <img src="Assets/Recurso1 copy.png" alt="">
+    <header class="bg-[#1B3046] flex items-center justify-between px-6 py-4 text-white">
+      <!-- Logo -->
+      <div class="flex items-center space-x-3">
+        <img src="Assets/Recurso 3.png" alt="Logo Arte Latino" class="h-10">
+      </div>
+
+      <!-- Navegación -->
+      <nav class="flex space-x-8 text-sm red-rose-custom">
+        <a href="#inicio" class="hover:underline">Inicio</a>
+        <a href="#servicios" class="hover:underline">Servicios</a>
+        <a href="#portafolios" class="hover:underline">Portafolios</a>
+      </nav>
+
+
+      <!-- Botones de acción -->
+      <div class="flex space-x-4 items-center">
+        <!-- Botón de Registrarse -->
+        <button id="signup-btn" class="px-4 py-2 border border-white rounded-full hover:bg-white hover:text-[#1B3046]"
+          onclick="window.location.href='Secciones/Auth/auth.html'">
+          Registrarse
+        </button>
+        <!-- Botón de Ingresar -->
+        <button id="login-btn" class="px-4 py-2 border border-white rounded-full hover:bg-white hover:text-[#1B3046]"
+          onclick="window.location.href='Secciones/Auth/auth.html'">
+          Ingresar
+        </button>
+
+        <!-- Foto de perfil (oculta por defecto) -->
+        <a href="/Proyecto/Secciones/profile/profile.html">
+          <img id="user-photo" class="hidden w-10 h-10 rounded-full" src="" alt="Foto de perfil">
         </a>
       </div>
-
-      <div class="flex space-x-2 items-center">
-        <div id="user-info" class="user-info">
-          <!-- Foto de usuario con borde redondeado -->
-          <img id="user-photo" class="user-photo w-10 h-10 rounded-full" alt="Foto de usuario" src=""
-            onclick="redirectToProfile()">
-
-          <!-- Ícono de menú de opciones (3 barras) -->
-          <div class="menu-icon">
-            <i class="fa-solid fa-bars"></i>
-          </div>
-        </div>
-      </div>
-
-    </nav>
+    </header>
 
     <!-- Contenido del perfil -->
     <div class="slide-pro"></div>
     <div class="profile-section">
-      <div class="profile-card">
+      <!-- El div principal con ID -->
+      <div class="profile-card" id="profile-card">
         <div class="edit-button">
-          <button class="edit-buttonn">Editar</button>
+          <button class="edit-buttonn" id="edit-profile-btn">Editar</button>
         </div>
 
         <div class="profile-header">
-          <div class="avatar">
-            <img src="Assets/land.jpg" alt="Profile Photo">
+          <div class="avatar" id="profile-avatar">
+            <img src="Assets/land.jpg" alt="Profile Photo" id="profile-image">
           </div>
-          <div class="profile-name">Ruben Cabrera</div>
-          <div class="profile-title">
-            Graphic / Brand Designer<br>
-            @thisisbyalex
-          </div>
-          <div class="profile-location">
-            OH, USA
-          </div>
+          <div class="profile-name" id="profile-name"></div>
+          <div class="profile-title" id="profile-title"></div>
+          <div class="profile-location" id="profile-location"></div>
         </div>
-        <div class="project-card" onclick="handleClick()">
+
+        <div class="project-card">
           <div class="project-info">
             <div class="project-icon">
               <i class="fab fa-linkedin"></i>
             </div>
             <div class="project-text">
-              Trabajo por cuenta propia o proyecto
-              <div class="project-availability">Disponibilidad: Ahora</div>
+              <div id="project-type"></div>
+              <div class="project-availability" id="project-availability"></div>
             </div>
           </div>
           <div class="project-arrow">›</div>
         </div>
 
-        <script>
-          function handleClick() {
-            window.open('https://www.linkedin.com', '_blank'); // Abre el enlace en una nueva pestaña
-          }
-        </script>
-        <div class="social-links">
+        <div class="social-links" id="social-links">
           <h3 class="section-title">Redes Sociales</h3>
-          <a href="https://www.linkedin.com" class="social-link">
-            <i class="fab fa-linkedin"></i> Linkedin
-          </a>
-          <a href="https://www.instagram.com" class="social-link">
-            <i class="fab fa-instagram"></i> Instagram
-          </a>
-          <a href="https://twitter.com" class="social-link">
-            <i class="fab fa-twitter"></i> Twitter
-          </a>
-        </div>
-        <div class="work-experience">
-          <h3 class="section-title">Experiencia de Trabajo</h3>
-          <div class="experience-item">
-            <div class="job-title">Graphic Designer</div>
-            <div class="company-name">Unilever</div>
-          </div>
-          <div class="experience-item">
-            <div class="job-title">Graphic Designer</div>
-            <div class="company-name">Focus Services - El Salvador</div>
-          </div>
+          <!-- Los enlaces se llenarán dinámicamente -->
         </div>
 
-        <a href="#" class="cv-link">Ver currículum vitae completo</a>
+        <div class="work-experience" id="work-experience">
+          <h3 class="section-title">Experiencia de Trabajo</h3>
+          <!-- Las experiencias se llenarán dinámicamente -->
+        </div>
+
+        <a href="#" class="cv-link" id="cv-link">Ver currículum vitae completo</a>
 
         <div class="bio">
           <h3 class="section-title">Conoceme!</h3>
-          <p class="bio-text">
-            Hi there, this is Ruben!👋 I am a passionate graphic and brand designer. I specialize in creating colorful
-            and bold brands that truly stand out. From vibrant logos to eye-catching advertisements, I love to play with
-            colors and push the boundaries of traditional design. Let's work together!🚀
-          </p>
+          <p class="bio-text" id="bio-text"></p>
         </div>
 
-        <div class="member-since">
-          Miembro desde 12 de noviembre de 2017
+        <div class="member-since" id="member-since"></div>
+      </div>
+
+      <!-- Formulario Modal -->
+      <div id="profile-form-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <h2>Completa tu Perfil</h2>
+          <form id="profile-form">
+            <div class="form-group">
+              <label for="form-profile-image">Foto de Perfil:</label>
+              <input type="file" id="form-profile-image" accept="image/*">
+            </div>
+
+            <div class="form-group">
+              <label for="form-name">Nombre:</label>
+              <input type="text" id="form-name" required>
+            </div>
+
+            <div class="form-group">
+              <label for="form-title">Título Profesional:</label>
+              <input type="text" id="form-title" required>
+            </div>
+
+            <div class="form-group">
+              <label for="form-location">Ubicación:</label>
+              <input type="text" id="form-location" required>
+            </div>
+
+            <div class="form-group">
+              <label for="form-project-type">Tipo de Proyecto:</label>
+              <input type="text" id="form-project-type" required>
+            </div>
+
+            <div class="form-group">
+              <label for="form-availability">Disponibilidad:</label>
+              <select id="form-availability" required>
+                <option value="Ahora">Ahora</option>
+                <option value="En una semana">En una semana</option>
+                <option value="En un mes">En un mes</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Redes Sociales:</label>
+              <input type="url" id="form-linkedin" placeholder="LinkedIn URL">
+              <input type="url" id="form-instagram" placeholder="Instagram URL">
+              <input type="url" id="form-twitter" placeholder="Twitter URL">
+            </div>
+
+            <div class="form-group">
+              <label>Experiencia Laboral:</label>
+              <div id="form-experience-container">
+                <div class="experience-item">
+                  <input type="text" class="job-title-input" placeholder="Título del puesto">
+                  <input type="text" class="company-name-input" placeholder="Nombre de la empresa">
+                  <button type="button" class="remove-experience">×</button>
+                </div>
+              </div>
+              <button type="button" id="add-experience-btn">+ Agregar Experiencia</button>
+            </div>
+
+            <div class="form-group">
+              <label for="form-bio">Biografía:</label>
+              <textarea id="form-bio" required></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">Guardar Perfil</button>
+          </form>
         </div>
       </div>
 
@@ -133,20 +190,20 @@
         <div class="add-artwork" id="add-artwork" style="display: none;">
           <div class="form-container">
             <h3>Añadir Obra</h3>
-        
+
             <label for="artwork-name">Nombre:</label>
             <input type="text" id="artwork-name" placeholder="Nombre de la obra" required />
-        
+
             <label for="artwork-photo">Foto:</label>
             <input type="file" id="artwork-photo" accept="image/*" required />
-        
+
             <label for="artwork-place">Lugar de creacion de la obra:</label>
             <input type="text" id="artwork-place" placeholder="Seleccionar lugar en el mapa" required />
             <div id="map" style="height: 200px; margin-top: 10px; border: 1px solid #ccc; border-radius: 8px;"></div>
-        
+
             <label for="artwork-date">Fecha de creación:</label>
             <input type="date" id="artwork-date" required />
-        
+
             <label for="artwork-category">Etiqueta:</label>
             <select id="artwork-category">
               <option value="Pintura">Pintura</option>
@@ -159,22 +216,23 @@
               <option value="Cerámica">Cerámica</option>
               <option value="Cine">Cine</option>
             </select>
-        
+
             <label for="artwork-description">Descripción:</label>
             <textarea id="artwork-description" placeholder="Detalles generales sobre la obra" rows="4"></textarea>
-        
+
             <label for="artwork-dimensions">Dimensiones:</label>
             <input type="text" id="artwork-dimensions" placeholder="Ejemplo: 50x70 cm" />
-        
+
             <label for="artwork-material">Materiales:</label>
             <input type="text" id="artwork-material" placeholder="Materiales utilizados" />
-        
+
             <button id="add-artwork-btn">Añadir Obra</button>
           </div>
         </div>
       </div>
     </div>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRreK2FH3XT0zmKPlTtxdvCafBvqF4JpA&callback=initMap" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRreK2FH3XT0zmKPlTtxdvCafBvqF4JpA&callback=initMap"
+      async defer></script>
   </div>
   </div>
 

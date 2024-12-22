@@ -82,7 +82,7 @@ const loadArtworks = async () => {
         const addArtworkBox = document.createElement('div');
         addArtworkBox.setAttribute('id', 'add-artwork-box');
         addArtworkBox.classList.add('project-box', 'add-project-box');
-        addArtworkBox.innerHTML = '<i class="fas fa-plus"></i>';
+        addArtworkBox.innerHTML = `<img src="Assets/icons/añadirobras.svg" alt="Añadir Obras" />`;
         addArtworkBox.onclick = () => toggleVisibility(false, true);
         artworksGrid.appendChild(addArtworkBox);
 

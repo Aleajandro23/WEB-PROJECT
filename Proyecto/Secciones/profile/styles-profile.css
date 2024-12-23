@@ -6,6 +6,8 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box; /* Evita desbordamientos por padding y bordes */
+  scrollbar-width: none;
+  
 }
 
 body, input {
@@ -13,6 +15,12 @@ body, input {
   height: 100%; /* Asegura que el body ocupe todo el alto */
   margin: 0; /* Elimina los márgenes por defecto */
   overflow-x: hidden; /* Evita que el contenido se desborde horizontalmente */
+  overflow-y: scroll; /* Permite desplazamiento vertical */
+  scrollbar-width: none; /* Oculta el scrollbar en Firefox */
+}
+
+body::-webkit-scrollbar {
+  display: none; /* Oculta el scrollbar en Chrome, Safari, Edge */
 }
 
 body {
@@ -106,7 +114,9 @@ body {
   border: 1px solid #ddd;
   border-radius: 26px;
   padding: 30px;
-  font-family: 'Arial', sans-serif;
+  font-family: 'Nunito Sans', sans-serif;
+  
+
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin-left: 20px;
   margin: -100px 20px 10px;
@@ -119,6 +129,7 @@ body {
   width: 100%;
   text-align: center;
   margin-bottom: 15px;
+  
 
 }
 
@@ -129,9 +140,10 @@ body {
   padding: 6px 16px;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 15px;
   align-items: center;
 }
+
 
 .profile-header {
   display: flex;
@@ -372,13 +384,7 @@ body {
   height: 100%;
 }
 
-.artwork-title {
-  padding: 10px;
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+
 
 .artwork-image-container {
   flex-grow: 1;
@@ -393,13 +399,12 @@ body {
   max-height: 100%;
   object-fit: cover;
 }
-
 .artwork-title {
   font-size: 24px;
   font-weight: bold;
-  color: #333;
+  color: #000000;
   text-align: left;
-  margin-bottom: 10px;
+  padding: 10px; /* Agrega 10px de padding en todos los lados */
 }
 
 /* Estilo para la imagen de la obra */
@@ -445,14 +450,7 @@ body {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.modal-content {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    border-radius: 8px;
-}
+
 
 .close-modal {
     color: #aaa;
@@ -489,13 +487,27 @@ body {
 }
 
 .tab-button {
-  background-color: #ffd700;
-  border: none;
+  background-color: #ffffff;
   padding: 10px 20px;
   cursor: pointer;
-  border-radius: 32px;
+  border-radius: 28px;
   font-weight: bold;
+  font-family: 'Arial', sans-serif; /* Cambia 'Arial' por la fuente que desees */
+  font-size: 14px; /* Ajusta el tamaño de la fuente según lo necesites */
+  color: black; /* Color de texto por defecto */
 }
+
+.tab-button:hover {
+  background-color: #FFB11E;
+  color: white; /* Cambia el color de fondo al hacer hover */
+}
+
+.tab-button.active {
+  background-color: #FFB11E; /* Cambia el color de fondo cuando está activo */
+  color: white; /* Cambia el color de la fuente a blanco cuando está activo */
+}
+
+
 
 
 .projects {
@@ -531,19 +543,7 @@ label {
   margin-bottom: 5px;
 }
 
-button {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 20px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
-}
 
-button:hover {
-  background-color: #1B3046;
-}
 
 @media (max-width: 480px) {
   .add-artwork {
@@ -579,7 +579,12 @@ button:hover {
   max-width: 600px;
   border-radius: 8px;
   max-height: 80vh;
-  overflow-y: auto;
+  overflow-y: scroll; /* Asegura que el contenido sea desplazable */
+  scrollbar-width: none; /* Oculta el scrollbar en Firefox */
+}
+
+.modal-content::-webkit-scrollbar {
+  display: none; /* Oculta el scrollbar en Chrome, Safari, Edge */
 }
 
 .close {

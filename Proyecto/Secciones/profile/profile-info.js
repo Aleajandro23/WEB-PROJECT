@@ -224,3 +224,14 @@ const initializeProfileManager = () => {
 
 // Inicializar cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', initializeProfileManager);
+const buttons = document.querySelectorAll('.tab-button');
+
+buttons.forEach(button => {
+  button.addEventListener('click', () => {
+    // Remover la clase 'active' de todos los botones
+    buttons.forEach(btn => btn.classList.remove('active'));
+    
+    // Agregar la clase 'active' al botón clicado
+    button.classList.add('active');
+  });
+});

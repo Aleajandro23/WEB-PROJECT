@@ -12,10 +12,15 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <script src="profile-info.js" type="module"></script>
   <script src="obras.js" type="module"></script>
+  <script src="auth.js" type="module"></script>
   <script src="ubicacion.js" type="module"></script>
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css'>
   <link rel="stylesheet" href="../../src/output.css">
-
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Rubik&display=swap"
+    rel="stylesheet">
 
 </head>
 
@@ -31,10 +36,11 @@
 
       <!-- Navegación -->
       <nav class="flex space-x-8 text-sm red-rose-custom">
-        <a href="#inicio" class="hover:underline">Inicio</a>
-        <a href="#servicios" class="hover:underline">Servicios</a>
-        <a href="#portafolios" class="hover:underline">Portafolios</a>
+        <a href="#Inicio" onclick="window.location.href='../../index.html'">Inicio</a>
+        <a href="#servicios" onclick="window.location.href='Secciones/servicios.html'">Servicios</a>
+        <a href="#portafolios" onclick="window.location.href='Secciones/portafolios.html'">Portafolios</a>
       </nav>
+      
 
 
       <!-- Botones de acción -->
@@ -55,6 +61,7 @@
           <img id="user-photo" class="hidden w-10 h-10 rounded-full" src="" alt="Foto de perfil">
         </a>
       </div>
+
     </header>
 
     <!-- Contenido del perfil -->
@@ -63,8 +70,11 @@
       <!-- El div principal con ID -->
       <div class="profile-card" id="profile-card">
         <div class="edit-button">
-          <button class="edit-buttonn" id="edit-profile-btn">Editar</button>
+          <button class="edit-buttonn" id="edit-profile-btn">
+            Editar <i class="fa-solid fa-pencil"></i>
+          </button>
         </div>
+
 
         <div class="profile-header">
           <div class="avatar" id="profile-avatar">

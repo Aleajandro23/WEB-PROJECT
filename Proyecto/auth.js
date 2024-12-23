@@ -1,5 +1,5 @@
-// Importar funciones desde persistencia.js
-import { requireAuth, onAuthChange } from '/Proyecto/Secciones/Auth/persistencia.js';
+
+
 
 /// Función para verificar si hay un usuario autenticado sin redirigir
 const optionalAuth = async () => {

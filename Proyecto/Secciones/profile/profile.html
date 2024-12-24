@@ -13,6 +13,7 @@
   <script src="profile-info.js" type="module"></script>
   <script src="obras.js" type="module"></script>
   <script src="auth.js" type="module"></script>
+  <script src="banner.js" type="module"></script>
   <script src="ubicacion.js" type="module"></script>
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css'>
   <link rel="stylesheet" href="../../src/output.css">
@@ -85,13 +86,13 @@
           <div class="profile-location" id="profile-location"></div>
         </div>
 
-        <div class="project-card">
+        <div class="project-card" id="whatsapp-button" style="cursor: pointer;">
           <div class="project-info">
             <div class="project-icon">
               <i class="fa-brands fa-whatsapp"></i>
             </div>
             <div class="project-text">
-              <div id="project-type"></div>
+              <div id="project-type">Contacto</div>
               <div class="project-availability" id="project-availability"></div>
             </div>
           </div>
@@ -145,9 +146,9 @@
             </div>
 
             <div class="form-group">
-              <label for="form-project-type">Tipo de Proyecto:</label>
-              <input type="text" id="form-project-type" required>
-            </div>
+              <label for="form-phone">Teléfono (con código de país, ej: +34612345678):</label>
+              <input type="tel" id="form-phone" name="phone" required>
+          </div>
 
             <div class="form-group">
               <label for="form-availability">Disponibilidad:</label>

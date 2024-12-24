@@ -2,47 +2,48 @@ import { auth, db, storage } from '/Proyecto/Secciones/Auth/persistencia.js';
 import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
 import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-storage.js";
 
-// Utilidades puras
-const safeGetElement = id => document.getElementById(id);
-const safeGetValue = id => safeGetElement(id)?.value || '';
-const safeTrim = str => str?.trim() || '';
-const safeQuerySelector = (element, selector) => element?.querySelector(selector);
-const safeQuerySelectorAll = (element, selector) => Array.from(element?.querySelectorAll(selector) || []);
+// Pure utility functions with pipeline operators
+const pipe = (...fns) => x => fns.reduce((v, f) => f(v), x);
+const safeGet = fn => x => x ? fn(x) : null;
+const safeGetElement = safeGet(id => document.getElementById(id));
+const safeGetValue = pipe(safeGetElement, el => el?.value?.trim() || '');
+const safeQuerySelector = selector => safeGet(el => el.querySelector(selector));
+const safeQuerySelectorAll = selector => el => Array.from(el?.querySelectorAll(selector) || []);
 
-// Funciones puras para manipulación de datos
+// Data transformation functions
 const createSocialLinks = networks => 
   networks.reduce((acc, network) => {
-    const url = safeTrim(safeGetValue(`form-${network}`));
+    const url = safeGetValue(`form-${network}`);
     return url ? { ...acc, [network]: url } : acc;
   }, {});
 
-const createExperienceItem = item => {
-  const titleInput = safeQuerySelector(item, '.job-title-input');
-  const companyInput = safeQuerySelector(item, '.company-name-input');
-  return titleInput && companyInput ? {
-    jobTitle: safeTrim(titleInput.value),
-    companyName: safeTrim(companyInput.value)
-  } : null;
-};
+const createExperienceItem = pipe(
+  item => ({
+    title: safeQuerySelector('.job-title-input')(item)?.value?.trim(),
+    company: safeQuerySelector('.company-name-input')(item)?.value?.trim()
+  }),
+  ({ title, company }) => title && company ? { jobTitle: title, companyName: company } : null
+);
 
-const getFormExperience = () => 
-  safeQuerySelectorAll(document, '.experience-item')
-    .map(createExperienceItem)
-    .filter(exp => exp?.jobTitle && exp?.companyName);
+const getFormExperience = pipe(
+  () => document,
+  safeQuerySelectorAll('.experience-item'),
+  items => items.map(createExperienceItem).filter(Boolean)
+);
 
 const createFormData = currentUser => ({
-  name: safeTrim(safeGetValue('form-name')),
-  title: safeTrim(safeGetValue('form-title')),
-  location: safeTrim(safeGetValue('form-location')),
-  projectType: safeTrim(safeGetValue('form-project-type')),
-  availability: safeTrim(safeGetValue('form-availability')),
-  bio: safeTrim(safeGetValue('form-bio')),
+  name: safeGetValue('form-name'),
+  title: safeGetValue('form-title'),
+  location: safeGetValue('form-location'),
+  phone: safeGetValue('form-phone'),
+  availability: safeGetValue('form-availability'),
+  bio: safeGetValue('form-bio'),
   socialLinks: createSocialLinks(['linkedin', 'instagram', 'twitter']),
   experience: getFormExperience(),
   memberSince: currentUser?.memberSince || new Date().toISOString()
 });
 
-// Funciones para manipular el DOM
+// Pure template functions
 const createExperienceHTML = ({ jobTitle = '', companyName = '' } = {}) => `
   <div class="experience-item">
     <input type="text" class="job-title-input" value="${jobTitle}" placeholder="Título del puesto">
@@ -57,20 +58,80 @@ const createSocialLinkHTML = (network, url) => `
   </a>
 `;
 
-// Manejadores de eventos puros
+// Event handlers as pure functions
 const handleModalClose = modal => () => modal.style.display = 'none';
-
 const handleWindowClick = modal => ({ target }) => 
   target === modal && (modal.style.display = 'none');
 
-const handleAddExperience = () => {
-  const container = safeGetElement('form-experience-container');
-  container && (container.insertAdjacentHTML('beforeend', createExperienceHTML()));
-};
+const handleAddExperience = container => () => 
+  container?.insertAdjacentHTML('beforeend', createExperienceHTML());
 
 const handleRemoveExperience = element => () => element.remove();
 
-// Función principal del Profile Manager
+// Firebase interactions as pure functions
+const uploadProfileImage = async (file, userId) => {
+  const storageRef = ref(storage, `profiles/profile_${userId}_${Date.now()}_${file.name}`);
+  const snapshot = await uploadBytes(storageRef, file);
+  return await getDownloadURL(snapshot.ref);
+};
+
+const displayUserData = (userData, currentUser) => {
+  const updateElement = (id, value) => 
+    safeGetElement(id) && (safeGetElement(id).textContent = value);
+
+  const updateImage = (id, src) =>
+    safeGetElement(id) && (safeGetElement(id).src = src);
+
+  updateImage('profile-image', userData.profileImage || currentUser?.photoURL || '');
+  updateElement('profile-name', userData.name || currentUser?.displayName || '');
+  updateElement('profile-title', userData.title || '');
+  updateElement('profile-location', userData.location || '');
+  updateElement('project-type', 'Contacto');
+  updateElement('project-availability', userData.availability || '');
+  updateElement('bio-text', userData.bio || '');
+
+  const whatsappButton = safeGetElement('whatsapp-button');
+  userData.phone && whatsappButton?.addEventListener('click', () => 
+    window.open(`https://wa.me/${userData.phone.replace(/\D/g, '')}`, '_blank'));
+
+  const updateContainer = (id, content) => {
+    const container = safeGetElement(id);
+    container && (container.innerHTML = content);
+  };
+
+  // Update social links
+  updateContainer('social-links',
+    '<h3 class="section-title">Redes Sociales</h3>' +
+    Object.entries(userData.socialLinks || {})
+      .filter(([, url]) => url)
+      .map(([network, url]) => createSocialLinkHTML(network, url))
+      .join('')
+  );
+
+  // Update experience
+  updateContainer('work-experience',
+    '<h3 class="section-title">Experiencia de Trabajo</h3>' +
+    (userData.experience || [])
+      .map(exp => `
+        <div class="experience-item">
+          <div class="job-title">${exp.jobTitle}</div>
+          <div class="company-name">${exp.companyName}</div>
+        </div>
+      `)
+      .join('')
+  );
+
+  // Update member since
+  const memberDate = new Date(userData.memberSince || Date.now());
+  updateElement('member-since', 
+    `Miembro desde ${memberDate.toLocaleDateString('es-ES', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    })}`
+  );
+};
+
 const initializeProfileManager = () => {
   const state = {
     modal: safeGetElement('profile-form-modal'),
@@ -78,65 +139,12 @@ const initializeProfileManager = () => {
     currentUser: null
   };
 
-  // Funciones asíncronas para interactuar con Firebase
-  const uploadProfileImage = async (file, userId) => {
-    const storageRef = ref(storage, `profiles/profile_${userId}_${Date.now()}_${file.name}`);
-    const snapshot = await uploadBytes(storageRef, file);
-    return await getDownloadURL(snapshot.ref);
-  };
-
-  const displayUserData = userData => {
-    const {
-      profileImage, name, title, location, projectType,
-      availability, socialLinks, experience, memberSince
-    } = userData;
-
-    // Actualizar elementos básicos
-    safeGetElement('profile-image').src = profileImage || state.currentUser?.photoURL || '';
-    safeGetElement('profile-name').textContent = name || state.currentUser?.displayName || '';
-    safeGetElement('profile-title').textContent = title || '';
-    safeGetElement('profile-location').textContent = location || '';
-    safeGetElement('project-type').textContent = projectType || '';
-    safeGetElement('project-availability').textContent = `Disponibilidad: ${availability || ''}`;
-    safeGetElement('bio-text').textContent = userData.bio || '';
-
-    // Actualizar redes sociales
-    const socialLinksContainer = safeGetElement('social-links');
-    socialLinksContainer && (socialLinksContainer.innerHTML = 
-      '<h3 class="section-title">Redes Sociales</h3>' +
-      Object.entries(socialLinks || {})
-        .filter(([, url]) => url)
-        .map(([network, url]) => createSocialLinkHTML(network, url))
-        .join('')
-    );
-
-    // Actualizar experiencia
-    const workExperienceContainer = safeGetElement('work-experience');
-    workExperienceContainer && (workExperienceContainer.innerHTML = 
-      '<h3 class="section-title">Experiencia de Trabajo</h3>' +
-      (experience || []).map(exp => `
-        <div class="experience-item">
-          <div class="job-title">${exp.jobTitle}</div>
-          <div class="company-name">${exp.companyName}</div>
-        </div>
-      `).join('')
-    );
-
-    // Actualizar fecha de membresía
-    const memberDate = new Date(memberSince || Date.now());
-    safeGetElement('member-since').textContent = `Miembro desde ${
-      memberDate.toLocaleDateString('es-ES', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric'
-      })
-    }`;
-  };
-
   const loadProfile = async () => {
     try {
       const userDoc = await getDoc(doc(db, 'users', state.currentUser.uid));
-      userDoc.exists() ? displayUserData(userDoc.data()) : showProfileForm();
+      userDoc.exists() 
+        ? displayUserData(userDoc.data(), state.currentUser)
+        : showProfileForm();
     } catch (error) {
       console.error('Error al cargar el perfil:', error);
       alert('Error al cargar el perfil');
@@ -148,24 +156,17 @@ const initializeProfileManager = () => {
 
     try {
       const userDoc = await getDoc(doc(db, 'users', state.currentUser.uid));
-      if (userDoc.exists()) {
-        const data = userDoc.data();
-        // Pre-llenar formulario
-        ['name', 'title', 'location', 'project-type', 'availability', 'bio'].forEach(field => 
-          safeGetElement(`form-${field}`).value = data[field] || ''
-        );
+      const data = userDoc.exists() ? userDoc.data() : {};
+      
+      ['name', 'title', 'location', 'phone', 'availability', 'bio']
+        .forEach(field => safeGetElement(`form-${field}`).value = data[field] || '');
 
-        // Pre-llenar redes sociales
-        Object.entries(data.socialLinks || {}).forEach(([network, url]) => 
-          safeGetElement(`form-${network}`).value = url || ''
-        );
+      Object.entries(data.socialLinks || {})
+        .forEach(([network, url]) => safeGetElement(`form-${network}`).value = url || '');
 
-        // Pre-llenar experiencia
-        const container = safeGetElement('form-experience-container');
-        container && (container.innerHTML = 
-          (data.experience || []).map(createExperienceHTML).join('')
-        );
-      }
+      const container = safeGetElement('form-experience-container');
+      container && (container.innerHTML = 
+        (data.experience || []).map(createExperienceHTML).join(''));
     } catch (error) {
       console.error('Error al cargar datos del formulario:', error);
     }
@@ -175,15 +176,23 @@ const initializeProfileManager = () => {
 
   const handleFormSubmit = async event => {
     event.preventDefault();
-    
     try {
+      const userDoc = await getDoc(doc(db, 'users', state.currentUser.uid));
+      const currentData = userDoc.exists() ? userDoc.data() : {};
       const formData = createFormData(state.currentUser);
       
-      const imageFile = safeGetElement('form-profile-image')?.files[0];
-      imageFile && (formData.profileImage = 
-        await uploadProfileImage(imageFile, state.currentUser.uid));
+      const updatedData = {
+        ...currentData,
+        ...formData,
+        ...(safeGetElement('form-profile-image')?.files[0] && {
+          profileImage: await uploadProfileImage(
+            safeGetElement('form-profile-image').files[0],
+            state.currentUser.uid
+          )
+        })
+      };
 
-      await setDoc(doc(db, 'users', state.currentUser.uid), formData);
+      await setDoc(doc(db, 'users', state.currentUser.uid), updatedData);
       state.modal.style.display = 'none';
       await loadProfile();
     } catch (error) {
@@ -192,28 +201,25 @@ const initializeProfileManager = () => {
     }
   };
 
-  // Inicialización y configuración de eventos
   const setupEventListeners = () => {
     safeGetElement('edit-profile-btn')?.addEventListener('click', showProfileForm);
-    safeGetElement('add-experience-btn')?.addEventListener('click', handleAddExperience);
+    safeGetElement('add-experience-btn')?.addEventListener('click', 
+      handleAddExperience(safeGetElement('form-experience-container')));
     state.form?.addEventListener('submit', handleFormSubmit);
     document.querySelector('.close')?.addEventListener('click', handleModalClose(state.modal));
     window.addEventListener('click', handleWindowClick(state.modal));
 
-    // Configurar eventos para remover experiencia
     const setupRemoveExperienceListeners = () => {
-      safeQuerySelectorAll(document, '.remove-experience').forEach(button => 
-        button.addEventListener('click', handleRemoveExperience(button.closest('.experience-item')))
-      );
+      safeQuerySelectorAll('.remove-experience')(document)
+        .forEach(button => button.addEventListener('click', 
+          handleRemoveExperience(button.closest('.experience-item'))));
     };
 
-    // Observador de mutaciones para mantener los listeners de experiencia actualizados
-    const observer = new MutationObserver(setupRemoveExperienceListeners);
     const experienceContainer = safeGetElement('form-experience-container');
-    experienceContainer && observer.observe(experienceContainer, { childList: true });
+    experienceContainer && new MutationObserver(setupRemoveExperienceListeners)
+      .observe(experienceContainer, { childList: true });
   };
 
-  // Inicializar autenticación
   auth.onAuthStateChanged(user => {
     state.currentUser = user;
     user ? loadProfile() : (window.location.href = '/login.html');
@@ -222,16 +228,13 @@ const initializeProfileManager = () => {
   setupEventListeners();
 };
 
-// Inicializar cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', initializeProfileManager);
-const buttons = document.querySelectorAll('.tab-button');
 
-buttons.forEach(button => {
+// Tab buttons
+document.querySelectorAll('.tab-button').forEach(button => {
   button.addEventListener('click', () => {
-    // Remover la clase 'active' de todos los botones
-    buttons.forEach(btn => btn.classList.remove('active'));
-    
-    // Agregar la clase 'active' al botón clicado
+    document.querySelectorAll('.tab-button')
+      .forEach(btn => btn.classList.remove('active'));
     button.classList.add('active');
   });
 });

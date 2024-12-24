@@ -115,8 +115,7 @@ body {
   border-radius: 26px;
   padding: 30px;
   font-family: 'Nunito Sans', sans-serif;
-  
-
+  z-index: 10;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin-left: 20px;
   margin: -100px 20px 10px;
@@ -339,9 +338,41 @@ body {
 
 
 .slide-pro {
+  position: relative;
   width: 100%;
-  height: 20vh;
-  background-image: url('Assets/land.jpg');
+  height: 20vh; /* Altura máxima fija */
+  background-color: #f5f5f5;
+  background-size: cover;
+  background-position: center;
+  transition: all 0.3s ease;
+}
+
+.edit-slide-button {
+  opacity: 0.9;
+}
+
+.edit-slide-button:hover {
+  opacity: 1;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Añade un efecto de overlay al hover para mejor visibilidad del botón */
+.slide-pro:hover::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.1);
+  pointer-events: none;
+}
+
+/* Asegura que el banner sea responsive */
+@media screen and (max-width: 768px) {
+  .slide-pro {
+    height: 300px; /* Altura reducida para móviles */
+  }
 }
 .profile-input, .profile-textarea, .social-input {
   width: 100%;

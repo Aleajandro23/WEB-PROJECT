@@ -111,7 +111,7 @@ body {
   width: 35vh;
   margin: auto;
   background-color: #ffffff87;
-  border: 1px solid #ddd;
+
   border-radius: 26px;
   padding: 30px;
   font-family: 'Nunito Sans', sans-serif;
@@ -469,33 +469,10 @@ body {
   font-size: 36px;
   color: #999;
 }
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 10;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.5);
-}
 
-
-
-.close-modal {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.close-modal:hover,
-.close-modal:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
+/* Profile image styles */
+#form-profile-image {
+  display: none;
 }
 
 .project-box {
@@ -589,80 +566,135 @@ label {
     font-size: 12px;
   }
 }
-
--------------------------
-.modal {
-  display: none;
+----------------------
+#profile-form-modal {
   position: fixed;
-  z-index: 1000;
-  left: 0;
   top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
 }
 
 .modal-content {
-  background-color: white;
-  margin: 5% auto;
-  padding: 20px;
-  width: 80%;
+  background: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
   max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 2rem;
   border-radius: 8px;
-  max-height: 80vh;
-  overflow-y: scroll; /* Asegura que el contenido sea desplazable */
-  scrollbar-width: none; /* Oculta el scrollbar en Firefox */
-}
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column; /* Apilar elementos verticalmente */
+  align-items: center; /* Centrar elementos horizontalmente */
 
-.modal-content::-webkit-scrollbar {
-  display: none; /* Oculta el scrollbar en Chrome, Safari, Edge */
-}
-
-.close {
-  float: right;
-  cursor: pointer;
-  font-size: 28px;
 }
 
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 1.5rem;
 }
 
-.form-group label {
+label {
   display: block;
-  margin-bottom: 5px;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 8px;
 }
 
-.form-group input,
-.form-group select,
-.form-group textarea {
+input[type="text"],
+input[type="tel"],
+input[type="url"],
+select,
+textarea {
   width: 100%;
-  padding: 8px;
-  border: 1px solid #ddd;
+  padding: 8px 12px;
+  border: 1px solid #e0e0e0;
   border-radius: 4px;
+  font-size: 14px;
+  background-color: white;
 }
+
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M2 4l4 4 4-4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+}
+.profile-image-container {
+  width: 150px; /* Ajusta el tamaño según lo que necesites */
+  height: 150px;
+  border-radius: 50%; /* Hace que el contenedor sea circular */
+  background-color: #ccc; /* Color de fondo por defecto */
+  background-size: cover; /* Asegura que la imagen ocupe todo el contenedor */
+  background-position: center; /* Centra la imagen */
+  background-repeat: no-repeat; /* Evita que la imagen se repita */
+  cursor: pointer; /* Cambia el cursor a una mano para indicar que es clickeable */
+  border: 2px solid #aaa; /* Opcional: agrega un borde */
+  transition: border-color 0.3s; /* Transición suave al interactuar */
+}
+
+.profile-image-container:hover {
+  border-color: #007bff; /* Cambia el color del borde al pasar el mouse */
+}
+
 
 .experience-item {
-  display: grid;
-  grid-template-columns: 1fr 1fr auto;
+  display: flex;
   gap: 10px;
   margin-bottom: 10px;
 }
 
+.experience-item input {
+  flex: 1;
+}
+
 .remove-experience {
-  background: #ff4444;
-  color: white;
+  background: none;
   border: none;
-  border-radius: 4px;
+  color: #666;
+  font-size: 20px;
+  padding: 0 5px;
   cursor: pointer;
 }
 
+#add-experience-btn {
+  background: none;
+  border: none;
+  color: #0d6efd;
+  padding: 0;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
 .submit-btn {
-  width: 100%;
-  padding: 10px;
-  background-color: #4CAF50;
+  background-color: #0d6efd;
   color: white;
   border: none;
+  padding: 8px 16px;
   border-radius: 4px;
   cursor: pointer;
+  float: center;
+
+  
+}
+
+.close {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
 }

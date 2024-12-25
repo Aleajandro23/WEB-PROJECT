@@ -1,12 +1,22 @@
 let map, marker;
 
+// Función para cargar la API de Google Maps dinámicamente
+function loadGoogleMapsAPI(callbackName) {
+  const script = document.createElement("script");
+  script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDRreK2FH3XT0zmKPlTtxdvCafBvqF4JpA&callback=${callbackName}&v=weekly`;
+  script.async = true;
+  script.defer = true;
+  document.head.appendChild(script);
+}
+
+// Inicializar el mapa
 async function initMap() {
   const { Map } = await google.maps.importLibrary("maps");
 
-  // Intentar obtener la ubicación del usuario
+  // Obtener la ubicación del usuario o una ubicación predeterminada
   const defaultLocation = await getUserLocation();
 
-  // Configuración inicial del mapa
+  // Configuración del mapa
   map = new Map(document.getElementById("map"), {
     center: defaultLocation,
     zoom: 8,
@@ -16,17 +26,17 @@ async function initMap() {
   marker = new google.maps.Marker({
     position: defaultLocation,
     map: map,
-    draggable: true, // Hacer que el marcador sea movible
+    draggable: true,
   });
 
-  // Actualizar el campo "Lugar" cuando se mueva el marcador
+  // Actualizar el campo de ubicación al mover el marcador
   marker.addListener("dragend", () => {
     const position = marker.getPosition();
     document.getElementById("artwork-place").value =
       position.lat().toFixed(6) + ", " + position.lng().toFixed(6);
   });
 
-  // Permitir al usuario seleccionar la ubicación haciendo clic en el mapa
+  // Permitir seleccionar una nueva ubicación haciendo clic en el mapa
   map.addListener("click", (event) => {
     marker.setPosition(event.latLng);
     document.getElementById("artwork-place").value =
@@ -36,7 +46,7 @@ async function initMap() {
 
 // Función para obtener la ubicación del usuario
 async function getUserLocation() {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -47,16 +57,15 @@ async function getUserLocation() {
           resolve(userLocation);
         },
         () => {
-          // Si no se puede obtener la ubicación del usuario, se usa Loja, Ecuador
           resolve({ lat: -3.9936, lng: -79.2043 }); // Coordenadas de Loja, Ecuador
         }
       );
     } else {
-      // Si la geolocalización no está disponible, se usa Loja, Ecuador
-      resolve({ lat: -3.9936, lng: -79.2043 });
+      resolve({ lat: -3.9936, lng: -79.2043 }); // Coordenadas de Loja, Ecuador
     }
   });
 }
 
-// Llamar a la inicialización del mapa
-initMap();
+// Cargar la API de Google Maps y luego inicializar el mapa
+loadGoogleMapsAPI("initMap");
+window.initMap = initMap;

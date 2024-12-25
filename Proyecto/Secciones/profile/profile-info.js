@@ -142,9 +142,18 @@ const initializeProfileManager = () => {
   const loadProfile = async () => {
     try {
       const userDoc = await getDoc(doc(db, 'users', state.currentUser.uid));
-      userDoc.exists() 
-        ? displayUserData(userDoc.data(), state.currentUser)
-        : showProfileForm();
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        displayUserData(userData, state.currentUser);
+        
+        // Actualizar la foto de perfil en el contenedor
+        const profileImageContainer = safeGetElement('profile-image-container');
+        if (profileImageContainer) {
+          profileImageContainer.style.backgroundImage = `url('${userData.profileImage || state.currentUser.photoURL || ''}')`;
+        }
+      } else {
+        showProfileForm();
+      }
     } catch (error) {
       console.error('Error al cargar el perfil:', error);
       alert('Error al cargar el perfil');
@@ -174,6 +183,34 @@ const initializeProfileManager = () => {
     state.modal.style.display = 'block';
   };
 
+  const handleProfileImageClick = () => {
+    const profileImageInput = safeGetElement('form-profile-image');
+    profileImageInput && profileImageInput.click();
+  };
+  const handleProfileImageChange = async event => {
+    const file = event.target.files[0];
+    if (file && state.currentUser) {
+      try {
+        const imageUrl = await uploadProfileImage(file, state.currentUser.uid);
+        
+        // Guardar la nueva imagen en Firestore
+        const userDoc = await getDoc(doc(db, 'users', state.currentUser.uid));
+        const currentData = userDoc.exists() ? userDoc.data() : {};
+        const updatedData = { ...currentData, profileImage: imageUrl };
+        await setDoc(doc(db, 'users', state.currentUser.uid), updatedData);
+
+        // Actualizar el contenedor con la nueva imagen
+        const profileImageContainer = safeGetElement('profile-image-container');
+        if (profileImageContainer) {
+          profileImageContainer.style.backgroundImage = `url('${imageUrl}')`;
+        }
+      } catch (error) {
+        console.error('Error al subir la imagen de perfil:', error);
+        alert('No se pudo subir la imagen. Inténtalo de nuevo.');
+      }
+    }
+  };
+
   const handleFormSubmit = async event => {
     event.preventDefault();
     try {
@@ -201,6 +238,7 @@ const initializeProfileManager = () => {
     }
   };
 
+
   const setupEventListeners = () => {
     safeGetElement('edit-profile-btn')?.addEventListener('click', showProfileForm);
     safeGetElement('add-experience-btn')?.addEventListener('click', 
@@ -208,6 +246,14 @@ const initializeProfileManager = () => {
     state.form?.addEventListener('submit', handleFormSubmit);
     document.querySelector('.close')?.addEventListener('click', handleModalClose(state.modal));
     window.addEventListener('click', handleWindowClick(state.modal));
+
+    // Configurar el clic en el contenedor de la imagen de perfil
+    const profileImageContainer = safeGetElement('profile-image-container');
+    profileImageContainer?.addEventListener('click', handleProfileImageClick);
+
+    // Escuchar cambios en el input de la imagen de perfil
+    const profileImageInput = safeGetElement('form-profile-image');
+    profileImageInput?.addEventListener('change', handleProfileImageChange);
 
     const setupRemoveExperienceListeners = () => {
       safeQuerySelectorAll('.remove-experience')(document)
@@ -238,3 +284,4 @@ document.querySelectorAll('.tab-button').forEach(button => {
     button.classList.add('active');
   });
 });
+

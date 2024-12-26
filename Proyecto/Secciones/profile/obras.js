@@ -62,8 +62,10 @@ const loadArtworks = async () => {
             projectBox.innerHTML = `
                 <h4 id="artwork-title-${index}" class="artwork-title">${artwork.name}</h4>
                 <div id="artwork-image-container-${index}" class="artwork-image-container">
-                    <img src="${artwork.photo}" alt="${artwork.name}" class="artwork-image">
+                    <!-- Usar artwork.photos[0] para mostrar solo la primera foto -->
+                    <img src="${artwork.photos && artwork.photos.length > 0 ? artwork.photos[0] : ''}" alt="${artwork.name}" class="artwork-image">
                 </div>
+                
                 <div id="artwork-details-${index}" class="artwork-details">
                     <p id="artwork-category-display-${index}">Categoría: ${artwork.category}</p>
                     <p id="artwork-place-display-${index}">Lugar: ${artwork.place}</p>
@@ -77,6 +79,7 @@ const loadArtworks = async () => {
             `;
             artworksGrid.appendChild(projectBox);
         });
+        
 
         // Botón para añadir obra
         const addArtworkBox = document.createElement('div');
@@ -108,7 +111,7 @@ const addArtwork = async () => {
 
     const formFields = {
         name: document.getElementById("artwork-name").value.trim(),
-        photo: document.getElementById("artwork-photo").files[0],
+        photos: document.getElementById("artwork-photo").files,  // Ahora es una colección de archivos
         place: document.getElementById("artwork-place").value.trim(),
         creationDate: document.getElementById("artwork-date").value,
         category: document.getElementById("artwork-category").value,
@@ -118,15 +121,19 @@ const addArtwork = async () => {
     };
 
     // Validar campos requeridos
-    if (!formFields.name || !formFields.photo || !formFields.place || !formFields.creationDate || !formFields.category) {
+    if (!formFields.name || formFields.photos.length === 0 || !formFields.place || !formFields.creationDate || !formFields.category) {
         return alert("Por favor, complete todos los campos obligatorios.");
     }
 
     try {
-        const photoUrl = await uploadBytes(
-            ref(storage, `artworks/${user.uid}/${formFields.photo.name}`), 
-            formFields.photo
-        ).then(snapshot => getDownloadURL(snapshot.ref));
+        // Subir todas las imágenes seleccionadas
+        const photoUrls = [];
+        for (const file of formFields.photos) {
+            const fileRef = ref(storage, `artworks/${user.uid}/${file.name}`);
+            const snapshot = await uploadBytes(fileRef, file);
+            const photoUrl = await getDownloadURL(snapshot.ref);
+            photoUrls.push(photoUrl);
+        }
 
         const userDocRef = doc(db, "users", user.uid);
         const userDoc = await getDoc(userDocRef);
@@ -135,7 +142,7 @@ const addArtwork = async () => {
         // Agregar nueva obra con todos los campos
         artworks.push({
             name: formFields.name,
-            photo: photoUrl,
+            photos: photoUrls,  // Usar un array de URLs de fotos
             place: formFields.place,
             creationDate: formFields.creationDate,
             category: formFields.category,

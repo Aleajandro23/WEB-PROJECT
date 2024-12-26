@@ -9,11 +9,15 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Red+Rose:wght@331&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles-profile.css">
+  <link rel="stylesheet" href="styles-pop.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <script src="profile-info.js" type="module"></script>
   <script src="obras.js" type="module"></script>
   <script src="auth.js" type="module"></script>
   <script src="banner.js" type="module"></script>
+  <script src="obras2.js" type="module"></script>
   <script src="ubicacion.js" type="module"></script>
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css'>
   <link rel="stylesheet" href="../../src/output.css">
@@ -200,7 +204,9 @@
           <button class="tab-button" data-tab="me-encanta">Me Encanta</button>
         </div>
         <div class="projects" id="projects-container">
-          <div class="cont-o"></div>
+          <div class="cont-o">
+            
+          </div>
         </div>
         <div class="add-artwork" id="add-artwork" style="display: none;">
           <div class="form-container">
@@ -210,7 +216,7 @@
             <input type="text" id="artwork-name" placeholder="Nombre de la obra" required />
 
             <label for="artwork-photo">Foto:</label>
-            <input type="file" id="artwork-photo" accept="image/*" required />
+            <input type="file" id="artwork-photo" accept="image/*" multiple required />
 
             <label for="artwork-place">Lugar de creacion de la obra:</label>
             <input type="text" id="artwork-place" placeholder="Seleccionar lugar en el mapa" required />
@@ -241,7 +247,10 @@
             <label for="artwork-material">Materiales:</label>
             <input type="text" id="artwork-material" placeholder="Materiales utilizados" />
 
-            <button id="add-artwork-btn">Añadir Obra</button>
+            <div class="button-container">
+              <button id="add-artwork-btn">Añadir Obra</button>
+          </div>
+          
           </div>
         </div>
       </div>

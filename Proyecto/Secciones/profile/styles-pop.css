@@ -1,0 +1,155 @@
+.modal-content {
+    max-width: 90vw;
+    width: 100%;
+    background: #fff;
+    border-radius: 15px;
+    overflow-y: auto;
+    max-height: 90vh;
+    position: relative;
+    margin: 20px;
+}
+
+.modal-header {
+    padding: 20px 20px 0 20px; /* Ajustado el padding */
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.profile-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.header-text {
+    flex-grow: 1;
+}
+
+.artwork-title {
+    font-size: 24px;
+    margin: 0;
+    color: #333;
+}
+
+.artist-name {
+    color: #666;
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.modal-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px 20px 0 20px; /* Ajustado el padding */
+    width: calc(100% - 40px); /* Asegura que el ancho tenga en cuenta el padding */
+}
+
+.gallery-image {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.gallery-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.artwork-details {
+    padding: 20px;
+    background: #f8f8f8;
+    margin: 20px 20px 20px 20px; /* Mantiene consistencia con otros elementos */
+    border-radius: 10px;
+    width: calc(100% - 40px); /* Asegura que el ancho tenga en cuenta el padding */
+}
+
+.details-item {
+    margin-bottom: 10px;
+    text-align: left; /* Asegura que el texto esté alineado a la izquierda */
+}
+
+.details-item strong {
+    color: #333;
+    margin-right: 5px;
+}
+
+#modal-close {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    width: 30px;
+    height: 30px;
+    background: #f0f0f0;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: #333;
+    z-index: 1002;
+}
+
+#modal-close:hover {
+    background: #e0e0e0;
+}
+
+#artwork-modal {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: flex-start;
+    align-items: flex-start;
+    z-index: 1001;
+    padding: 20px;
+}
+
+#artwork-modal.active {
+    display: flex;
+}
+
+#artwork-overlay {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    z-index: 1000;
+}
+
+#artwork-overlay.active {
+    display: block;
+}
+.artwork-details {
+    padding: 20px;
+    background: #f8f8f8;
+    margin: 20px 20px 10px 20px;
+    border-radius: 10px;
+    width: calc(100% - 40px);
+}
+
+.map-container {
+    margin: 0 20px 20px 20px;
+    width: calc(100% - 40px);
+    height: 300px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}

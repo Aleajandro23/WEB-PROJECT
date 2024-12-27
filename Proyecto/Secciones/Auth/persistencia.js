@@ -250,3 +250,37 @@ export {
     getCurrentUserId,
     logout
 };
+
+export async function obtenerObrasDeUsuarios() {
+    const db = getFirestore();  // Usar la instancia de Firestore de Firebase
+    const usuariosRef = db.collection('users');  // Asegúrate de que 'users' sea la colección correcta
+    const querySnapshot = await usuariosRef.get();
+    
+    let obras = [];
+
+    querySnapshot.forEach(doc => {
+        const usuario = doc.data();
+        console.log('Usuario:', usuario);  // Verifica la estructura de los datos de usuario
+
+        if (usuario.obras && Array.isArray(usuario.obras)) {
+            usuario.obras.forEach(obra => {
+                console.log('Obra:', obra);  // Verifica cada obra
+                obras.push({
+                    nombre: obra.nombre,
+                    imagen: obra.imagen,
+                    categoria: obra.categoria,
+                    ubicacion: obra.ubicacion,
+                    autor: {
+                        nombre: usuario.nombre,
+                        avatar: usuario.avatar
+                    }
+                });
+            });
+        }
+    });
+
+    console.log('Obras:', obras);  // Verifica el array de obras
+    return obras;
+}
+
+

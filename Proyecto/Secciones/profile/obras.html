@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obras - Arte Latino</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Red+Rose:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Red+Rose:wght@331&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles-profile.css">
+    <link rel="stylesheet" href="styles-pop.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="profile-info.js" type="module"></script>
+    <script src="obras.js" type="module"></script>  <!-- Este script debe manejar las obras -->
+    <script src="auth.js" type="module"></script>
+    <script src="banner.js" type="module"></script>
+    <script src="obras2.js" type="module"></script>
+    <script src="ubicacion.js" type="module"></script>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css'>
+    <link rel="stylesheet" href="../../src/output.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Rubik&display=swap"
+        rel="stylesheet">
+    <script src="/Proyecto/Secciones/Auth/persistencia.js" type="module"></script>
+    <script src="/Proyecto/Secciones/profile/VerObras.js" type="module"></script>
+
+</head>
+
+<body>
+
+  <div class="containerr">
+    <!-- Barra de navegación -->
+    <header class="bg-[#1B3046] flex items-center justify-between px-6 py-4 text-white">
+      <!-- Logo -->
+      <div class="flex items-center space-x-3">
+        <img src="Assets/Recurso 3.png" alt="Logo Arte Latino" class="h-10">
+      </div>
+
+      <!-- Navegación -->
+      <nav class="flex space-x-8 text-sm red-rose-custom">
+        <a href="#Inicio" onclick="window.location.href='../../home.html'">Inicio</a>
+        <a href="#obras" onclick="window.location.href='/Proyecto/Secciones/profile/obras.html'">Obras</a>
+        <a href="#servicios" onclick="window.location.href='Secciones/servicios.html'">Servicios</a>
+      </nav>
+
+      <!-- Botones de acción -->
+      <div class="flex space-x-4 items-center">
+        <!-- Botón de Registrarse -->
+        <button id="signup-btn" class="px-4 py-2 border border-white rounded-full hover:bg-white hover:text-[#1B3046]"
+          onclick="window.location.href='Secciones/Auth/auth.html'">
+          Registrarse
+        </button>
+        <!-- Botón de Ingresar -->
+        <button id="login-btn" class="px-4 py-2 border border-white rounded-full hover:bg-white hover:text-[#1B3046]"
+          onclick="window.location.href='Secciones/Auth/auth.html'">
+          Ingresar
+        </button>
+
+        <!-- Foto de perfil (oculta por defecto) -->
+        <a href="/Proyecto/Secciones/profile/profile.html">
+          <img id="user-photo" class="hidden w-10 h-10 rounded-full" src="" alt="Foto de perfil">
+        </a>
+      </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Filtros y búsqueda -->
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold text-[#1B3046] red-rose-custom">Obras</h1>
+            <div class="flex space-x-4">
+                <select class="px-4 py-2 border rounded-lg bg-white">
+                    <option>Todas las categorías</option>
+                    <option>Pintura</option>
+                    <option>Fotografía</option>
+                    <option>Escultura</option>
+                    <option>Digital</option>
+                </select>
+                <input 
+                    type="search" 
+                    placeholder="Buscar obras..." 
+                    class="px-4 py-2 border rounded-lg w-64"
+                >
+            </div>
+        </div>
+
+        <!-- Grid de obras -->
+        <div id="obras-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Las obras se agregarán aquí dinámicamente por el script -->
+        </div>
+        <!-- Galería de proyectos -->
+<div class="project-gallery">
+    <div class="tab">
+      <button class="tab-button active" data-tab="obras">Obras</button>
+    </div>
+    <div class="projects" id="projects-container">
+      <div class="cont-o">
+        <!-- Aquí se cargarán las obras -->
+      </div>
+    </div>
+    <div class="add-artwork" id="add-artwork" style="display: none;">
+      <div class="form-container">
+        <h3>Añadir Obra</h3>
+  
+        <label for="artwork-name">Nombre:</label>
+        <input type="text" id="artwork-name" placeholder="Nombre de la obra" required />
+  
+        <label for="artwork-photo">Foto:</label>
+        <input type="file" id="artwork-photo" accept="image/*" multiple required />
+  
+        <label for="artwork-place">Lugar de creacion de la obra:</label>
+        <input type="text" id="artwork-place" placeholder="Seleccionar lugar en el mapa" required />
+        <div id="map" style="height: 200px; margin-top: 10px; border: 1px solid #ccc; border-radius: 8px;"></div>
+  
+        <label for="artwork-date">Fecha de creación:</label>
+        <input type="date" id="artwork-date" required />
+  
+        <label for="artwork-category">Etiqueta:</label>
+        <select id="artwork-category">
+          <option value="Pintura">Pintura</option>
+          <option value="Dibujo">Dibujo</option>
+          <option value="Escultura">Escultura</option>
+          <option value="Fotografía">Fotografía</option>
+          <option value="Grabado">Grabado</option>
+          <option value="Diseño Gráfico">Diseño Gráfico</option>
+          <option value="Arte Urbano">Arte Urbano</option>
+          <option value="Cerámica">Cerámica</option>
+          <option value="Cine">Cine</option>
+        </select>
+  
+        <label for="artwork-description">Descripción:</label>
+        <textarea id="artwork-description" placeholder="Detalles generales sobre la obra" rows="4"></textarea>
+  
+        <label for="artwork-dimensions">Dimensiones:</label>
+        <input type="text" id="artwork-dimensions" placeholder="Ejemplo: 50x70 cm" />
+  
+        <label for="artwork-material">Materiales:</label>
+        <input type="text" id="artwork-material" placeholder="Materiales utilizados" />
+  
+        <div class="button-container">
+          <button id="add-artwork-btn">Añadir Obra</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+        <!-- Paginación -->
+        <div class="mt-8 flex justify-center space-x-2">
+            <button class="px-4 py-2 border rounded-lg hover:bg-gray-100">Anterior</button>
+            <button class="px-4 py-2 bg-[#1B3046] text-white rounded-lg">1</button>
+            <button class="px-4 py-2 border rounded-lg hover:bg-gray-100">2</button>
+            <button class="px-4 py-2 border rounded-lg hover:bg-gray-100">3</button>
+            <button class="px-4 py-2 border rounded-lg hover:bg-gray-100">Siguiente</button>
+        </div>
+
+        
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#1B3046] text-white py-8 mt-16">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Arte Latino</h4>
+                    <p class="text-sm">Conectando artistas latinos con el mundo</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Enlaces</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-sm hover:text-gray-300">Sobre nosotros</a></li>
+                        <li><a href="#" class="text-sm hover:text-gray-300">Contacto</a></li>
+                        <li><a href="#" class="text-sm hover:text-gray-300">Términos y condiciones</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Síguenos</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="hover:text-gray-300"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="hover:text-gray-300"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="hover:text-gray-300"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

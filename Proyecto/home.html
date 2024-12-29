@@ -5,32 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Arte Latino</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="auth.js" type="module"></script>
   </head>
   <body class="bg-gray-900 text-white">
-    <!-- Header -->
-    <header class="bg-gray-800">
-      <div class="container mx-auto flex justify-between items-center p-4">
-        <div class="text-2xl font-bold">ARTE LATINO</div>
-        <nav class="space-x-6">
-          <a href="#" class="hover:text-gray-400">Inicio</a>
-          <a href="#" class="hover:text-gray-400">Obras</a>
-          <a href="#" class="hover:text-gray-400">Servicios</a>
-        </nav>
-        <div class="space-x-2">
-          <button 
-            class="border px-4 py-2 rounded hover:bg-gray-700" 
-            onclick="window.location.href='/Proyecto/Secciones/Auth/auth.html';">
-            Registrarse
-          </button>
-          <button 
-            class="bg-gray-700 px-4 py-2 rounded" 
-            onclick="window.location.href='/Proyecto/Secciones/Auth/auth.html';">
-            Ingresar
-          </button>
-        </div>
-        
+     <!-- Barra de navegación -->
+     <header class="bg-[#1B3046] flex items-center justify-between px-6 py-4 text-white">
+      <!-- Logo -->
+      <div class="flex items-center space-x-3">
+          <img src="Assets/Recurso 3.png" alt="Logo Arte Latino" class="h-10">
       </div>
-    </header>
+
+      <!-- Navegación -->
+    <nav class="flex space-x-8 text-sm red-rose-custom">
+      <a href="#Inicio" onclick="window.location.href='../../home.html'">Inicio</a>
+      <a href="#obras" onclick="window.location.href='/Proyecto/obras.html'">Obras</a>
+      <a href="#servicios" onclick="window.location.href='Secciones/servicios.html'">Servicios</a>
+    </nav>
+
+      <!-- Botones de acción -->
+      <div class="flex space-x-4 items-center">
+          <!-- Botón de Registrarse -->
+          <button 
+              id="signup-btn" 
+              class="px-4 py-2 border border-white rounded-full hover:bg-white hover:text-[#1B3046]" 
+              onclick="window.location.href='Secciones/Auth/auth.html'">
+              Registrarse
+          </button>
+          <!-- Botón de Ingresar -->
+          <button 
+              id="login-btn" 
+              class="px-4 py-2 border border-white rounded-full hover:bg-white hover:text-[#1B3046]" 
+              onclick="window.location.href='Secciones/Auth/auth.html'">
+              Ingresar
+          </button>
+
+          <!-- Foto de perfil (oculta por defecto) -->
+          <a href="/Proyecto/Secciones/profile/profile.html">
+              <img id="user-photo" class="hidden w-10 h-10 rounded-full" src="" alt="Foto de perfil">
+          </a>
+      </div>
+  </header>
 
     <!-- Hero Section -->
     <section

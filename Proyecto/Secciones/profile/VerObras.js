@@ -1,66 +1,55 @@
-import { obtenerObrasDeUsuarios } from './persistencia.js'; 
+import { auth, db } from '/Proyecto/Secciones/Auth/persistencia.js'; 
 
-document.addEventListener("DOMContentLoaded", async () => {
-    try {
-        const obras = await obtenerObrasDeUsuarios();
-        const obrasGrid = document.getElementById("obras-grid");
-
-        if (obras.length === 0) {
-            obrasGrid.innerHTML = "<p>No hay obras disponibles.</p>";
-            return;
-        }
-
-        // Creamos un fragmento de documento para agregar todas las obras
-        const fragment = document.createDocumentFragment();
-
-        obras.forEach(obra => {
-            const obraElement = document.createElement('div');
-            obraElement.classList.add('bg-white', 'rounded-lg', 'shadow-md', 'overflow-hidden', 'hover:shadow-xl', 'transition-shadow');
-            
-            // Creamos el HTML para cada obra
-            obraElement.innerHTML = `
-                <div class="relative">
-                    <div class="aspect-w-4 aspect-h-3">
-                        <img src="${obra.imagen}" alt="${obra.nombre}" class="object-cover w-full h-64">
-                    </div>
-                    <div class="absolute top-4 right-4">
-                        <button class="bg-white p-2 rounded-full shadow-md hover:bg-gray-100">
-                            <i class="fas fa-heart text-gray-400 hover:text-red-500"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="p-4">
-                    <h3 class="text-xl font-semibold mb-2">${obra.nombre}</h3>
-                    <div class="flex items-center space-x-2 mb-2">
-                        <img src="${obra.autor.avatar}" alt="Autor" class="w-8 h-8 rounded-full">
-                        <span class="text-sm text-gray-600">${obra.autor.nombre}</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-sm text-gray-500">${obra.categoria}</span>
-                        <span class="text-sm text-gray-500">${obra.ubicacion}</span>
-                    </div>
-                </div>
-            `;
-            
-            // Agregamos la obra al fragmento
-            fragment.appendChild(obraElement);
-        });
-
-        // Una vez creado todo el contenido, lo insertamos en el DOM
-        obrasGrid.appendChild(fragment);
-    } catch (error) {
-        console.error("Error al obtener las obras: ", error);
-        alert("Hubo un problema al cargar las obras.");
+// Función para verificar si el usuario está logueado
+const checkUserAuth = async () => {
+    const user = auth.currentUser;
+    if (!user) {
+        console.log('Usuario no logueado');
+        return null;
     }
-});
+    return user;
+}
 
-document.addEventListener("DOMContentLoaded", () => {
-    const obraButton = document.getElementById("obras-grid");
-    if (obraButton) {
-        obraButton.addEventListener("click", () => {
-            console.log("Obra seleccionada");
-        });
-    } else {
-        console.error("No se encontró el contenedor de obras");
+// Función para obtener los datos del usuario (nombre y foto de perfil)
+const getUserData = async (userId) => {
+    const userRef = db.collection('users').doc(userId);
+    const userDoc = await userRef.get();
+    if (userDoc.exists) {
+        return userDoc.data();
     }
-});
+    return null;
+}
+
+// Función para obtener las obras del usuario
+const getArtworks = async () => {
+    const user = await checkUserAuth();
+    if (!user) return;
+
+    // Obtener los datos del usuario
+    const userData = await getUserData(user.uid);
+    if (!userData) {
+        console.log('No se pudo obtener los datos del usuario');
+        return;
+    }
+
+    // Ahora que tenemos los datos del usuario, obtener las obras
+    const artworksRef = db.collection('artworks');
+    const snapshot = await artworksRef.get();
+    const artworks = snapshot.docs.map(doc => doc.data());
+
+    // Muestra las obras y los datos del usuario
+    artworks.forEach(artwork => {
+        console.log('Obra:', artwork.name);
+        console.log('Descripción:', artwork.description);
+        console.log('Foto:', artwork.photo);
+        console.log('Lugar:', artwork.place);
+        console.log('Categoría:', artwork.category);
+        
+        // Mostrar los datos del usuario en la obra
+        console.log('Artista:', userData.name);
+        console.log('Foto del artista:', userData.profileImage);
+    });
+}
+
+// Llamar la función para obtener las obras
+getArtworks();

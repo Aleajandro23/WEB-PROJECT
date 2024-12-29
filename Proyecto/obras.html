@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obras
+    </title>
+    <link rel="stylesheet" href="styleOb.css">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css'>
+    <link rel="stylesheet" href="../../src/output.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/Proyecto/Secciones/profile/auth.js" type="module"></script>
+    <script src="/Proyecto/Secciones/profile/banner.js" type="module"></script>
+    <script src="/Proyecto/Secciones/Auth/persistencia.js" type="module"></script>
+</head>
+
+<body>
+    <div class="containerr">
+        <!-- Barra de navegación -->
+        <header class="bg-[#1B3046] flex items-center justify-between px-6 py-4 text-white">
+            <!-- Logo -->
+            <div class="flex items-center space-x-3">
+                <img src="Assets/Recurso 3.png" alt="Logo Arte Latino" class="h-10">
+            </div>
+
+            <!-- Navegación -->
+            <nav class="flex space-x-8 text-sm red-rose-custom">
+                <a href="#Inicio" onclick="window.location.href='../../home.html'" class="hover:border-b-2 hover:border-white">Inicio</a>
+                <a href="#obras" onclick="window.location.href='/Proyecto/Secciones/profile/obras.html'" class="border-b-2 border-white">Obras</a>
+                <a href="#servicios" onclick="window.location.href='Secciones/servicios.html'" class="hover:border-b-2 hover:border-white">Servicios</a>
+            </nav>
+              
+
+            <!-- Botones de acción -->
+            <div class="flex space-x-4 items-center">
+                <!-- Botón de Registrarse -->
+                <button id="signup-btn"
+                    class="px-4 py-2 border border-white rounded-full hover:bg-white hover:text-[#1B3046]"
+                    onclick="window.location.href='Secciones/Auth/auth.html'">
+                    Registrarse
+                </button>
+                <!-- Botón de Ingresar -->
+                <button id="login-btn"
+                    class="px-4 py-2 border border-white rounded-full hover:bg-white hover:text-[#1B3046]"
+                    onclick="window.location.href='Secciones/Auth/auth.html'">
+                    Ingresar
+                </button>
+
+                <!-- Foto de perfil (oculta por defecto) -->
+                <a href="/Proyecto/Secciones/profile/obras.html">
+                    <img id="user-photo" class="hidden w-10 h-10 rounded-full" src="" alt="Foto de perfil">
+                </a>
+            </div>
+        </header>
+
+        <!-- slider -->
+
+        <div class="slider">
+            <!-- list Items -->
+            <div class="list">
+                <div class="item active">
+                    <img src="image/img1.png">
+                    <div class="content">
+                        <p>Obras</p>
+                        <h2>Explora</h2>
+                        <p>
+                            Explora una selección única de obras que capturan la creatividad, la pasión y la visión de
+                            artistas excepcionales. Cada pieza cuenta una historia y refleja el estilo único de su
+                            creador. Sumérgete en el arte que transforma ideas en emociones y deja que cada obra te
+                            inspire.
+                        </p>
+                    </div>
+                </div>
+                <div class="item">
+                    <img src="image/img3.jpg">
+                    <div class="content">
+                        <p>Arte</p>
+                        <h2>Expresión Creativa</h2>
+                        <p>
+                            Una expresión única de creatividad que transmite emociones, reflejando el alma del artista y
+                            su visión personal en cada obra.
+                        </p>
+                    </div>
+                </div>
+                <div class="item">
+                    <img src="image/diseñographico.png">
+                    <div class="content">
+                        <p>Diseño Gráfico</p>
+                        <h2>Innovación Visual</h2>
+                        <p>
+                            Diseños innovadores que transforman ideas abstractas en visuales impactantes, comunicando
+                            mensajes claros y efectivos con estilo único y creativo.
+                        </p>
+                    </div>
+                </div>
+                <div class="item">
+                    <img src="image/img4.jpg">
+                    <div class="content">
+                        <p>Fotografía</p>
+                        <h2>Mejores Momentos</h2>
+                        <p>
+                            Capturar momentos en imágenes, preservando emociones y detalles que narran historias
+                            visuales a través del lente del fotógrafo.
+                        </p>
+                    </div>
+                </div>
+                <div class="item">
+                    <img src="image/img5.jpg">
+                    <div class="content">
+                        <p>Cerámica</p>
+                        <h2>Arte en Tres Dimensiones</h2>
+                        <p>
+                            La cerámica fusiona técnica y creatividad, donde cada pieza refleja la delicadeza del
+                            trabajo manual y la expresión artística.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- button arrows -->
+            <div class="arrows">
+                <button id="prev">
+                    < </button>
+                        <button id="next">></button>
+            </div>
+            <!-- thumbnail -->
+            <div class="thumbnail">
+                <div class="item active">
+                    <img src="image/img1.png">
+                    <div class="content">
+                        Explora
+                    </div>
+                </div>
+                <div class="item">
+                    <img src="image/img3.jpg">
+                    <div class="content">
+                        Arte
+                    </div>
+                </div>
+                <div class="item">
+                    <img src="image/diseñographico.png">
+                    <div class="content">
+                        Diseño Gráfico
+                    </div>
+                </div>
+                <div class="item">
+                    <img src="image/img4.jpg">
+                    <div class="content">
+                        Fotografía
+                    </div>
+                </div>
+                <div class="item">
+                    <img src="image/img5.jpg">
+                    <div class="content">
+                        Cerámica
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Contenido principal -->
+        <main class="container mx-auto px-4 py-8">
+           <!-- Filtros y búsqueda -->
+<div class="flex flex-col sm:flex-row justify-between items-center mb-8">
+    <h1 class="text-3xl sm:text-5xl font-bold text-[#fffff] red-rose-custom">Obras</h1>
+    <div class="flex space-x-4 mt-4 sm:mt-0">
+        <select class="px-6 py-2 border rounded-lg" style="background-color: #1B3046;">
+            <option>Todas las categorías</option>
+            <option>Pintura</option>
+            <option>Fotografía</option>
+            <option>Escultura</option>
+            <option>Digital</option>
+        </select>
+        <input type="search" placeholder="Buscar obras..." class="px-4 py-2 border rounded-lg w-64 text-[#1B3046]">
+    </div>
+</div>
+
+
+            <!-- Grid de obras -->
+            <div id="obras-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Las obras se agregarán aquí dinámicamente por el script -->
+            </div>
+
+
+
+            <!-- Paginación -->
+            <div class="mt-8 flex justify-center space-x-2">
+                <button class="px-4 py-2 border rounded-lg hover:bg-gray-100">Anterior</button>
+                <button class="px-4 py-2 bg-[#1B3046] text-white rounded-lg">1</button>
+                <button class="px-4 py-2 border rounded-lg hover:bg-gray-100">2</button>
+                <button class="px-4 py-2 border rounded-lg hover:bg-gray-100">3</button>
+                <button class="px-4 py-2 border rounded-lg hover:bg-gray-100">Siguiente</button>
+            </div>
+
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-[#1B3046] text-white py-8 mt-16">
+            <div class="container mx-auto px-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div>
+                        <h4 class="text-lg font-semibold mb-4">Arte Latino</h4>
+                        <p class="text-sm">Conectando artistas latinos con el mundo</p>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-semibold mb-4">Enlaces</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-sm hover:text-gray-300">Sobre nosotros</a></li>
+                            <li><a href="#" class="text-sm hover:text-gray-300">Contacto</a></li>
+                            <li><a href="#" class="text-sm hover:text-gray-300">Términos y condiciones</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-semibold mb-4">Síguenos</h4>
+                        <div class="flex space-x-4">
+                            <a href="#" class="hover:text-gray-300"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="hover:text-gray-300"><i class="fab fa-facebook"></i></a>
+                            <a href="#" class="hover:text-gray-300"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <script src="animaOb.js"></script>
+</body>
+
+</html>

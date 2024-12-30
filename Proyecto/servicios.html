@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Servicios - Arte Latino</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  
+  <!-- Tu archivo CSS externo -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-[#F5F5F5]">
+
+    <!-- Encabezado -->
+    <header class="bg-[#1B3046] flex items-center justify-between px-6 py-4 text-white">
+        <!-- Logo -->
+        <div class="flex items-center space-x-3">
+            <img src="Assets/Recurso 3.png" alt="Logo Arte Latino" class="h-10">
+        </div>
+
+        <!-- Navegación -->
+        <nav class="flex space-x-8 text-sm red-rose-custom">
+            <a href="#Inicio" onclick="window.location.href='index.html'">Inicio</a>
+            <a href="#obras" onclick="window.location.href='obras.html'">Obras</a>
+            <a href="#servicios" onclick="window.location.href='servicios.html'">Servicios</a>
+        </nav>
+
+        <!-- Botones -->
+        <div class="flex space-x-4 items-center">
+            <button 
+                class="px-4 py-2 border border-white rounded-full hover:bg-white hover:text-[#1B3046]"
+                onclick="window.location.href='Secciones/Auth/auth.html'">
+                Registrarse
+            </button>
+            <button 
+                class="px-4 py-2 border border-white rounded-full hover:bg-white hover:text-[#1B3046]"
+                onclick="window.location.href='Secciones/Auth/auth.html'">
+                Ingresar
+            </button>
+        </div>
+    </header>
+
+    <!-- Sección con Imagen y Texto alineado a la izquierda -->
+    <section class="relative w-screen h-screen bg-[#F5F5F5] flex items-center overflow-hidden">
+        <!-- Imagen de fondo -->
+        <div class="absolute inset-0">
+            <img 
+                src="Assets/mainservice.png" 
+                alt="Servicios Principales" 
+                class="w-full h-full object-cover"
+            >
+        </div>
+
+        <!-- Contenedor del texto -->
+        <div class="absolute top-0 left-0 z-10 w-full max-w-[600px] p-8 lg:p-16 text-left">
+            <h2 class="text-6xl md:text-5xl font-bold text-white leading-tight">
+                Descubre lo mejor que te ofrecen nuestros artistas, <br>
+                llévate contigo no solo la obra, ¡sino la experiencia!
+            </h2>
+        </div>
+    </section>
+
+    <!-- Contenedor con fondo #60A0D6 para las tres secciones -->
+    <div class="bg-[#60A0D6]">
+
+        <!-- Edición & Diseño -->
+        <div class="flex justify-center items-center min-h-screen bg-white">
+            <section class="py-8 bg-[#D6A060] w-full max-w-7xl mx-auto">
+                <h2 class="text-3xl font-bold text-gray-800 mb-8 ml-6">Edición & Diseño</h2>
+                <div class="grid grid-cols-3 gap-6 justify-items-center">
+                    <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
+                        <img
+                          src="Assets/Edición & Diseño 1.png"
+                          alt="Diseño Gráfico"
+                          class="w-full h-full object-cover"
+                        />
+                    </div>
+                    <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
+                        <img
+                          src="Assets/Edición & Diseño 2.png"
+                          alt="Diseño Gráfico"
+                          class="w-full h-full object-cover"
+                        />
+                    </div>
+                    <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
+                        <img
+                          src="Assets/Edición & Diseño 3.png"
+                          alt="Diseño Gráfico"
+                          class="w-full h-full object-cover"
+                        />
+                    </div>
+                    <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
+                        <img
+                          src="Assets/Edición & Diseño 4.png"
+                          alt="Diseño Gráfico"
+                          class="w-full h-full object-cover"
+                        />
+                    </div>
+                    <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
+                        <img
+                          src="Assets/Edición & Diseño 5.png"
+                          alt="Diseño Gráfico"
+                          class="w-full h-full object-cover"
+                        />
+                    </div>
+                    <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
+                        <img
+                          src="Assets/Edición & Diseño 6.png"
+                          alt="Diseño Gráfico"
+                          class="w-full h-full object-cover"
+                        />
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Ropa & Accesorios -->
+        <div class="flex justify-center items-center min-h-screen bg-white">
+            <section class="py-8 bg-[#D6A060] w-full max-w-7xl mx-auto">
+                <h2 class="text-3xl font-bold text-gray-800 mb-8 ml-6">Ropa & Accesorios</h2>
+                <div class="grid grid-cols-3 gap-6 justify-items-center">
+                    <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
+                        <img
+                          src="Assets/Edición & Diseño 1.png"
+                          alt="Diseño Gráfico"
+                          class="w-full h-full object-cover"
+                        />
+                    </div>
+                    <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
+                        <img
+                          src="Assets/Edición & Diseño 2.png"
+                          alt="Diseño Gráfico"
+                          class="w-full h-full object-cover"
+                        />
+                    </div>
+                    <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
+                        <img
+                          src="Assets/Edición & Diseño 3.png"
+                          alt="Diseño Gráfico"
+                          class="w-full h-full object-cover"
+                        />
+                    </div>
+                    <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
+                        <img
+                          src="Assets/Edición & Diseño 4.png"
+                          alt="Diseño Gráfico"
+                          class="w-full h-full object-cover"
+                        />
+                    </div>
+                    <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
+                        <img
+                          src="Assets/Edición & Diseño 5.png"
+                          alt="Diseño Gráfico"
+                          class="w-full h-full object-cover"
+                        />
+                    </div>
+                    <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
+                        <img
+                          src="Assets/Edición & Diseño 6.png"
+                          alt="Diseño Gráfico"
+                          class="w-full h-full object-cover"
+                        />
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Pintura & Escultura -->
+        <div class="flex justify-center items-center min-h-screen bg-white">
+            <section class="py-8 bg-[#D6A060] w-full max-w-7xl mx-auto">
+                <h2 class="text-3xl font-bold text-gray-800 mb-8 ml-6">Pintura & Escultura</h2>
+                <div class="grid grid-cols-3 gap-6 justify-items-center">
+                    <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
+                        <img
+                          src="Assets/Edición & Diseño 1.png"
+                          alt="Diseño Gráfico"
+                          class="w-full h-full object-cover"
+                        />
+                    </div>
+                    <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
+                        <img
+                          src="Assets/Edición & Diseño 2.png"
+                          alt="Diseño Gráfico"
+                          class="w-full h-full object-cover"
+                        />
+                    </div>
+                    <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
+                        <img
+                          src="Assets/Edición & Diseño 3.png"
+                          alt="Diseño Gráfico"
+                          class="w-full h-full object-cover"
+                        />
+                    </div>
+                    <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
+                        <img
+                          src="Assets/Edición & Diseño 4.png"
+                          alt="Diseño Gráfico"
+                          class="w-full h-full object-cover"
+                        />
+                    </div>
+                    <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
+                        <img
+                          src="Assets/Edición & Diseño 5.png"
+                          alt="Diseño Gráfico"
+                          class="w-full h-full object-cover"
+                        />
+                    </div>
+                    <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
+                        <img
+                          src="Assets/Edición & Diseño 6.png"
+                          alt="Diseño Gráfico"
+                          class="w-full h-full object-cover"
+                        />
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div> <!-- Fin del contenedor con bg-[#60A0D6] -->
+
+    <!-- Contenedor del Carrusel -->
+    <div id="carousel" class="relative overflow-hidden mx-auto cursor-pointer">
+        <!-- Carrusel Wrapper -->
+        <div id="carousel-wrapper" class="flex">
+            <!-- Imágenes Originales -->
+            <img src="Assets/carrusel1.png" alt="Imagen 1" class="flex-shrink-0">
+            <img src="Assets/carrusel2.png" alt="Imagen 2" class="flex-shrink-0">
+            <img src="Assets/carrusel3.png" alt="Imagen 3" class="flex-shrink-0">
+            <img src="Assets/carrusel4.png" alt="Imagen 4" class="flex-shrink-0">
+            <!-- Imágenes Duplicadas para Efecto Infinito -->
+            <img src="Assets/carrusel1.png" alt="Imagen 1" class="flex-shrink-0">
+            <img src="Assets/carrusel2.png" alt="Imagen 2" class="flex-shrink-0">
+            <img src="Assets/carrusel3.png" alt="Imagen 3" class="flex-shrink-0">
+            <img src="Assets/carrusel4.png" alt="Imagen 4" class="flex-shrink-0">
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        const carouselWrapper = document.getElementById("carousel-wrapper");
+        const carousel = document.getElementById("carousel");
+        const images = document.querySelectorAll("#carousel-wrapper img");
+        let currentIndex = 0;
+        let imageWidth = images[0].offsetWidth; // Ancho dinámico basado en la imagen
+
+        // Recalcular ancho de imagen al redimensionar
+        window.addEventListener("resize", () => {
+            imageWidth = images[0].offsetWidth;
+        });
+
+        // Función para mover el carrusel
+        function startCarousel() {
+            setInterval(() => {
+                currentIndex++;
+                carouselWrapper.style.transition = "transform 0.8s linear";
+                carouselWrapper.style.transform = `translateX(-${imageWidth * currentIndex}px)`;
+
+                // Reiniciar al llegar a la mitad (efecto infinito)
+                if (currentIndex >= images.length / 2) {
+                    setTimeout(() => {
+                        carouselWrapper.style.transition = "none";
+                        currentIndex = 0;
+                        carouselWrapper.style.transform = `translateX(0)`;
+                    }, 800); 
+                }
+            }, 2000); // Mover cada 2 segundos
+        }
+
+        // Llamamos a la función para iniciar el carrusel automáticamente
+        startCarousel();
+    </script>
+
+    <!-- Pie de página -->
+    <footer class="bg-[#1B3046] text-white py-10">
+        <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-3 gap-8">
+            <!-- Logo y Descripción -->
+            <div>
+                <img src="Assets/Recurso 3.png" alt="Logo Arte Latino" class="h-12 mb-4">
+                <p class="text-sm leading-relaxed">
+                    Unirse a nosotros no solo potenciará tu marca, sino que también te permitirá ofrecer más servicios y aumentar tus ventas.
+                </p>
+                <p class="text-sm mt-4">&copy; 2024</p>
+            </div>
+
+            <!-- Servicios -->
+            <div class="text-white">
+                <h3 class="text-lg font-bold text-[#F6973F]">Servicios</h3>
+                <ul class="mt-4 space-y-2">
+                    <li><a href="#" class="hover:underline">Email Marketing</a></li>
+                    <li><a href="#" class="hover:underline">Campaigns</a></li>
+                    <li><a href="#" class="hover:underline">Branding</a></li>
+                </ul>
+            </div>
+
+            <!-- Redes Sociales -->
+            <div>
+                <h3 class="text-lg font-bold text-[#F6973F]">Síguenos</h3>
+                <ul class="mt-4 space-y-2">
+                    <li>
+                        <a href="https://facebook.com" target="_blank" class="flex items-center space-x-2 hover:underline">
+                            <span>Facebook</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://twitter.com" target="_blank" class="flex items-center space-x-2 hover:underline">
+                            <span>Twitter</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://instagram.com" target="_blank" class="flex items-center space-x-2 hover:underline">
+                            <span>Instagram</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Términos y Condiciones -->
+        <div class="border-t border-gray-600 mt-8 pt-4 text-center text-sm text-gray-400">
+            <a href="#" class="hover:underline">Terms & Conditions</a> | 
+            <a href="#" class="hover:underline">Privacy Policy</a>
+        </div>
+    </footer>
+</body>
+</html>

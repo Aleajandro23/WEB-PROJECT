@@ -1,0 +1,38 @@
+/* 
+   Este archivo reemplaza las etiquetas <style> que antes estaban en el HTML 
+*/
+
+/* Global */
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Evita el desbordamiento horizontal */
+  }
+  
+  /* Ajustes para la sección con imagen de fondo */
+  .absolute.inset-0 img {
+    width: 100vw;         /* Asegura que la imagen cubra el ancho de la ventana */
+    height: 100vh;        /* Asegura que la imagen cubra la altura de la ventana */
+    object-fit: cover;    /* Mantiene la proporción de la imagen */
+    overflow: hidden;     /* Evita el desbordamiento */
+  }
+  
+  /* Carrusel */
+  #carousel {
+    display: flex;
+    overflow: hidden;
+    width: auto; /* Se ajusta al tamaño de las imágenes */
+  }
+  
+  #carousel-wrapper {
+    display: flex;
+    transform: translateX(0);
+  }
+  
+  #carousel-wrapper img {
+    width: auto; /* Ajusta al tamaño natural de la imagen */
+    height: auto; /* Mantiene la proporción */
+    object-fit: contain;
+    flex-shrink: 0; /* Evita que las imágenes se redimensionen */
+  }
+  

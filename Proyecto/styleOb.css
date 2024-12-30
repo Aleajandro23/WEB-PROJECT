@@ -3,7 +3,7 @@ body{
     font-family: Poppins;
     margin: 0;
     background-color: #010101;
-    color: #eee;
+    color: hsl(0, 0%, 93%);
 }
 svg{
     width: 25px;

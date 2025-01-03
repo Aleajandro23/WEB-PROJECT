@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Servicios - Arte Latino</title>
+  <link rel="stylesheet" href="../src/output.css">
+  <script src="../profile/auth.js" type="module"></script>
+  <script src="../profile/banner.js" type="module"></script>
+  <script src="../Auth/persistencia.js" type="module"></script>
+  <script src="auth.js" type="module"></script>
   
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -14,32 +19,38 @@
 </head>
 <body class="bg-[#F5F5F5]">
 
-    <!-- Encabezado -->
+    <!-- Barra de navegación -->
     <header class="bg-[#1B3046] flex items-center justify-between px-6 py-4 text-white">
         <!-- Logo -->
         <div class="flex items-center space-x-3">
-            <img src="Assets/Recurso 3.png" alt="Logo Arte Latino" class="h-10">
+            <img src="../../Assets/Recurso 3.png" alt="Logo Arte Latino" class="h-10">
         </div>
 
         <!-- Navegación -->
         <nav class="flex space-x-8 text-sm red-rose-custom">
-            <a href="#Inicio" onclick="window.location.href='index.html'">Inicio</a>
-            <a href="#obras" onclick="window.location.href='obras.html'">Obras</a>
+            <a href="#Inicio" onclick="window.location.href='../../index.html'">Inicio</a>
+            <a href="#obras" onclick="window.location.href='../Obras/obras.html'">Obras</a>
             <a href="#servicios" onclick="window.location.href='servicios.html'">Servicios</a>
         </nav>
+          
 
-        <!-- Botones -->
+        <!-- Botones de acción -->
         <div class="flex space-x-4 items-center">
-            <button 
-                class="px-4 py-2 border border-white rounded-full hover:bg-white hover:text-[#1B3046]"
-                onclick="window.location.href='Secciones/Auth/auth.html'">
-                Registrarse
+            <!-- Botón de Registrarse -->
+            <button id="signup-btn" class="px-4 py-2 border border-white rounded-full hover:bg-white hover:text-[#1B3046]"
+              onclick="window.location.href='../Auth/auth.html'">
+              Registrarse
             </button>
-            <button 
-                class="px-4 py-2 border border-white rounded-full hover:bg-white hover:text-[#1B3046]"
-                onclick="window.location.href='Secciones/Auth/auth.html'">
-                Ingresar
+            <!-- Botón de Ingresar -->
+            <button id="login-btn" class="px-4 py-2 border border-white rounded-full hover:bg-white hover:text-[#1B3046]"
+              onclick="window.location.href='../Auth/auth.html'">
+              Ingresar
             </button>
+    
+            <!-- Foto de perfil (oculta por defecto) -->
+            <a href="/Proyecto/Secciones/profile/profile.html">
+              <img id="user-photo" class="hidden w-10 h-10 rounded-full" src="" alt="Foto de perfil">
+            </a>
         </div>
     </header>
 
@@ -48,7 +59,7 @@
         <!-- Imagen de fondo -->
         <div class="absolute inset-0">
             <img 
-                src="Assets/mainservice.png" 
+                src="../../Assets/mainservice.png" 
                 alt="Servicios Principales" 
                 class="w-full h-full object-cover"
             >
@@ -73,42 +84,42 @@
                 <div class="grid grid-cols-3 gap-6 justify-items-center">
                     <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
                         <img
-                          src="Assets/Edición & Diseño 1.png"
+                          src="../../Assets/Edición & Diseño 1.png"
                           alt="Diseño Gráfico"
                           class="w-full h-full object-cover"
                         />
                     </div>
                     <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
                         <img
-                          src="Assets/Edición & Diseño 2.png"
+                          src="../../Assets/Edición & Diseño 2.png"
                           alt="Diseño Gráfico"
                           class="w-full h-full object-cover"
                         />
                     </div>
                     <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
                         <img
-                          src="Assets/Edición & Diseño 3.png"
+                          src="../../Assets/Edición & Diseño 3.png"
                           alt="Diseño Gráfico"
                           class="w-full h-full object-cover"
                         />
                     </div>
                     <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
                         <img
-                          src="Assets/Edición & Diseño 4.png"
+                          src="../../Assets/Edición & Diseño 4.png"
                           alt="Diseño Gráfico"
                           class="w-full h-full object-cover"
                         />
                     </div>
                     <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
                         <img
-                          src="Assets/Edición & Diseño 5.png"
+                          src="../../Assets/Edición & Diseño 5.png"
                           alt="Diseño Gráfico"
                           class="w-full h-full object-cover"
                         />
                     </div>
                     <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
                         <img
-                          src="Assets/Edición & Diseño 6.png"
+                          src="../../Assets/Edición & Diseño 6.png"
                           alt="Diseño Gráfico"
                           class="w-full h-full object-cover"
                         />
@@ -124,42 +135,42 @@
                 <div class="grid grid-cols-3 gap-6 justify-items-center">
                     <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
                         <img
-                          src="Assets/Edición & Diseño 1.png"
+                          src="../../Assets/Edición & Diseño 1.png"
                           alt="Diseño Gráfico"
                           class="w-full h-full object-cover"
                         />
                     </div>
                     <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
                         <img
-                          src="Assets/Edición & Diseño 2.png"
+                          src="../../Assets/Edición & Diseño 2.png"
                           alt="Diseño Gráfico"
                           class="w-full h-full object-cover"
                         />
                     </div>
                     <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
                         <img
-                          src="Assets/Edición & Diseño 3.png"
+                          src="../../Assets/Edición & Diseño 3.png"
                           alt="Diseño Gráfico"
                           class="w-full h-full object-cover"
                         />
                     </div>
                     <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
                         <img
-                          src="Assets/Edición & Diseño 4.png"
+                          src="../../Assets/Edición & Diseño 4.png"
                           alt="Diseño Gráfico"
                           class="w-full h-full object-cover"
                         />
                     </div>
                     <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
                         <img
-                          src="Assets/Edición & Diseño 5.png"
+                          src="../../Assets/Edición & Diseño 5.png"
                           alt="Diseño Gráfico"
                           class="w-full h-full object-cover"
                         />
                     </div>
                     <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
                         <img
-                          src="Assets/Edición & Diseño 6.png"
+                          src="../../Assets/Edición & Diseño 6.png"
                           alt="Diseño Gráfico"
                           class="w-full h-full object-cover"
                         />
@@ -175,42 +186,42 @@
                 <div class="grid grid-cols-3 gap-6 justify-items-center">
                     <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
                         <img
-                          src="Assets/Edición & Diseño 1.png"
+                          src="../../Assets/Edición & Diseño 1.png"
                           alt="Diseño Gráfico"
                           class="w-full h-full object-cover"
                         />
                     </div>
                     <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
                         <img
-                          src="Assets/Edición & Diseño 2.png"
+                          src="../../Assets/Edición & Diseño 2.png"
                           alt="Diseño Gráfico"
                           class="w-full h-full object-cover"
                         />
                     </div>
                     <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
                         <img
-                          src="Assets/Edición & Diseño 3.png"
+                          src="../../Assets/Edición & Diseño 3.png"
                           alt="Diseño Gráfico"
                           class="w-full h-full object-cover"
                         />
                     </div>
                     <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
                         <img
-                          src="Assets/Edición & Diseño 4.png"
+                          src="../../Assets/Edición & Diseño 4.png"
                           alt="Diseño Gráfico"
                           class="w-full h-full object-cover"
                         />
                     </div>
                     <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
                         <img
-                          src="Assets/Edición & Diseño 5.png"
+                          src="../../Assets/Edición & Diseño 5.png"
                           alt="Diseño Gráfico"
                           class="w-full h-full object-cover"
                         />
                     </div>
                     <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
                         <img
-                          src="Assets/Edición & Diseño 6.png"
+                          src="../../Assets/Edición & Diseño 6.png"
                           alt="Diseño Gráfico"
                           class="w-full h-full object-cover"
                         />
@@ -225,15 +236,15 @@
         <!-- Carrusel Wrapper -->
         <div id="carousel-wrapper" class="flex">
             <!-- Imágenes Originales -->
-            <img src="Assets/carrusel1.png" alt="Imagen 1" class="flex-shrink-0">
-            <img src="Assets/carrusel2.png" alt="Imagen 2" class="flex-shrink-0">
-            <img src="Assets/carrusel3.png" alt="Imagen 3" class="flex-shrink-0">
-            <img src="Assets/carrusel4.png" alt="Imagen 4" class="flex-shrink-0">
+            <img src="../../Assets/carrusel1.png" alt="Imagen 1" class="flex-shrink-0">
+            <img src="../../Assets/carrusel2.png" alt="Imagen 2" class="flex-shrink-0">
+            <img src="../../Assets/carrusel3.png" alt="Imagen 3" class="flex-shrink-0">
+            <img src="../../Assets/carrusel4.png" alt="Imagen 4" class="flex-shrink-0">
             <!-- Imágenes Duplicadas para Efecto Infinito -->
-            <img src="Assets/carrusel1.png" alt="Imagen 1" class="flex-shrink-0">
-            <img src="Assets/carrusel2.png" alt="Imagen 2" class="flex-shrink-0">
-            <img src="Assets/carrusel3.png" alt="Imagen 3" class="flex-shrink-0">
-            <img src="Assets/carrusel4.png" alt="Imagen 4" class="flex-shrink-0">
+            <img src="../../Assets/carrusel1.png" alt="Imagen 1" class="flex-shrink-0">
+            <img src="../../Assets/carrusel2.png" alt="Imagen 2" class="flex-shrink-0">
+            <img src="../../Assets/carrusel3.png" alt="Imagen 3" class="flex-shrink-0">
+            <img src="../../Assets/carrusel4.png" alt="Imagen 4" class="flex-shrink-0">
         </div>
     </div>
 
@@ -277,7 +288,7 @@
         <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-3 gap-8">
             <!-- Logo y Descripción -->
             <div>
-                <img src="Assets/Recurso 3.png" alt="Logo Arte Latino" class="h-12 mb-4">
+                <img src="../../Assets/Recurso 3.png" alt="Logo Arte Latino" class="h-12 mb-4">
                 <p class="text-sm leading-relaxed">
                     Unirse a nosotros no solo potenciará tu marca, sino que también te permitirá ofrecer más servicios y aumentar tus ventas.
                 </p>

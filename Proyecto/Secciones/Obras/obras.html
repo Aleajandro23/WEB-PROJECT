@@ -15,7 +15,9 @@
     <script src="/Proyecto/Secciones/profile/auth.js" type="module"></script>
     <script src="/Proyecto/Secciones/profile/banner.js" type="module"></script>
     <script src="/Proyecto/Secciones/Auth/persistencia.js" type="module"></script>
-</head>
+    <script src="auth.js" type="module"></script>
+    <script src="import-obras.js" type="module"></script>
+</head> 
 
 <body>
     <div class="containerr">
@@ -23,35 +25,33 @@
         <header class="bg-[#1B3046] flex items-center justify-between px-6 py-4 text-white">
             <!-- Logo -->
             <div class="flex items-center space-x-3">
-                <img src="Assets/Recurso 3.png" alt="Logo Arte Latino" class="h-10">
+                <img src="../../Assets/Recurso 3.png" alt="Logo Arte Latino" class="h-10">
             </div>
 
             <!-- Navegación -->
             <nav class="flex space-x-8 text-sm red-rose-custom">
-                <a href="#Inicio" onclick="window.location.href='index.html'">Inicio</a>
+                <a href="#Inicio" onclick="window.location.href='../../index.html'">Inicio</a>
                 <a href="#obras" onclick="window.location.href='obras.html'">Obras</a>
-                <a href="#servicios" onclick="window.location.href='servicios.html'">Servicios</a>
+                <a href="#servicios" onclick="window.location.href='../Servicios/servicios.html'">Servicios</a>
             </nav>
               
 
             <!-- Botones de acción -->
             <div class="flex space-x-4 items-center">
                 <!-- Botón de Registrarse -->
-                <button id="signup-btn"
-                    class="px-4 py-2 border border-white rounded-full hover:bg-white hover:text-[#1B3046]"
-                    onclick="window.location.href='Secciones/Auth/auth.html'">
-                    Registrarse
+                <button id="signup-btn" class="px-4 py-2 border border-white rounded-full hover:bg-white hover:text-[#1B3046]"
+                  onclick="window.location.href='../Auth/auth.html'">
+                  Registrarse
                 </button>
                 <!-- Botón de Ingresar -->
-                <button id="login-btn"
-                    class="px-4 py-2 border border-white rounded-full hover:bg-white hover:text-[#1B3046]"
-                    onclick="window.location.href='Secciones/Auth/auth.html'">
-                    Ingresar
+                <button id="login-btn" class="px-4 py-2 border border-white rounded-full hover:bg-white hover:text-[#1B3046]"
+                  onclick="window.location.href='../Auth/auth.html'">
+                  Ingresar
                 </button>
-
+        
                 <!-- Foto de perfil (oculta por defecto) -->
-                <a href="/Proyecto/Secciones/profile/obras.html">
-                    <img id="user-photo" class="hidden w-10 h-10 rounded-full" src="" alt="Foto de perfil">
+                <a href="/Proyecto/Secciones/profile/profile.html">
+                  <img id="user-photo" class="hidden w-10 h-10 rounded-full" src="" alt="Foto de perfil">
                 </a>
             </div>
         </header>
@@ -161,27 +161,26 @@
         </div>
         <!-- Contenido principal -->
         <main class="container mx-auto px-4 py-8">
-           <!-- Filtros y búsqueda -->
-<div class="flex flex-col sm:flex-row justify-between items-center mb-8">
-    <h1 class="text-3xl sm:text-5xl font-bold text-[#fffff] red-rose-custom">Obras</h1>
-    <div class="flex space-x-4 mt-4 sm:mt-0">
-        <select class="px-6 py-2 border rounded-lg" style="background-color: #1B3046;">
-            <option>Todas las categorías</option>
-            <option>Pintura</option>
-            <option>Fotografía</option>
-            <option>Escultura</option>
-            <option>Digital</option>
-        </select>
-        <input type="search" placeholder="Buscar obras..." class="px-4 py-2 border rounded-lg w-64 text-[#1B3046]">
-    </div>
-</div>
+        <!-- Filtros y búsqueda -->
+        <div class="flex flex-col sm:flex-row justify-between items-center mb-8">
+            <h1 class="text-3xl sm:text-5xl font-bold text-[#fffff] red-rose-custom">Obras</h1>
+            <div class="flex space-x-4 mt-4 sm:mt-0">
+                <select id="category-filter" class="px-6 py-2 border rounded-lg" style="background-color: #1B3046;">
+                    <option value="all">Todas las categorías</option>
+                </select>
+                <input id="search-bar" type="search" placeholder="Buscar obras..." class="px-4 py-2 border rounded-lg w-64 text-[#1B3046]">
+            </div>
+        </div>
+        <!-- Contenedor para las obras -->
+        <div id="artworks-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 max-w-full mx-4"></div>
+
 
 
             <!-- Grid de obras -->
-            <div id="obras-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Las obras se agregarán aquí dinámicamente por el script -->
+            <div id="artworks-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 max-w-full mx-4">
+                <!-- Las imágenes serán añadidas dinámicamente aquí -->
             </div>
-
+              
 
 
             <!-- Paginación -->

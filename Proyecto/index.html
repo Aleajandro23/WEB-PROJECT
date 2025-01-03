@@ -3,13 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Arte Latino</title>
-
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Tu archivo JS para manejo de auth (foto de perfil, etc.) -->
+    <link rel="stylesheet" href="src/output.css">
+    <script src="Secciones/profile/auth.js" type="module"></script>
+    <script src="Secciones/profile/banner.js" type="module"></script>
+    <script src="Secciones/Auth/persistencia.js" type="module"></script>
     <script src="auth.js" type="module"></script>
+
+    <title>Arte Latino</title>
   </head>
   
   <body class="bg-gray-900 text-white">
@@ -23,37 +23,28 @@
       <!-- Navegación -->
       <nav class="flex space-x-8 text-sm red-rose-custom">
         <a href="#Inicio" onclick="window.location.href='index.html'">Inicio</a>
-        <a href="#obras" onclick="window.location.href='obras.html'">Obras</a>
-        <a href="#servicios" onclick="window.location.href='servicios.html'">Servicios</a>
+        <a href="#obras" onclick="window.location.href='Secciones/Obras/obras.html'">Obras</a>
+        <a href="#servicios" onclick="window.location.href='Secciones/Servicios/servicios.html'">Servicios</a>
       </nav>
 
-      <!-- Botones de acción / Foto de perfil -->
+      <!-- Botones de acción -->
       <div class="flex space-x-4 items-center">
         <!-- Botón de Registrarse -->
-        <button 
-          id="signup-btn" 
-          class="px-4 py-2 border border-white rounded-full hover:bg-white hover:text-[#1B3046]" 
+        <button id="signup-btn" class="px-4 py-2 border border-white rounded-full hover:bg-white hover:text-[#1B3046]"
           onclick="window.location.href='Secciones/Auth/auth.html'">
           Registrarse
         </button>
         <!-- Botón de Ingresar -->
-        <button 
-          id="login-btn" 
-          class="px-4 py-2 border border-white rounded-full hover:bg-white hover:text-[#1B3046]" 
+        <button id="login-btn" class="px-4 py-2 border border-white rounded-full hover:bg-white hover:text-[#1B3046]"
           onclick="window.location.href='Secciones/Auth/auth.html'">
           Ingresar
         </button>
 
         <!-- Foto de perfil (oculta por defecto) -->
-        <a href="/Proyecto/Secciones/profile/profile.html">
-          <img
-            id="user-photo"
-            class="hidden w-10 h-10 rounded-full"
-            src=""
-            alt="Foto de perfil"
-          />
+        <a href="Secciones/profile/profile.html">
+          <img id="user-photo" class="hidden w-10 h-10 rounded-full" src="" alt="Foto de perfil">
         </a>
-      </div>
+    </div>
     </header>
     <!-- =========== FIN HEADER =========== -->
 

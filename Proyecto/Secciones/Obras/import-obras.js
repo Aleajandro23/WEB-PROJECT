@@ -19,8 +19,13 @@ const loadArtworksFromDB = async () => {
             const userData = doc.data();
             const artworks = userData.artworks || [];
 
+            // Añadir información del usuario a cada obra
             artworks.forEach(artwork => {
-                allArtworks.push(artwork);
+                allArtworks.push({
+                    ...artwork,
+                    userPhoto: userData.profileImage || userData.photoURL, // Usar la foto de perfil del usuario
+                    userName: userData.name || userData.displayName // Usar el nombre del usuario
+                });
                 if (artwork.category) {
                     categories.add(artwork.category);
                 }
@@ -32,6 +37,7 @@ const loadArtworksFromDB = async () => {
         categories.forEach(category => {
             categoryFilter.innerHTML += `<option value="${category}">${category}</option>`;
         });
+
 
         // Mostrar todas las obras inicialmente
         displayArtworks(allArtworks);
@@ -102,19 +108,57 @@ const handleArtworkClick = (index) => {
     const modal = document.createElement('div');
     modal.className = 'modal fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center z-50';
 
-    // Generar galería de imágenes
+    // Generar galería de imágenes en columna
     const imagesHtml = artwork.photos
         .map((photo) => `<img src="${photo}" class="w-full h-auto mb-4 rounded-lg"/>`)
         .join('');
 
     modal.innerHTML = `
-        <div class="bg-white rounded-lg shadow-lg p-6 max-w-4xl w-full overflow-auto max-h-[80vh] relative">
-            <h2 class="text-2xl font-bold mb-4">${artwork.name || 'Sin título'}</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="bg-white rounded-lg shadow-lg p-6 max-w-4xl w-full overflow-auto max-h-[90vh] relative">
+            <!-- Sección superior con foto de perfil, título de la obra y nombre del usuario -->
+            <div class="flex flex-col items-center mb-6">
+                <h2 class="text-2xl font-bold mb-4 artwork-title text-black">${artwork.name || 'Sin título'}</h2>
+                <div class="flex items-center">
+                    <img 
+                        src="${artwork.userPhoto || '/path/to/default-user-photo.png'}" 
+                        class="w-16 h-16 rounded-full mr-4 object-cover" 
+                        alt="Foto del usuario"
+                    />
+                    <h3 class="text-xl font-bold text-black">Por: ${artwork.userName || 'Usuario desconocido'}</h3>
+                </div>
+            </div>
+
+            <!-- Contenedor principal de imágenes -->
+            <div class="flex flex-col items-center mb-8">
                 ${imagesHtml}
             </div>
+
+            <!-- Footer con detalles -->
+            <div class="mt-8 bg-[#1B3046] text-white p-6 rounded-lg">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Columna izquierda -->
+                    <div class="space-y-3">
+                        <p><span class="font-semibold">Categoría:</span> ${artwork.category || 'No especificada'}</p>
+                        <p><span class="font-semibold">Lugar:</span> ${artwork.place || 'No especificado'}</p>
+                        <p><span class="font-semibold">Fecha:</span> ${artwork.creationDate || 'No especificada'}</p>
+                    </div>
+                    <!-- Columna derecha -->
+                    <div class="space-y-3">
+                        <p><span class="font-semibold">Dimensiones:</span> ${artwork.dimensions || 'No especificadas'}</p>
+                        <p><span class="font-semibold">Materiales:</span> ${artwork.material || 'No especificados'}</p>
+                    </div>
+                </div>
+                
+                <!-- Descripción en una nueva fila que ocupa todo el ancho -->
+                <div class="mt-6">
+                    <h4 class="font-semibold mb-2">Descripción:</h4>
+                    <p>${artwork.description || 'Sin descripción disponible.'}</p>
+                </div>
+            </div>
+
+            <!-- Botón para cerrar -->
             <button 
-                class="mt-4 px-4 py-2 bg-red-600 text-white rounded absolute top-4 right-4"
+                class="absolute top-4 right-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
                 id="close-modal-button"
             >
                 Cerrar

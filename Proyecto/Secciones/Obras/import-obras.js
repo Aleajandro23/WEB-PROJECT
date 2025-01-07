@@ -57,15 +57,14 @@ const displayArtworks = (artworks) => {
         return;
     }
 
-    artworks.forEach((artwork, index) => {
+    artworks.forEach((artwork) => {
         const artworkDiv = document.createElement('div');
         artworkDiv.className = 'relative rounded-2xl overflow-hidden h-48 card-hover';
 
         // Cada obra se convierte en un botón
         artworkDiv.innerHTML = `
             <button 
-                class="w-full h-full focus:outline-none" 
-                data-index="${index}"
+                class="w-full h-full focus:outline-none"
             >
                 <img 
                     src="${artwork.photos && artwork.photos.length > 0 ? artwork.photos[0] : '/path/to/default-image.png'}" 
@@ -74,16 +73,12 @@ const displayArtworks = (artworks) => {
             </button>
         `;
 
-        artworksContainer.appendChild(artworkDiv);
-    });
-
-    // Agregar eventos de clic dinámicamente
-    const buttons = artworksContainer.querySelectorAll('button');
-    buttons.forEach(button => {
-        button.addEventListener('click', () => {
-            const index = button.getAttribute('data-index');
-            handleArtworkClick(index);
+        // Asignar evento de clic directamente al objeto artwork
+        artworkDiv.querySelector('button').addEventListener('click', () => {
+            handleArtworkClick(artwork);
         });
+
+        artworksContainer.appendChild(artworkDiv);
     });
 };
 
@@ -96,9 +91,7 @@ const closeModal = () => {
 };
 
 // Manejar el clic en una obra para abrir un modal con todas las imágenes
-const handleArtworkClick = (index) => {
-    const artwork = allArtworks[parseInt(index, 10)];
-
+const handleArtworkClick = (artwork) => {
     if (!artwork || !artwork.photos || artwork.photos.length === 0) {
         alert("Esta obra no tiene imágenes para mostrar.");
         return;
@@ -172,8 +165,7 @@ const handleArtworkClick = (index) => {
     const closeButton = document.getElementById('close-modal-button');
     closeButton.addEventListener('click', closeModal);
 };
-
-
+        
 
 // Filtrar obras por categoría y búsqueda
 const filterArtworks = () => {

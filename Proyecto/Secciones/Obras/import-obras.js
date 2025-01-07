@@ -38,9 +38,16 @@ const loadArtworksFromDB = async () => {
             categoryFilter.innerHTML += `<option value="${category}">${category}</option>`;
         });
 
+        // Verificar si hay un filtro de categoría desde la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const initialCategory = urlParams.get('category');
 
-        // Mostrar todas las obras inicialmente
-        displayArtworks(allArtworks);
+        if (initialCategory && Array.from(categories).includes(initialCategory)) {
+            categoryFilter.value = initialCategory; // Seleccionar la categoría de la URL
+        }
+
+        // Mostrar todas las obras inicialmente o aplicar el filtro de URL
+        filterArtworks();
     } catch (error) {
         console.error("Error al cargar las obras: ", error);
         artworksContainer.innerHTML = "<p>Error al cargar las obras.</p>";
@@ -165,7 +172,6 @@ const handleArtworkClick = (artwork) => {
     const closeButton = document.getElementById('close-modal-button');
     closeButton.addEventListener('click', closeModal);
 };
-        
 
 // Filtrar obras por categoría y búsqueda
 const filterArtworks = () => {

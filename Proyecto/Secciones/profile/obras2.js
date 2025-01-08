@@ -1,5 +1,5 @@
 import { auth, db } from '/Proyecto/Secciones/Auth/persistencia.js';
-import { doc, getDoc } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
+import { doc, getDoc, updateDoc, arrayRemove } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     const overlay = document.createElement('div');
@@ -54,9 +54,39 @@ document.addEventListener('DOMContentLoaded', () => {
                     <p class="artist-name">por ${userData.name || 'Artista'}</p>
                 `;
 
+                // Añadir botón de eliminación
+                const deleteButton = document.createElement('button');
+                deleteButton.className = 'delete-artwork-btn';
+                deleteButton.innerHTML = 'Eliminar obra';
+                deleteButton.onclick = async (e) => {
+                    e.stopPropagation();
+                    if (confirm('¿Estás seguro de que deseas eliminar esta obra? Esta acción no se puede deshacer.')) {
+                        try {
+                            const userRef = doc(db, "users", user.uid);
+                            await updateDoc(userRef, {
+                                artworks: arrayRemove(artwork)
+                            });
+                            
+                            // Cerrar el modal
+                            closeModal();
+                            
+                            // Eliminar el elemento del DOM
+                            artworkBox.remove();
+                            
+                            // Mostrar mensaje de éxito
+                            alert('La obra ha sido eliminada exitosamente');
+                        } catch (error) {
+                            console.error("Error al eliminar la obra:", error);
+                            alert('Hubo un error al eliminar la obra. Por favor, inténtalo de nuevo.');
+                        }
+                    }
+                };
+
                 header.appendChild(profileImg);
                 header.appendChild(headerText);
+                header.appendChild(deleteButton);
 
+                // Resto del código igual...
                 const gallery = document.createElement('div');
                 gallery.className = 'modal-gallery';
 
@@ -85,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="details-item">${artwork.description || ''}</div>
                 `;
 
-                // Crear contenedor del mapa
+                // Resto del código del mapa igual...
                 const mapContainer = document.createElement('div');
                 mapContainer.className = 'map-container';
                 const mapDiv = document.createElement('div');
@@ -104,14 +134,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 modal.classList.add('active');
                 overlay.classList.add('active');
 
-                // Extraer las coordenadas del string de ubicación
+                // Código del mapa igual...
                 const coordinates = artwork.place.split(',').map(coord => parseFloat(coord.trim()));
                 const location = {
                     lat: coordinates[0],
                     lng: coordinates[1]
                 };
 
-                // Cargar y inicializar el mapa
                 await loadGoogleMapsAPI('initModalMap');
                 window.initModalMap = async function() {
                     const { Map } = await google.maps.importLibrary("maps");
@@ -136,7 +165,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         fullscreenControl: true
                     });
 
-                    // Añadir marcador
                     new google.maps.Marker({
                         position: location,
                         map: map,
@@ -166,7 +194,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Función para cargar la API de Google Maps
 function loadGoogleMapsAPI(callbackName) {
     return new Promise((resolve, reject) => {
         const script = document.createElement("script");

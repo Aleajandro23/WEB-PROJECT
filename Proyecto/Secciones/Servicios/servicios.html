@@ -1,338 +1,116 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Servicios - Arte Latino</title>
-  <link rel="stylesheet" href="../src/output.css">
-  <script src="../profile/auth.js" type="module"></script>
-  <script src="../profile/banner.js" type="module"></script>
-  <script src="../Auth/persistencia.js" type="module"></script>
-  <script src="auth.js" type="module"></script>
-  
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-  
-  <!-- Tu archivo CSS externo -->
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFTLATINO</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" href="./css/main.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../Auth/persistencia.js" type="module"></script>
+    <script src="auth.js" type="module"></script>
 </head>
-<body class="bg-[#F5F5F5]">
-
-    <!-- Barra de navegación -->
-    <header class="bg-[#1B3046] flex items-center justify-between px-6 py-4 text-white">
-        <!-- Logo -->
-        <div class="flex items-center space-x-3">
-            <img src="../../Assets/Recurso 3.png" alt="Logo Arte Latino" class="h-10">
-        </div>
-
-        <!-- Navegación -->
-        <nav class="flex space-x-8 text-sm red-rose-custom">
-            <a href="#Inicio" onclick="window.location.href='../../index.html'">Inicio</a>
-            <a href="#obras" onclick="window.location.href='../Obras/obras.html'">Obras</a>
-            <a href="#servicios" onclick="window.location.href='servicios.html'">Servicios</a>
-        </nav>
-          
-
-        <!-- Botones de acción -->
-        <div class="flex space-x-4 items-center">
-            <!-- Botón de Registrarse -->
-            <button id="signup-btn" class="px-4 py-2 border border-white rounded-full hover:bg-white hover:text-[#1B3046]"
-              onclick="window.location.href='../Auth/auth.html'">
-              Registrarse
-            </button>
-            <!-- Botón de Ingresar -->
-            <button id="login-btn" class="px-4 py-2 border border-white rounded-full hover:bg-white hover:text-[#1B3046]"
-              onclick="window.location.href='../Auth/auth.html'">
-              Ingresar
-            </button>
-    
-            <!-- Foto de perfil (oculta por defecto) -->
-            <a href="/Proyecto/Secciones/profile/profile.html">
-              <img id="user-photo" class="hidden w-10 h-10 rounded-full" src="" alt="Foto de perfil">
-            </a>
-        </div>
-    </header>
-
-    <!-- Sección con Imagen y Texto alineado a la izquierda -->
-    <section class="relative w-screen h-screen bg-[#F5F5F5] flex items-center overflow-hidden">
-        <!-- Imagen de fondo -->
-        <div class="absolute inset-0">
-            <img 
-                src="../../Assets/mainservice.png" 
-                alt="Servicios Principales" 
-                class="w-full h-full object-cover"
-            >
-        </div>
-
-        <!-- Contenedor del texto -->
-        <div class="absolute top-0 left-0 z-10 w-full max-w-[600px] p-8 lg:p-16 text-left">
-            <h2 class="text-6xl md:text-5xl font-bold text-white leading-tight">
-                Descubre lo mejor que te ofrecen nuestros artistas, <br>
-                llévate contigo no solo la obra, ¡sino la experiencia!
-            </h2>
-        </div>
-    </section>
-
-    <!-- Contenedor con fondo #60A0D6 para las tres secciones -->
-    <div class="bg-[#60A0D6]">
-
-        <!-- Edición & Diseño -->
-        <div class="flex justify-center items-center min-h-screen bg-white">
-            <section class="py-8 bg-[#D6A060] w-full max-w-7xl mx-auto">
-                <h2 class="text-3xl font-bold text-gray-800 mb-8 ml-6">Edición & Diseño</h2>
-                <div class="grid grid-cols-3 gap-6 justify-items-center">
-                    <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
-                        <img
-                          src="../../Assets/Edición & Diseño 1.png"
-                          alt="Diseño Gráfico"
-                          class="w-full h-full object-cover"
-                        />
-                    </div>
-                    <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
-                        <img
-                          src="../../Assets/Edición & Diseño 2.png"
-                          alt="Diseño Gráfico"
-                          class="w-full h-full object-cover"
-                        />
-                    </div>
-                    <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
-                        <img
-                          src="../../Assets/Edición & Diseño 3.png"
-                          alt="Diseño Gráfico"
-                          class="w-full h-full object-cover"
-                        />
-                    </div>
-                    <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
-                        <img
-                          src="../../Assets/Edición & Diseño 4.png"
-                          alt="Diseño Gráfico"
-                          class="w-full h-full object-cover"
-                        />
-                    </div>
-                    <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
-                        <img
-                          src="../../Assets/Edición & Diseño 5.png"
-                          alt="Diseño Gráfico"
-                          class="w-full h-full object-cover"
-                        />
-                    </div>
-                    <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
-                        <img
-                          src="../../Assets/Edición & Diseño 6.png"
-                          alt="Diseño Gráfico"
-                          class="w-full h-full object-cover"
-                        />
-                    </div>
-                </div>
-            </section>
-        </div>
-
-        <!-- Ropa & Accesorios -->
-        <div class="flex justify-center items-center min-h-screen bg-white">
-            <section class="py-8 bg-[#D6A060] w-full max-w-7xl mx-auto">
-                <h2 class="text-3xl font-bold text-gray-800 mb-8 ml-6">Ropa & Accesorios</h2>
-                <div class="grid grid-cols-3 gap-6 justify-items-center">
-                    <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
-                        <img
-                          src="../../Assets/Edición & Diseño 1.png"
-                          alt="Diseño Gráfico"
-                          class="w-full h-full object-cover"
-                        />
-                    </div>
-                    <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
-                        <img
-                          src="../../Assets/Edición & Diseño 2.png"
-                          alt="Diseño Gráfico"
-                          class="w-full h-full object-cover"
-                        />
-                    </div>
-                    <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
-                        <img
-                          src="../../Assets/Edición & Diseño 3.png"
-                          alt="Diseño Gráfico"
-                          class="w-full h-full object-cover"
-                        />
-                    </div>
-                    <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
-                        <img
-                          src="../../Assets/Edición & Diseño 4.png"
-                          alt="Diseño Gráfico"
-                          class="w-full h-full object-cover"
-                        />
-                    </div>
-                    <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
-                        <img
-                          src="../../Assets/Edición & Diseño 5.png"
-                          alt="Diseño Gráfico"
-                          class="w-full h-full object-cover"
-                        />
-                    </div>
-                    <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
-                        <img
-                          src="../../Assets/Edición & Diseño 6.png"
-                          alt="Diseño Gráfico"
-                          class="w-full h-full object-cover"
-                        />
-                    </div>
-                </div>
-            </section>
-        </div>
-
-        <!-- Pintura & Escultura -->
-        <div class="flex justify-center items-center min-h-screen bg-white">
-            <section class="py-8 bg-[#D6A060] w-full max-w-7xl mx-auto">
-                <h2 class="text-3xl font-bold text-gray-800 mb-8 ml-6">Pintura & Escultura</h2>
-                <div class="grid grid-cols-3 gap-6 justify-items-center">
-                    <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
-                        <img
-                          src="../../Assets/Edición & Diseño 1.png"
-                          alt="Diseño Gráfico"
-                          class="w-full h-full object-cover"
-                        />
-                    </div>
-                    <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
-                        <img
-                          src="../../Assets/Edición & Diseño 2.png"
-                          alt="Diseño Gráfico"
-                          class="w-full h-full object-cover"
-                        />
-                    </div>
-                    <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
-                        <img
-                          src="../../Assets/Edición & Diseño 3.png"
-                          alt="Diseño Gráfico"
-                          class="w-full h-full object-cover"
-                        />
-                    </div>
-                    <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
-                        <img
-                          src="../../Assets/Edición & Diseño 4.png"
-                          alt="Diseño Gráfico"
-                          class="w-full h-full object-cover"
-                        />
-                    </div>
-                    <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
-                        <img
-                          src="../../Assets/Edición & Diseño 5.png"
-                          alt="Diseño Gráfico"
-                          class="w-full h-full object-cover"
-                        />
-                    </div>
-                    <div class="relative rounded-2xl overflow-hidden h-48 card-hover">
-                        <img
-                          src="../../Assets/Edición & Diseño 6.png"
-                          alt="Diseño Gráfico"
-                          class="w-full h-full object-cover"
-                        />
-                    </div>
-                </div>
-            </section>
-        </div>
-    </div> <!-- Fin del contenedor con bg-[#60A0D6] -->
-
-    <!-- Contenedor del Carrusel -->
-    <div id="carousel" class="relative overflow-hidden mx-auto cursor-pointer">
-        <!-- Carrusel Wrapper -->
-        <div id="carousel-wrapper" class="flex">
-            <!-- Imágenes Originales -->
-            <img src="../../Assets/carrusel1.png" alt="Imagen 1" class="flex-shrink-0">
-            <img src="../../Assets/carrusel2.png" alt="Imagen 2" class="flex-shrink-0">
-            <img src="../../Assets/carrusel3.png" alt="Imagen 3" class="flex-shrink-0">
-            <img src="../../Assets/carrusel4.png" alt="Imagen 4" class="flex-shrink-0">
-            <!-- Imágenes Duplicadas para Efecto Infinito -->
-            <img src="../../Assets/carrusel1.png" alt="Imagen 1" class="flex-shrink-0">
-            <img src="../../Assets/carrusel2.png" alt="Imagen 2" class="flex-shrink-0">
-            <img src="../../Assets/carrusel3.png" alt="Imagen 3" class="flex-shrink-0">
-            <img src="../../Assets/carrusel4.png" alt="Imagen 4" class="flex-shrink-0">
-        </div>
+<body>
+  <!-- ======== HEADER (Barra de navegación) ======== -->
+  <header class="bg-[#1B3046] flex items-center justify-between px-6 py-4 text-white">
+    <!-- Logo -->
+    <div class="flex items-center space-x-3">
+      <img src="img\abrigos\Recurso 3.png" alt="Logo Arte Latino" class="h-10">
     </div>
 
-    <!-- JavaScript -->
-    <script>
-        const carouselWrapper = document.getElementById("carousel-wrapper");
-        const carousel = document.getElementById("carousel");
-        const images = document.querySelectorAll("#carousel-wrapper img");
-        let currentIndex = 0;
-        let imageWidth = images[0].offsetWidth; // Ancho dinámico basado en la imagen
+    <!-- Navegación -->
+    <nav class="flex space-x-8 text-sm red-rose-custom">
+        <a href="#Inicio" onclick="window.location.href='../../index.html'">Inicio</a>
+        <a href="#obras" onclick="window.location.href='../Obras/obras.html'">Obras</a>
+        <a href="#servicios" onclick="window.location.href='servicios.html'">Servicios</a>
+    </nav>
 
-        // Recalcular ancho de imagen al redimensionar
-        window.addEventListener("resize", () => {
-            imageWidth = images[0].offsetWidth;
-        });
+    <div class="flex space-x-4 items-center">
+        <!-- Botón de Registrarse -->
+        <button id="signup-btn" class="px-4 py-2 border border-white rounded-full hover:bg-white hover:text-[#1B3046]"
+          onclick="window.location.href='../Auth/auth.html'">
+          Registrarse
+        </button>
+        <!-- Botón de Ingresar -->
+        <button id="login-btn" class="px-4 py-2 border border-white rounded-full hover:bg-white hover:text-[#1B3046]"
+          onclick="window.location.href='../Auth/auth.html'">
+          Ingresar
+        </button>
 
-        // Función para mover el carrusel
-        function startCarousel() {
-            setInterval(() => {
-                currentIndex++;
-                carouselWrapper.style.transition = "transform 0.8s linear";
-                carouselWrapper.style.transform = `translateX(-${imageWidth * currentIndex}px)`;
+        <!-- Foto de perfil (oculta por defecto) -->
+        <a href="/Proyecto/Secciones/profile/profile.html">
+          <img id="user-photo" class="hidden w-10 h-10 rounded-full" src="" alt="Foto de perfil">
+        </a>
+    </div>
 
-                // Reiniciar al llegar a la mitad (efecto infinito)
-                if (currentIndex >= images.length / 2) {
-                    setTimeout(() => {
-                        carouselWrapper.style.transition = "none";
-                        currentIndex = 0;
-                        carouselWrapper.style.transform = `translateX(0)`;
-                    }, 800); 
-                }
-            }, 2000); // Mover cada 2 segundos
-        }
-
-        // Llamamos a la función para iniciar el carrusel automáticamente
-        startCarousel();
-    </script>
-
-    <!-- Pie de página -->
-    <footer class="bg-[#1B3046] text-white py-10">
-        <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-3 gap-8">
-            <!-- Logo y Descripción -->
-            <div>
-                <img src="../../Assets/Recurso 3.png" alt="Logo Arte Latino" class="h-12 mb-4">
-                <p class="text-sm leading-relaxed">
-                    Unirse a nosotros no solo potenciará tu marca, sino que también te permitirá ofrecer más servicios y aumentar tus ventas.
-                </p>
-                <p class="text-sm mt-4">&copy; 2024</p>
-            </div>
-
-            <!-- Servicios -->
-            <div class="text-white">
-                <h3 class="text-lg font-bold text-[#F6973F]">Servicios</h3>
-                <ul class="mt-4 space-y-2">
-                    <li><a href="#" class="hover:underline">Email Marketing</a></li>
-                    <li><a href="#" class="hover:underline">Campaigns</a></li>
-                    <li><a href="#" class="hover:underline">Branding</a></li>
-                </ul>
-            </div>
-
-            <!-- Redes Sociales -->
-            <div>
-                <h3 class="text-lg font-bold text-[#F6973F]">Síguenos</h3>
-                <ul class="mt-4 space-y-2">
-                    <li>
-                        <a href="https://facebook.com" target="_blank" class="flex items-center space-x-2 hover:underline">
-                            <span>Facebook</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://twitter.com" target="_blank" class="flex items-center space-x-2 hover:underline">
-                            <span>Twitter</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://instagram.com" target="_blank" class="flex items-center space-x-2 hover:underline">
-                            <span>Instagram</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
+  </header>
+  
+  <div class="wrapper">
+    <header class="header-mobile">
+        <h1 class="logo">NFTLATINO</h1>
+        <button class="open-menu" id="open-menu">
+            <i class="bi bi-list"></i>
+        </button>
+    </header>
+    <aside>
+        <button class="close-menu" id="close-menu">
+            <i class="bi bi-x"></i>
+        </button>
+        <nav>
+            <ul class="menu">
+                <li>
+                    <button id="todos" class="boton-menu boton-categoria active"><i class="bi bi-hand-index-thumb-fill"></i> Todos los productos</button>
+                </li>
+                <li>
+                    <button id="abrigos" class="boton-menu boton-categoria"><i class="bi bi-hand-index-thumb"></i>Abrigos</bustton>
+                </li>
+                <li>
+                    <button id="camisetas" class="boton-menu boton-categoria"><i class="bi bi-hand-index-thumb"></i> Camisetas</button>
+                </li>
+                <li>
+                    <button id="pantalones" class="boton-menu boton-categoria"><i class="bi bi-hand-index-thumb"></i> Pantalones</button>
+                </li>
+                <li>
+                    <button id="arte" class="boton-menu boton-categoria"><i class="bi bi-hand-index-thumb"></i> Arte</button>
+                </li>
+                <li>
+                    <button id="diseno" class="boton-menu boton-categoria"><i class="bi bi-hand-index-thumb"></i> Diseño Gráfico</button>
+                </li>
+                <li>
+                    <button id="fotografia" class="boton-menu boton-categoria"><i class="bi bi-hand-index-thumb"></i> Fotografía</button>
+                </li>
+                <li>
+                    <button id="mural" class="boton-menu boton-categoria"><i class="bi bi-hand-index-thumb"></i> Mural</button>
+                </li>
+                <li>
+                    <button id="escultura" class="boton-menu boton-categoria"><i class="bi bi-hand-index-thumb"></i> Escultura</button>
+                </li>
+                <li>
+                    <button id="ceramica" class="boton-menu boton-categoria"><i class="bi bi-hand-index-thumb"></i> Cerámica</button>
+                </li>
+                <li>
+                    <a class="boton-menu boton-carrito" href="./carrito.html">
+                        <i class="bi bi-cart-fill"></i> Carrito <span id="numerito" class="numerito">0</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <footer>
+            <p class="texto-footer">© 2025</p>
+        </footer>
+    </aside>
+    <main>
+        <h2 class="titulo-principal" id="titulo-principal">Todos los productos</h2>
+        <div id="contenedor-productos" class="contenedor-productos">
+            <!-- Esto se va a rellenar con JS -->
         </div>
+    </main>
+  </div>
 
-        <!-- Términos y Condiciones -->
-        <div class="border-t border-gray-600 mt-8 pt-4 text-center text-sm text-gray-400">
-            <a href="#" class="hover:underline">Terms & Conditions</a> | 
-            <a href="#" class="hover:underline">Privacy Policy</a>
-        </div>
-    </footer>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <script src="./js/main.js"></script>
+  <script src="./js/menu.js"></script>
 </body>
 </html>

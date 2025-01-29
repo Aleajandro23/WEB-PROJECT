@@ -15,13 +15,13 @@ import {
 
 // Configuración de Firebase
 const firebaseConfig = {
-    apiKey: "AIzaSyDCWWyeDWQpk42lwAKD_HLv1cPcOWPPe8E",
-    authDomain: "medihelp-c3ea0.firebaseapp.com",
-    projectId: "medihelp-c3ea0",
-    storageBucket: "medihelp-c3ea0.firebasestorage.app",
-    messagingSenderId: "574536680646",
-    appId: "1:574536680646:web:4816ceac6d7afe056303c7",
-    measurementId: "G-96L8QW7T5G"
+    apiKey: "AIzaSyBGHy8aweEEfEryNjpJpRBy_fuhzN2vyb8",
+    authDomain: "nftlatino-540e9.firebaseapp.com",
+    projectId: "nftlatino-540e9",
+    storageBucket: "nftlatino-540e9.firebasestorage.app",
+    messagingSenderId: "182405154281",
+    appId: "1:182405154281:web:86ff7e6851ceaaf5ba3778",
+    measurementId: "G-VQ9JRB3QHH"
   };
   
   const app = initializeApp(firebaseConfig);
